@@ -3,16 +3,16 @@
 @tailwind utilities;
 
 :root {
-  --foreground-rgb: 0, 0, 0;
-  --background-start-rgb: 214, 219, 220;
-  --background-end-rgb: 255, 255, 255;
+  --foreground-rgb: 255, 255, 255;
+  --background-start-rgb: 255, 255, 255;
+  --background-end-rgb: 200, 200, 200;
 }
 
 @media (prefers-color-scheme: dark) {
   :root {
     --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 0, 0, 0;
-    --background-end-rgb: 0, 0, 0;
+    --background-start-rgb: 255, 255, 255;
+    --background-end-rgb: 200, 200, 200;
   }
 }
 
@@ -30,4 +30,315 @@ body {
   .text-balance {
     text-wrap: balance;
   }
+}
+
+/* Estilo base */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: Arial, sans-serif;
+  padding: 20px;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  margin: 0;
+}
+
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 20px;
+  background-color: #589013;
+  position: fixed;  /* Fija el header en la parte superior */
+  top: 0;           /* Lo coloca en la parte superior */
+  left: 0;          /* Alineado al lado izquierdo */
+  width: 100%;      /* Ocupa todo el ancho */
+  z-index: 1000;    /* Asegura que esté por encima del contenido */
+}
+
+.title {
+  color: #ffffff; /* Corregido */
+  font-style: oblique;
+  font-size: 1.9rem;
+  font-weight: bold;
+  animation: shine 1.5s infinite alternate;
+  text-align: center; /* Centra el texto */
+  display: flex;
+  justify-content: center; /* Centra horizontalmente si es un contenedor flex */
+  align-items: center; /* Centra verticalmente si es necesario */
+  width: 100%; /* Asegura que ocupe todo el ancho */
+}
+
+@keyframes shine {
+  0% {
+    text-shadow: 0 0 5px #000000, 0 0 10px #000000, 0 0 20px #000000;
+  }
+  100% {
+    text-shadow: 0 0 20px #000000, 0 0 30px #000000, 0 0 40px #000000;
+  }
+}
+
+.menu ul {
+  list-style-type: none;
+  display: flex;
+}
+
+.menu ul li {
+  margin-left: 20px;
+  position: relative;
+}
+
+.menu a {
+  color: white;
+  text-decoration: none;
+  font-size: 0.8rem;
+}
+
+.menu a:hover {
+  color: #99CCCC;
+}
+
+
+/* Ajusta el contenedor */
+.container {
+  width: 350px;
+  max-width: 400px;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px #589013;
+  padding: 20px;
+  margin-top: 20px; /* Espacio debajo del header fijo */
+  box-sizing: border-box; /* Asegúrate de que el padding no afecte el tamaño */
+}
+
+.spana {
+  width: 100%;
+  max-width: 400px;
+  color: #000;
+  background-color: #ffffff;
+  border-radius: 10px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  padding: 20px;
+  margin-top: 20px; /* Espacio debajo del header fijo */
+  margin-bottom: 60px; /* Ajusta según la altura del footer */
+}
+
+
+#nombre-completo{
+  color: #000000;
+}
+
+#telefono-nequi{
+  color: #000000;
+}
+
+#moneda-a-enviar{
+  color: #000000;
+}
+
+#dinero-a-recibir{
+  color: #000000;
+}
+
+#metodo-depago{
+  color: #000000;
+}
+
+#telefono-daviplata{
+  color: #000000;
+}
+
+#cedula{
+  color: #000000;
+}
+
+.input-group {
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #333;
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 10px;
+  background-color: #fafafa;
+}
+
+.input-wrapper input {
+  border: none;
+  outline: none;
+  flex: 1;
+  font-size: 20px;
+  padding: 5px;
+  background-color: transparent;
+}
+
+
+.input-wrapper input::placeholder {
+  color: #aaa;
+}
+
+select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  font-size: 20px;
+  background-color: #fafafa;
+  color: #333;
+}
+
+select:focus {
+  outline: none;
+  border-color: #99CCCC;
+}
+
+/* Estilo para el botón CONTINUAR */
+
+.btn-continuar{
+  margin-bottom: 20px;
+  margin-left: 110px;
+  margin-right: 110px;
+  display: flex;
+  justify-content: center;
+  background-color: #99CCCC;
+}
+
+.button-group {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  background-color: #3b5110;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+}
+
+button:hover {
+  background-color: #589013;
+}
+
+
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+    -webkit-appearance: none;
+    margin: 0;
+}
+
+#moneda_a_enviar, #dinero_a_recibir {
+  color: black !important;
+}
+
+#nombre_completo, #nombre_completo {
+  color: black;
+}
+
+#telefono_nequi, #telefono_nequi {
+  color: black !important;
+}
+
+  .botonfinalizar {
+    padding: 10px 20px;
+    background-color: #333;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    font-size: 16px;
+    cursor: pointer;
+    margin-left: auto; /* Empuja el botón hacia la derecha */
+    display: block;
+  }
+  
+
+
+.input-wrapper {
+  position: relative;
+}
+
+.input-icon {
+  position: absolute;
+  right: 10px; /* Ajusta la posición horizontal */
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px; /* Tamaño de la imagen */
+  height: 40px; /* Tamaño de la imagen */
+  border-radius: 50%;
+  border: 3px solid #589013;
+  
+}
+
+input {
+  padding-left: 30px; /* Asegúrate de dejar espacio para la imagen */
+}
+
+.carga_bc{
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%) rotate(0deg);
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  border: 3px solid #589013;
+  animation: rotateSlow 10s linear infinite;
+  z-index: -1; /* Lo envía al fondo */
+}
+
+@keyframes rotateSlow {
+  from {
+    transform: translate(-50%, -50%) rotate(0deg);
+  }
+  to {
+    transform: translate(-50%, -50%) rotate(360deg);
+  }
+}
+
+.footer {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  width: 100%;
+  background: #3b5110 ;
+  display: flex;
+  justify-content: space-around;
+  padding: 10px 0;
+  border-top: 1px solid #ddd;
+  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.footer-item {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-decoration: none;
+  color: #eeeeee;
+  font-size: 14px;
+}
+
+.footer-item svg {
+  font-size: 24px;
+}
+
+#celular, #celular {
+  color: black !important;
 }
