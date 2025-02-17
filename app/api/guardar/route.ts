@@ -21,15 +21,15 @@ export interface TransactionData {
     input_token: string;
     input_token_amount: string;
     fecha: string;
-    }
+}
 
-    // Conectar con tu URL y la clave de la API de Supabase
-    const supabase = createClient(
-    'https://hgxwaxwnsuaxaprfudqr.supabase.co', // Tu URL de Supabase
-    'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhneHdheHduc3VheGFwcmZ1ZHFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk4MDYxNzIsImV4cCI6MjA1NTM4MjE3Mn0._g02ca8rRtMHgjeRgwY9VuHzPQimgpezcl0VdmfjWf0' // Tu public-anon-key
-    );
+// Conectar con tu URL y la clave de la API de Supabase
+const supabase = createClient(
+  'https://hgxwaxwnsuaxaprfudqr.supabase.co', // Tu URL de Supabase
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhneHdheHduc3VheGFwcmZ1ZHFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk4MDYxNzIsImV4cCI6MjA1NTM4MjE3Mn0._g02ca8rRtMHgjeRgwY9VuHzPQimgpezcl0VdmfjWf0' // Tu public-anon-key
+);
 
-    export async function POST(req: Request) {
+export async function POST(req: Request) {
     const res = new Response('', {
         status: 200,
     });
@@ -78,14 +78,26 @@ export interface TransactionData {
             }
             );
         }
-        } catch (error) {
-        return new Response(
+        } catch (error: unknown) {
+        // Comprobamos si 'error' es una instancia de Error
+        if (error instanceof Error) {
+            return new Response(
             JSON.stringify({ error: 'Internal Server Error', details: error.message }),
             {
-            status: 500,
-            headers: { 'Content-Type': 'application/json' },
+                status: 500,
+                headers: { 'Content-Type': 'application/json' },
             }
-        );
+            );
+        } else {
+            // Si no es un Error, retornamos un mensaje genérico de error
+            return new Response(
+            JSON.stringify({ error: 'Internal Server Error', details: 'Unknown error' }),
+            {
+                status: 500,
+                headers: { 'Content-Type': 'application/json' },
+            }
+            );
+        }
         }
     } else {
         return new Response(
@@ -94,6 +106,7 @@ export interface TransactionData {
         );
     }
 }
+
 
 
 
