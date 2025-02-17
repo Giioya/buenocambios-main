@@ -8,14 +8,12 @@ const PagoExitoso = () => {
 
     useEffect(() => {
         const obtenerReferencia = async () => {
-            // Acceder a la cookie en el cliente
-            const cookies = document.cookie.split('; ');
-            const paymentNonceCookie = cookies.find(cookie => cookie.startsWith('payment-nonce='));
-
-            if (paymentNonceCookie) {
-                const paymentNonce = paymentNonceCookie.split('=')[1];
-                setCodigoReferencia(paymentNonce);
-            } else {
+            try {
+                const response = await fetch('/api/obtener-referencia');
+                const data = await response.json();
+                setCodigoReferencia(data.referencia);
+            } catch (error) {
+                console.error('Error al obtener la referencia:', error);
                 setCodigoReferencia('No disponible');
             }
         };
@@ -46,6 +44,7 @@ const PagoExitoso = () => {
 };
 
 export default PagoExitoso;
+
 
 
 
