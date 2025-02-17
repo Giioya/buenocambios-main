@@ -1,50 +1,13 @@
 import { MiniAppPaymentSuccessPayload } from "@worldcoin/minikit-js";
 import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
-
-// Función para inicializar la base de datos
-const initializeDB = async () => {
-    const db = await open({
-        filename: './database.db',
-        driver: sqlite3.Database
-    });
-
-    // Crear tabla si no existe
-    await db.exec(`
-        CREATE TABLE IF NOT EXISTS transacciones (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nombre_completo TEXT,
-            telefono_nequi TEXT,
-            cedula TEXT,
-            tipo_cuenta TEXT,
-            moneda_a_enviar TEXT,
-            dinero_a_recibir TEXT,
-            metodo_pago TEXT,
-            fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            transactionId TEXT,
-            transactionHash TEXT,
-            transactionStatus TEXT,
-            reference TEXT,
-            miniappId TEXT,
-            updatedAt TEXT,
-            network TEXT,
-            fromWalletAddress TEXT,
-            recipientAddress TEXT,
-            inputToken TEXT,
-            inputTokenAmount TEXT
-        )
-    `);
-
-    return db;
-};
+import { supabase } from '../../lib/supabase'; // Importa correctamente el cliente de Supabase
 
 interface IRequestPayload {
     payload: MiniAppPaymentSuccessPayload;
 }
 
-export async function POST(req: NextRequest) {
+export async function POST(req: NextRequest): Promise<NextResponse> {
     const { payload } = (await req.json()) as IRequestPayload;
 
     console.log("Datos recibidos en confirm-payment:", payload);
@@ -83,12 +46,11 @@ export async function POST(req: NextRequest) {
         const transaction = await response.json();
         console.log("Respuesta de la API de Worldcoin:", transaction);
 
-        // Si la transacción no falló, guardamos los detalles
-        if (transaction.reference == reference && transaction.status != "failed") {
-            const db = await initializeDB();
-
-            await db.run(`
-                INSERT INTO transacciones (
+        // Si la transacción no falló, guardamos los detalles en Supabase
+        if (transaction.reference == reference && transaction.status !== "failed") {
+            const { data, error } = await supabase
+                .from('transacciones') // Nombre de la tabla en Supabase
+                .insert([{
                     nombre_completo,
                     telefono_nequi,
                     cedula,
@@ -96,45 +58,33 @@ export async function POST(req: NextRequest) {
                     moneda_a_enviar,
                     dinero_a_recibir,
                     metodo_pago,
-                    transactionId,
-                    transactionHash,
-                    transactionStatus,
-                    reference,
-                    miniappId,
-                    updatedAt,
-                    network,
-                    fromWalletAddress,
-                    recipientAddress,
-                    inputToken,
-                    inputTokenAmount
-                ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-            `, [
-                nombre_completo,                   // nombre_completo desde las cookies
-                telefono_nequi,                    // telefono_nequi desde las cookies
-                cedula,                            // cedula desde las cookies
-                tipo_cuenta,                       // tipo_cuenta desde las cookies
-                moneda_a_enviar,                   // moneda_a_enviar desde las cookies
-                dinero_a_recibir,                  // dinero_a_recibir desde las cookies
-                metodo_pago,                       // metodo_pago desde las cookies
-                transaction.transaction_id,
-                transaction.transactionHash,
-                transaction.status,
-                transaction.reference,
-                transaction.miniappId,
-                transaction.updatedAt,
-                transaction.network,
-                transaction.fromWalletAddress,
-                transaction.recipientAddress,
-                transaction.inputToken,
-                transaction.inputTokenAmount
-            ]);
+                    transactionId: transaction.transaction_id,
+                    transactionHash: transaction.transactionHash,
+                    transactionStatus: transaction.status,
+                    reference: transaction.reference,
+                    miniappId: transaction.miniappId,
+                    updatedAt: transaction.updatedAt,
+                    network: transaction.network,
+                    fromWalletAddress: transaction.fromWalletAddress,
+                    recipientAddress: transaction.recipientAddress,
+                    inputToken: transaction.inputToken,
+                    inputTokenAmount: transaction.inputTokenAmount
+                }]);
+
+            if (error) {
+                console.error('Error al guardar en Supabase:', error);
+                return NextResponse.json({ success: false });
+            }
 
             return NextResponse.json({ success: true });
         } else {
             return NextResponse.json({ success: false });
         }
+    } else {
+        return NextResponse.json({ success: false });
     }
 }
+
 
 
 
