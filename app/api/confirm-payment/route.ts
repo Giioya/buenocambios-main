@@ -78,12 +78,15 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
 
             return NextResponse.json({ success: true });
         } else {
+            console.log("Transacción fallida o no válida.");
             return NextResponse.json({ success: false });
         }
     } else {
+        console.log("Referencia no coincide.");
         return NextResponse.json({ success: false });
     }
 }
+
 
 
 
