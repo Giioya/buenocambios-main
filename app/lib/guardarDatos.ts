@@ -1,26 +1,27 @@
+import { supabase } from "@/app/lib/supabase"; // Asegúrate de que la ruta sea correcta
+
 export const guardarEnBaseDeDatos = async (datos: any) => {
-    try {
-        const response = await fetch('/api/guardar', {  // Aquí debe coincidir con tu archivo en app/api/guardar/route.ts
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
+    const { data, error } = await supabase
+        .from("nombre_de_tu_tabla") // Asegúrate de poner el nombre correcto de tu tabla
+        .insert([
+            {
+                nombre_completo: datos.nombreCompleto,
+                telefono_nequi: datos.telefonoNequi,
+                cedula: datos.cedula,
+                tipo_cuenta: datos.tipoCuenta,
+                moneda_a_enviar: datos.monedaAEnviar,
+                dinero_a_recibir: datos.dineroARecibir,
+                metodo_pago: datos.metodoPago,
             },
-            body: JSON.stringify(datos),
-        });
+        ]);
 
-        if (!response.ok) {
-            console.error('Error en la respuesta de la API:', response.statusText);
-            alert('Error al guardar en la base de datos');
-            return;
-        }
-
-        const data = await response.json();
-        console.log('Respuesta de la API:', data);
-    } catch (error) {
-        console.error('Error en la petición:', error);
-        alert('Error en la petición al guardar');
+    if (error) {
+        console.error("Error al guardar los datos: ", error.message);
+    } else {
+        console.log("Datos guardados exitosamente: ", data);
     }
 };
+
 
 
     
