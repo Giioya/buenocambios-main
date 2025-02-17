@@ -6,8 +6,9 @@ import dynamic from "next/dynamic";
 const ErudaProvider = dynamic(
     () => import("./index").then((c) => c.ErudaProvider),
     {
-        ssr: false,
+        ssr: false, // Deshabilita el SSR para que se ejecute solo en el cliente
     }
 );
 
 export default ErudaProvider;
+

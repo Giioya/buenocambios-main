@@ -1,15 +1,17 @@
 "use client";
 
-import dynamic from "next/dynamic";
 import { ReactNode } from "react";
+import dynamic from "next/dynamic";
 
+// Carga Eruda solo en el cliente y en producción
 const Eruda = dynamic(() => import("./eruda-provider").then((c) => c.Eruda), {
-  ssr: false,
+  ssr: false, // Desactiva SSR para este componente
 });
 
-export const ErudaProvider = (props: { children: ReactNode }) => {
+export const ErudaProvider = ({ children }: { children: ReactNode }) => {
   if (process.env.NEXT_PUBLIC_APP_ENV === "production") {
-    return props.children;
+    return <>{children}</>; // En producción no se carga Eruda
   }
-  return <Eruda>{props.children}</Eruda>;
+  
+  return <Eruda>{children}</Eruda>; // En desarrollo sí lo hacemos
 };

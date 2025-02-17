@@ -1,9 +1,9 @@
 "use client";
 
 import eruda from "eruda";
-import { ReactNode, useEffect } from "react";
+import { useEffect } from "react";
 
-export const Eruda = (props: { children: ReactNode }) => {
+export const Eruda = ({ children }: { children: React.ReactNode }) => {
   useEffect(() => {
     if (typeof window !== "undefined" && process.env.NODE_ENV === "development") {
       try {
@@ -14,5 +14,6 @@ export const Eruda = (props: { children: ReactNode }) => {
     }
   }, []);
 
-  return <>{props.children}</>;
+  return <>{children}</>;
 };
+

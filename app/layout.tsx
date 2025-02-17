@@ -24,12 +24,10 @@ export default function RootLayout({
   return (
     <html lang="es">
       <body className={inter.className}>
-        {/* Encabezado con título y menú */}
         <header>
           <h1 className="title">BuenoCambios</h1>
         </header>
 
-        {/* Imagen de carga */}
         <div className="flex justify-center mt-4">
           <Image 
             src={carga} 
@@ -40,7 +38,6 @@ export default function RootLayout({
           />
         </div>
 
-        {/* Footer fijo */}
         <footer className="footer">
           <a href="/informacion" className="footer-item">
             <FaInfoCircle />
@@ -56,7 +53,6 @@ export default function RootLayout({
           </a>
         </footer>
 
-        {/* Proveedores de autenticación y MiniKit */}
         <NextAuthProvider>
           <ErudaProviderClient>
             <MiniKitProvider>
@@ -68,3 +64,4 @@ export default function RootLayout({
     </html>
   );
 }
+
