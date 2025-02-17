@@ -7,11 +7,11 @@ const PagoExitoso = () => {
     const [codigoReferencia, setCodigoReferencia] = useState<string>('Cargando...');
 
     useEffect(() => {
-        const obtenerReferencia = () => {
-            // Obtener la cookie payment-nonce
+        const obtenerReferencia = async () => {
+            // Acceder a la cookie en el cliente
             const cookies = document.cookie.split('; ');
             const paymentNonceCookie = cookies.find(cookie => cookie.startsWith('payment-nonce='));
-            
+
             if (paymentNonceCookie) {
                 const paymentNonce = paymentNonceCookie.split('=')[1];
                 setCodigoReferencia(paymentNonce);
@@ -46,6 +46,7 @@ const PagoExitoso = () => {
 };
 
 export default PagoExitoso;
+
 
 
 

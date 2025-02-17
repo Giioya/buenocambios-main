@@ -1,4 +1,3 @@
-import { cookies } from "next/headers";
 import { NextRequest, NextResponse } from "next/server";
 
 export async function POST(req: NextRequest) {
@@ -9,11 +8,13 @@ export async function POST(req: NextRequest) {
 
   // Establecer la cookie en la respuesta
   response.cookies.set("payment-nonce", uuid, {
-    httpOnly: true,
+    httpOnly: true, // Evitar acceso al cliente
+    path: "/", // Asegura que la cookie esté disponible en todo el dominio
   });
 
   console.log("Valor de payment-nonce guardado:", uuid);
 
   return response;
 }
+
 
