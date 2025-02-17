@@ -10,6 +10,7 @@
   },
   "dependencies": {
     "@prisma/client": "^6.3.1",
+    "@supabase/supabase-js": "^2.48.1",
     "@tailwindcss/forms": "^0.5.10",
     "@tailwindcss/typography": "^0.5.16",
     "@worldcoin/minikit-js": "^1.5.0",

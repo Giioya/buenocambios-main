@@ -1,10 +1,7 @@
-import { NextResponse } from 'next/server';
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
+import { createClient } from '@supabase/supabase-js';
 
-// Definir el tipo de datos de una transacción
-interface Transaccion {
-    id: number;
+// Exporta el tipo
+export interface TransactionData {
     nombre_completo: string;
     telefono_nequi: string;
     cedula: string;
@@ -12,109 +9,73 @@ interface Transaccion {
     moneda_a_enviar: string;
     dinero_a_recibir: string;
     metodo_pago: string;
-    fecha: string;
-    transactionId: string;
-    transactionHash: string;
-    transactionStatus: string;
+    transaction_id: string;
+    transaction_hash: string;
+    transaction_status: string;
     reference: string;
-    miniappId: string;
-    updatedAt: string;
+    miniapp_id: string;
+    updated_at: string;
     network: string;
-    fromWalletAddress: string;
-    recipientAddress: string;
-    inputToken: string;
-    inputTokenAmount: string;
+    from_wallet_address: string;
+    recipient_address: string;
+    input_token: string;
+    input_token_amount: string;
+    fecha: string;
 }
 
-// Función para inicializar la base de datos
-const initializeDB = async () => {
-    const db = await open({
-        filename: './database.db',
-        driver: sqlite3.Database
-    });
+// Conectar con tu URL y la clave de la API de Supabase
+const supabase = createClient(
+  'https://hgxwaxwnsuaxaprfudqr.supabase.co', // Tu URL de Supabase
+  'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImhneHdheHduc3VheGFwcmZ1ZHFyIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Mzk4MDYxNzIsImV4cCI6MjA1NTM4MjE3Mn0._g02ca8rRtMHgjeRgwY9VuHzPQimgpezcl0VdmfjWf0' // Tu public-anon-key
+);
 
-    // Crear tabla si no existe
-    await db.exec(`
-        CREATE TABLE IF NOT EXISTS transacciones (
-            id INTEGER PRIMARY KEY AUTOINCREMENT,
-            nombre_completo TEXT,
-            telefono_nequi TEXT,
-            cedula TEXT,
-            tipo_cuenta TEXT,
-            moneda_a_enviar TEXT,
-            dinero_a_recibir TEXT,
-            metodo_pago TEXT,
-            fecha TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
-            transactionId TEXT,
-            transactionHash TEXT,
-            transactionStatus TEXT,
-            reference TEXT,
-            miniappId TEXT,
-            updatedAt TEXT,
-            network TEXT,
-            fromWalletAddress TEXT,
-            recipientAddress TEXT,
-            inputToken TEXT,
-            inputTokenAmount TEXT
-        )
-    `);
+export default async function handler(req, res) {
+    if (req.method === 'POST') {
+        // Obtener los datos de la solicitud
+        const data: TransactionData = req.body;
 
-    return db;
-};
+        try {
+            const { data: insertedData, error } = await supabase
+                .from('transacciones')  // Nombre de tu tabla en Supabase
+                .insert([
+                    {
+                        nombre_completo: data.nombre_completo,
+                        telefono_nequi: data.telefono_nequi,
+                        cedula: data.cedula,
+                        tipo_cuenta: data.tipo_cuenta,
+                        moneda_a_enviar: data.moneda_a_enviar,
+                        dinero_a_recibir: data.dinero_a_recibir,
+                        metodo_pago: data.metodo_pago,
+                        transaction_id: data.transaction_id,
+                        transaction_hash: data.transaction_hash,
+                        transaction_status: data.transaction_status,
+                        reference: data.reference,
+                        miniapp_id: data.miniapp_id,
+                        updated_at: data.updated_at,
+                        network: data.network,
+                        from_wallet_address: data.from_wallet_address,
+                        recipient_address: data.recipient_address,
+                        input_token: data.input_token,
+                        input_token_amount: data.input_token_amount,
+                        fecha: data.fecha
+                    }
+                ]);
 
-// Función para manejar el método POST
-export async function POST(req: Request) {
-    const datos = await req.json();
-
-    try {
-        const db = await initializeDB();
-        await db.run(`
-            INSERT INTO transacciones (
-                nombre_completo, 
-                telefono_nequi, 
-                cedula, 
-                tipo_cuenta, 
-                moneda_a_enviar, 
-                dinero_a_recibir, 
-                metodo_pago,
-                transactionId,
-                transactionHash,
-                transactionStatus,
-                reference,
-                miniappId,
-                updatedAt,
-                network,
-                fromWalletAddress,
-                recipientAddress,
-                inputToken,
-                inputTokenAmount
-            ) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)
-        `, [
-            datos.nombreCompleto,
-            datos.telefonoNequi,
-            datos.cedula,
-            datos.tipoCuenta,
-            datos.monedaAEnviar,
-            datos.dineroARecibir,
-            datos.metodoPago,
-            datos.transactionId,
-            datos.transactionHash,
-            datos.transactionStatus,
-            datos.reference,
-            datos.miniappId,
-            datos.updatedAt,
-            datos.network,
-            datos.fromWalletAddress,
-            datos.recipientAddress,
-            datos.inputToken,
-            datos.inputTokenAmount
-        ]);
-
-        return NextResponse.json({});
-    } catch (error) {
-        return NextResponse.json({}, { status: 500 });
+            if (error) {
+                res.status(500).json({ error: 'Error inserting data', details: error });
+            } else {
+                res.status(200).json({ message: 'Transaction inserted successfully', data: insertedData });
+            }
+        } catch (error) {
+            res.status(500).json({ error: 'Internal Server Error', details: error.message });
+        }
+    } else {
+        // Si no es un método POST, devuelve un error 405
+        res.status(405).json({ error: 'Method Not Allowed' });
     }
 }
+
+
 
 
 

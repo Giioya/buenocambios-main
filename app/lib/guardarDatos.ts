@@ -1,26 +1,26 @@
-export const guardarEnBaseDeDatos = async (datos: any) => {
-    try {
-        const response = await fetch('/api/guardar', {  // Aquí debe coincidir con tu archivo en app/api/guardar/route.ts
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-            },
-            body: JSON.stringify(datos),
-        });
+// Importa el tipo
+import { TransactionData } from '@/app/api/guardar/route';
 
-        if (!response.ok) {
-            console.error('Error en la respuesta de la API:', response.statusText);
-            alert('Error al guardar en la base de datos');
-            return;
-        }
+const submitTransaction = async (transactionData: TransactionData) => {
+    const response = await fetch('/guardar', {
+        method: 'POST',
+        headers: {
+            'Content-Type': 'application/json',
+        },
+        body: JSON.stringify(transactionData),
+    });
 
-        const data = await response.json();
-        console.log('Respuesta de la API:', data);
-    } catch (error) {
-        console.error('Error en la petición:', error);
-        alert('Error en la petición al guardar');
+    const result = await response.json();
+
+    if (response.ok) {
+        console.log('Transaction inserted:', result);
+    } else {
+        console.error('Error inserting transaction:', result);
     }
 };
+
+
+
 
 
     
