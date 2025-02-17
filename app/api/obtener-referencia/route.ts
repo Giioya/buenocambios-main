@@ -1,33 +1,32 @@
-import sqlite3 from 'sqlite3';
-import { open } from 'sqlite';
-import { NextResponse } from 'next/server';
+// /pages/api/obtener-referencia.ts
 
-// Función para inicializar la base de datos
-const initializeDB = async () => {
-    const db = await open({
-        filename: './database.db',
-        driver: sqlite3.Database
-    });
-    return db;
-};
+import { NextApiRequest, NextApiResponse } from 'next';
+import { supabase } from '../../lib/supabase'; // Ajusta la ruta según sea necesario
 
-// API Route para obtener el último código de referencia
-export async function GET() {
+export default async function handler(req: NextApiRequest, res: NextApiResponse) {
     try {
-        const db = await initializeDB();
-        const referencia = await db.get("SELECT reference FROM transacciones ORDER BY id DESC LIMIT 1");
+        // Obtén el código de referencia de la última transacción registrada (ajusta según tu lógica)
+        const { data, error } = await supabase
+            .from('transacciones')
+            .select('reference')
+            .order('fecha', { ascending: false }) // Asegúrate de obtener la transacción más reciente
+            .limit(1)
+            .single();
 
-        console.log("Resultado de la consulta:", referencia);
-
-        if (referencia && referencia.reference) {
-            return NextResponse.json({ referencia: referencia.reference });
-        } else {
-            return NextResponse.json({ referencia: "No disponible" });
+        if (error) {
+            throw error;
         }
+
+        if (data) {
+            return res.status(200).json({ referencia: data.reference });
+        }
+
+        return res.status(404).json({ message: 'Referencia no encontrada' });
     } catch (error) {
-        console.error("Error al obtener el código de referencia:", error);
-        return NextResponse.json({ referencia: "Error al obtener la referencia" }, { status: 500 });
+        console.error('Error al obtener referencia:', error);
+        return res.status(500).json({ message: 'Error en el servidor' });
     }
 }
+
 
 

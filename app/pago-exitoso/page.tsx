@@ -29,15 +29,11 @@ const PagoExitoso = () => {
                 Gracias por usar nuestro servicio. <br />
                 Su dinero llegará de 30-60 minutos a su cuenta bancaria.
             </p>
-            <br></br>
-            <br></br>
+            <br />
             <p className="text-black mt-4 text-center text-1xl font-semibold break-words">
                 <strong>Código de referencia:</strong> {codigoReferencia}
             </p>
-            <br></br>
-            <br></br>
-            <br></br>
-            <br></br>
+            <br />
             <p className="text-red-500 mt-2 text-center">
                 Si tienes algún inconveniente con tu pago, <br />
                 guarda tu código de referencia y <br />
