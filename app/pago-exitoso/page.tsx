@@ -11,7 +11,7 @@ const PagoExitoso = () => {
             try {
                 const response = await fetch('/api/obtener-referencia');
                 const data = await response.json();
-                setCodigoReferencia(data.referencia || 'No disponible');
+                setCodigoReferencia(data.referencia);
             } catch (error) {
                 console.error('Error al obtener la referencia:', error);
                 setCodigoReferencia('No disponible');
