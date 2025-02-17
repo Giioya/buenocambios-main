@@ -4,16 +4,18 @@ import { useEffect, useState } from 'react';
 import { CheckCircle } from 'lucide-react';
 
 const PagoExitoso = () => {
-    const [codigoReferencia, setCodigoReferencia] = useState('Cargando...');
+    const [codigoReferencia, setCodigoReferencia] = useState<string>('Cargando...');
 
     useEffect(() => {
-        const obtenerReferencia = async () => {
-            try {
-                const response = await fetch('/api/obtener-referencia');
-                const data = await response.json();
-                setCodigoReferencia(data.referencia);
-            } catch (error) {
-                console.error('Error al obtener la referencia:', error);
+        const obtenerReferencia = () => {
+            // Obtener la cookie payment-nonce
+            const cookies = document.cookie.split('; ');
+            const paymentNonceCookie = cookies.find(cookie => cookie.startsWith('payment-nonce='));
+            
+            if (paymentNonceCookie) {
+                const paymentNonce = paymentNonceCookie.split('=')[1];
+                setCodigoReferencia(paymentNonce);
+            } else {
                 setCodigoReferencia('No disponible');
             }
         };
@@ -44,6 +46,7 @@ const PagoExitoso = () => {
 };
 
 export default PagoExitoso;
+
 
 
 
