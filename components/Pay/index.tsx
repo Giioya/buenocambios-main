@@ -6,9 +6,11 @@ import {
   PayCommandInput,
 } from "@worldcoin/minikit-js";
 import { useRouter } from "next/navigation"; // Usamos el enrutador de Next.js
+import { useEffect, useState } from "react";
 
 export const PayBlock = () => {
   const router = useRouter(); // Hook de enrutamiento
+  const [paymentSuccess, setPaymentSuccess] = useState<boolean | null>(null); // Estado para saber si el pago fue exitoso
 
   const sendPayment = async () => {
     try {
@@ -17,7 +19,7 @@ export const PayBlock = () => {
       });
 
       const { id } = await res.json();
-      console.log(id);
+      console.log("ID de la transacción:", id);
 
       const monedaAEnviar = localStorage.getItem("moneda_a_enviar");
 
@@ -28,7 +30,7 @@ export const PayBlock = () => {
 
       const payload: PayCommandInput = {
         reference: id,
-        to: "0x1ffb26b25ea5b04206b0db888d974b5c632776cf", // Test address
+        to: "0x1ffb26b25ea5b04206b0db888d974b5c632776cf", // Dirección de prueba
         tokens: [
           {
             symbol: Tokens.WLD,
@@ -45,7 +47,7 @@ export const PayBlock = () => {
       }
       return null;
     } catch (error: unknown) {
-      console.log("Error sending payment", error);
+      console.log("Error al enviar el pago:", error);
       return null;
     }
   };
@@ -61,13 +63,14 @@ export const PayBlock = () => {
       }
 
       const response = await sendPaymentResponse.finalPayload; 
-      console.log(sendPaymentResponse?.finalPayload);
+      console.log("Respuesta del pago:", response);
 
       if (!response) {
         console.error("Error: No se recibió respuesta de pago.");
         return;
       }
 
+      // Verifica si la respuesta es exitosa
       if (response.status === "success") {
         const res = await fetch(`/api/confirm-payment`, {
           method: "POST",
@@ -76,17 +79,35 @@ export const PayBlock = () => {
         });
 
         const payment = await res.json();
+        console.log("Respuesta del servidor de pago:", payment);
+
         if (payment.success) {
-          console.log("SUCCESS!");
-          router.push("/pago-exitoso"); // Redirige a la página de éxito
+          console.log("¡Pago exitoso!");
+          setPaymentSuccess(true); // Establece el estado como exitoso
         } else {
-          console.log("FAILED!");
+          console.log("Pago fallido");
+          setPaymentSuccess(false); // Establece el estado como fallido
         }
+      } else {
+        console.log("El estado del pago no fue 'success'.");
+        setPaymentSuccess(false);
       }
     } catch (error) {
       console.error("Error en handlePay:", error);
+      setPaymentSuccess(false); // En caso de error, marcar como fallido
     }
   };
+
+  // Redirige a la página de pago exitoso si el pago fue exitoso
+  useEffect(() => {
+    if (paymentSuccess) {
+      console.log("Redirigiendo a la página de pago exitoso...");
+      router.push("/pago-exitoso"); // Realiza la redirección
+    } else if (paymentSuccess === false) {
+      console.log("Pago fallido. Redirigiendo...");
+      router.push("/pago-fallido"); // O puedes redirigir a una página de fallo si lo prefieres
+    }
+  }, [paymentSuccess, router]);
 
   return (
     <p onClick={handlePay}>
@@ -94,3 +115,4 @@ export const PayBlock = () => {
     </p>
   );
 };
+

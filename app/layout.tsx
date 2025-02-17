@@ -3,10 +3,10 @@ import { Inter } from "next/font/google";
 import Image from 'next/image';
 import "./globals.css";
 import MiniKitProvider from "@/components/minikit-provider";
-import ErudaProvider from "@/components/Eruda/ErudaProviderClient"; // Importa el nuevo componente
 import NextAuthProvider from "@/components/next-auth-provider";
 import { FaHome, FaInfoCircle, FaHeadset } from "react-icons/fa";
 import carga from '@/public/images/carga_buenocambios.jpg';
+import ErudaProviderClient from "@/components/Eruda/ErudaProviderClient";
 
 const inter = Inter({ subsets: ["latin"] });
 
@@ -58,11 +58,11 @@ export default function RootLayout({
 
         {/* Proveedores de autenticación y MiniKit */}
         <NextAuthProvider>
-          <ErudaProvider> {/* Usa el componente cliente aquí */}
+          <ErudaProviderClient>
             <MiniKitProvider>
               {children}
             </MiniKitProvider>
-          </ErudaProvider>
+          </ErudaProviderClient>
         </NextAuthProvider>
       </body>
     </html>
