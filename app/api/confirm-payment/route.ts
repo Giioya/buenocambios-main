@@ -79,17 +79,17 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
                         moneda_a_enviar,
                         dinero_a_recibir,
                         metodo_pago,
-                        transactionId: transaction.transaction_id,
-                        transactionHash: transaction.transactionHash,
-                        transactionStatus: transaction.status,
+                        transaction_id: transaction.transactionId, // Asegúrate de que esto coincida
+                        transaction_hash: transaction.transactionHash, // Asegúrate de que esto esté bien
+                        transaction_status: transaction.transactionStatus, // Asegúrate de que esto coincida
                         reference: transaction.reference,
-                        miniappId: transaction.miniappId,
-                        updatedAt: transaction.updatedAt,
+                        miniapp_id: transaction.miniappId,
+                        updated_at: transaction.updatedAt,
                         network: transaction.network,
-                        fromWalletAddress: transaction.fromWalletAddress,
-                        recipientAddress: transaction.recipientAddress,
-                        inputToken: transaction.inputToken,
-                        inputTokenAmount: transaction.inputTokenAmount
+                        from_wallet_address: transaction.fromWalletAddress, // Asegúrate de que no sea null o undefined
+                        recipient_address: transaction.recipientAddress, // Asegúrate de que no sea null o undefined
+                        input_token: transaction.inputToken,
+                        input_token_amount: transaction.inputTokenAmount
                     }]);
 
                 if (error) {
