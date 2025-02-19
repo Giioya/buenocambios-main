@@ -108,14 +108,16 @@ header {
 
 /* Ajusta el contenedor */
 .container {
-  width: 350px;
+  width: 100%;
   max-width: 400px;
   background-color: #ffffff;
   border-radius: 10px;
   box-shadow: 0 4px 10px #589013;
   padding: 20px;
-  margin-top: 20px; /* Espacio debajo del header fijo */
-  box-sizing: border-box; /* Asegúrate de que el padding no afecte el tamaño */
+  margin: 20px auto; /* ✅ Esto lo centra horizontalmente */
+  flex-direction: column; /* ✅ Asegura que todo se alinee bien */
+  align-items: center; /* ✅ Centra el contenido dentro del container */
+  box-sizing: border-box;
 }
 
 .spana {
