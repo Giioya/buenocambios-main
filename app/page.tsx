@@ -44,7 +44,7 @@ export default function Home() {
         const data: { [key: string]: { usd: number } } = await response.json();
 
         const valorWLDUSD: number = data["worldcoin-wld"].usd;
-        const tasaCambioCOP: number = 4090;
+        const tasaCambioCOP: number = 4010;
         const valorWLDenCOP: number = valorWLDUSD * tasaCambioCOP;
 
         const valorConDescuento: number = valorWLDenCOP * 0.9;
