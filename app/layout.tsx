@@ -41,7 +41,7 @@ export default function RootLayout({
         <footer className="footer">
           <a href="/informacion" className="footer-item">
             <FaInfoCircle />
-            <span>Información</span>
+            <span>Ayuda</span>
           </a>
           <a href="/" className="footer-item">
             <FaHome />

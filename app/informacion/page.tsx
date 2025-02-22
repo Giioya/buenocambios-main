@@ -1,85 +1,37 @@
 "use client";
 
 import React from "react";
-import Image from "next/image";
-import paso1 from '@/public/images/paso1.jpeg';
-import paso2 from '@/public/images/paso2.jpeg';
-import paso3 from '@/public/images/paso3.jpeg';
-import paso4 from '@/public/images/paso4.jpeg';
-import paso5 from '@/public/images/paso5.jpeg';
+import Link from "next/link";
 
-const Informacion: React.FC = () => {
+const Informacion = () => {
     return (
-        <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-md text-black pt-20 pb-20">
-            <h1 className="text-3xl font-bold mb-4 text-center underline">Pasos para retirar en BuenoCambios</h1>
-            <ol className="space-y-10 text-lg">
-                <li>
-                    <p className="font-semibold">1. Ingresa la cantidad de monedas que deseas vender y el método donde recibirás tus monedas. Luego, presiona &quot;Continuar&quot;.</p>
-                    <div className="mt-2 flex justify-center">
-                        <Image 
-                            src={paso1} 
-                            alt="Paso 1" 
-                            className="w-3/4 rounded-md shadow-md" 
-                            width={800} 
-                            height={600} 
-                        />
-                    </div>
+        <div className="container">
+            <h2 className="text-4xl font-bold underline text-center mb-16">Guías</h2>
+            <ul>
+                <li className="text-2xl text-center mb-16">
+                    <Link href="/informacion/guia-retiro" className="text-blue-500 underline">
+                        ¿Cómo retirar con <strong>BuenoCambios</strong>?
+                    </Link>
                 </li>
-                <li>
-                    <p className="font-semibold">2. Ingresa tus datos bancarios (no uses tildes).</p>
-                    <div className="mt-2 flex justify-center">
-                        <Image 
-                            src={paso2} 
-                            alt="Paso 2" 
-                            className="w-3/4 rounded-md shadow-md" 
-                            width={800} 
-                            height={600} 
-                        />
-                    </div>
+                <li className="text-2xl text-center mb-16">
+                    <Link href="/informacion/guia-boveda" className="text-blue-500 underline">
+                        Quiero retirar, pero el sistema me dice que estoy <strong>sin fondos</strong>. ¿Qué debo hacer?
+                    </Link>
                 </li>
-                <li>
-                    <p className="font-semibold">3. Página de confirmación: Verifica que tus datos sean correctos. No somos responsables por errores en la información proporcionada.
-                    Acepta los términos y condiciones y, finalmente, presiona &quot;Finalizar&quot;.</p>
-                    <div className="mt-2 flex justify-center">
-                        <Image 
-                            src={paso3} 
-                            alt="Paso 3" 
-                            className="w-3/4 rounded-md shadow-md" 
-                            width={800} 
-                            height={600} 
-                        />
-                    </div>
+                <li className="text-2xl text-center mb-16">
+                    <Link href="/informacion/guia-fallida" className="text-blue-500 underline">
+                        Error <strong>Transacción fallida, intente más tarde</strong>
+                    </Link>
                 </li>
-                <li>
-                    <p className="font-semibold">4. Usa la opción de pagar para completar tu retiro.</p>
-                    <div className="mt-2 flex justify-center">
-                        <Image 
-                            src={paso4} 
-                            alt="Paso 4" 
-                            className="w-3/4 rounded-md shadow-md" 
-                            width={800} 
-                            height={600} 
-                        />
-                    </div>
-                </li>
-                <li>
-                    <p className="font-semibold">5. Si el proceso ha sido exitoso, verás una pantalla de confirmación. Toma un pantallazo o copia el código de referencia de tu transacción.</p>
-                    <div className="mt-2 flex justify-center">
-                        <Image 
-                            src={paso5} 
-                            alt="Paso 5" 
-                            className="w-3/4 rounded-md shadow-md" 
-                            width={800} 
-                            height={600} 
-                        />
-                    </div>
-                </li>
-            </ol>
+            </ul>
         </div>
     );
-}
+};
 
 export default Informacion;
+
+
+
 
 
 
