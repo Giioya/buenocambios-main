@@ -58,7 +58,7 @@ const GuiaBoveda: React.FC = () => {
                     <h2 className="mb-4 font-semibold text-2xl">¿Qué hacer si mis fondos están en la bóveda?</h2>
                     <p>
                         Si tus fondos están dentro de la bóveda, no podrás cambiar tus monedas a pesos hasta que retiremos estos fondos de la bóveda.  
-                        Para ello, debes presionar sobre el cuadro que dice "Bóveda".
+                        Para ello, debes presionar sobre el cuadro que dice &quot;Bóveda&quot;.
                     </p>
                     <div className="mt-16 flex justify-center">
                         <Image 
@@ -86,7 +86,7 @@ const GuiaBoveda: React.FC = () => {
                     <p className="font-semibold">
                         Por último, podrás ver el tiempo que tardarán las monedas en salir de la bóveda.  
                         En nuestro ejemplo, son 7 días, pero pueden ser 3 días, 1 día o tan solo 1 hora.  
-                        Finalmente, presiona en "Confirmar retiro".
+                        Finalmente, presiona en &quot;Confirmar retiro&quot;.
                     </p>
                     <div className="mt-16 flex justify-center">
                         <Image 

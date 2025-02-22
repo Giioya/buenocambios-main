@@ -51,7 +51,7 @@ const GuiaRetiro: React.FC = () => {
                     </div>
                 </li>
                 <li>
-                    <p className="mt-16 font-semibold">4. Usa la opción de "Pagar" para completar tu retiro.</p>
+                    <p className="mt-16 font-semibold">4. Usa la opción de &quot;Pagar&quot; para completar tu retiro.</p>
                     <div className="mt-16 flex justify-center">
                         <Image 
                             src={paso4} 
