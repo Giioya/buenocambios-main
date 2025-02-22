@@ -33,7 +33,7 @@ const GuiaFallida: React.FC = () => {
                 </li>
                 <li>
                     <p className="mb-16 font-semibold">
-                        Estamos teniendo dificultades en algunos dispositivos. Para solucionar este problema, les agradecemos su paciencia. Si te aparece este error, puedes realizar el retiro de la siguiente manera:
+                        Estamos teniendo dificultades en algunos dispositivos. Trabajamos para solucionar este problema, les agradecemos su paciencia. Si te aparece este error, puedes realizar el retiro de la siguiente manera:
                     </p>
                     <div className="mt-16 flex justify-center">
                         <Image 

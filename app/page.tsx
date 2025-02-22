@@ -70,7 +70,7 @@ export default function Home() {
 <div className="w-full max-w-2xl mb-4 flex justify-center">
   <div className="bg-yellow-50 border-l-4 border-yellow-500 text-red-600 text-sm p-2 rounded-md shadow-md text-center">
     <p className="font-semibold">
-      ⚠ Si tienes problemas con tu transacción, dirígete al apartado de Información o escribenos a soporte.
+      ⚠ Si tienes problemas con tu transacción, dirígete al apartado de &quot;Ayuda&quot; o escribenos a soporte.
     </p>
     <p className="font-semibold">
       * Las transacciones que se realicen después de las 10pm se verán reflejadas a las 9am del día siguiente.
