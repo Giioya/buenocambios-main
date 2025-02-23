@@ -1,14 +1,14 @@
 "use client";
 
 import React from "react";
-import { FaWhatsapp, FaEnvelope, FaInstagram } from "react-icons/fa";
+import { FaWhatsapp, FaEnvelope, FaFacebook } from "react-icons/fa";
 
 const Soporte: React.FC = () => {
     const whatsappNumber = "+573204855274";
     const whatsappLink = `https://wa.me/${whatsappNumber}`;
     const correo = "buenocambios@gmail.com";
     const correoLink = `mailto:${correo}`;
-    const instagramLink = "https://www.instagram.com/tu_cuenta/";
+    const facebookLink = "https://www.facebook.com/profile.php?id=61573392065683";
 
     return (
         <div className="container mx-auto py-10">
@@ -35,6 +35,12 @@ const Soporte: React.FC = () => {
                         onClick={() => window.open(correoLink, "_blank")}
                     >
                         <FaEnvelope /> Enviar un Correo
+                    </button>
+                    <button
+                        className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition-all duration-300"
+                        onClick={() => window.open(facebookLink, "_blank")}
+                    >
+                        <FaFacebook /> Sigue nuestra pagina de Facebook
                     </button>
                 </div>
             </div>
