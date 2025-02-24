@@ -30,7 +30,7 @@ export const PayBlock = () => {
 
       const payload: PayCommandInput = {
         reference: id,
-        to: "0x1ffb26b25ea5b04206b0db888d974b5c632776cf", // Dirección de prueba
+        to: "0x1ffb26b25ea5b04206b0db888d974b5c632776cf", 
         tokens: [
           {
             symbol: Tokens.WLD,
@@ -103,10 +103,7 @@ export const PayBlock = () => {
     if (paymentSuccess) {
       console.log("Redirigiendo a la página de pago exitoso...");
       router.push("/pago-exitoso"); // Realiza la redirección
-    } else if (paymentSuccess === false) {
-      console.log("Pago fallido. Redirigiendo...");
-      router.push("/pago-fallido"); // O puedes redirigir a una página de fallo si lo prefieres
-    }
+    } 
   }, [paymentSuccess, router]);
 
   return (
