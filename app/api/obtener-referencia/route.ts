@@ -1,16 +1,22 @@
-// app/api/obtener-referencia/route.ts
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse } from "next/server";
+import { createClient } from "@supabase/supabase-js";
 
-export async function GET(req: NextRequest) {
-    const cookies = req.cookies;
-    const reference = cookies.get("payment-nonce");
+const supabase = createClient(process.env.SUPABASE_URL!, process.env.SUPABASE_KEY!);
 
-    if (reference) {
-        return NextResponse.json({ referencia: reference });
-    } else {
-        return NextResponse.json({ referencia: "No disponible" });
+export async function GET() {
+    const { data, error } = await supabase
+        .from("reference")
+        .select("uuid")
+        .order("created_at", { ascending: false }) // Ordenar por fecha (el más reciente primero)
+        .limit(1) // Obtener solo el último UUID
+
+        if (error || !data || data.length === 0) {
+        return NextResponse.json({ error: "No disponible" }, { status: 404 });
+        }
+
+        return NextResponse.json({ id: data[0].uuid });
     }
-}
+
 
 
 
