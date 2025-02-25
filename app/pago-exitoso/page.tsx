@@ -4,39 +4,27 @@ import { useEffect, useState } from 'react';
 import { CheckCircle } from 'lucide-react';
 
 const PagoExitoso = () => {
-    const [codigoReferencia, setCodigoReferencia] = useState<string | null>('Cargando...');
-    const [isError, setIsError] = useState<boolean>(false); // Estado para manejar el error
+    const [codigoReferencia, setCodigoReferencia] = useState<string>('Cargando...');
 
     useEffect(() => {
         const obtenerReferencia = async () => {
             try {
                 const response = await fetch('/api/obtener-referencia');
-                
-                if (!response.ok) {
-                    throw new Error('No se pudo obtener la referencia');
-                }
 
-                const data = await response.json();
-                setCodigoReferencia(data.id || 'No disponible');
+                if (response.ok) {
+                    const data = await response.json();
+                    setCodigoReferencia(data.id || 'No disponible');
+                } else {
+                    setCodigoReferencia('No disponible');
+                }
             } catch (error) {
                 console.error('Error al obtener la referencia:', error);
-                setIsError(true);  // Establecer que ocurrió un error
                 setCodigoReferencia('No disponible');
             }
         };
 
         obtenerReferencia();
     }, []);
-
-    if (isError) {
-        return (
-            <div className="min-h-screen flex flex-col items-center justify-center bg-white">
-                <CheckCircle className="text-red-500 w-24 h-24 mb-4" />
-                <h1 className="text-4xl font-bold text-gray-800">Error al procesar el pago</h1>
-                <p className="text-red-500 mt-4">Por favor, intente más tarde.</p>
-            </div>
-        );
-    }
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-white">
@@ -61,6 +49,7 @@ const PagoExitoso = () => {
 };
 
 export default PagoExitoso;
+
 
 
 
