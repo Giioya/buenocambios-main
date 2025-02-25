@@ -47,7 +47,7 @@ export default function Home() {
         const tasaCambioCOP: number = 4060;
         const valorWLDenCOP: number = valorWLDUSD * tasaCambioCOP;
 
-        const valorConDescuento: number = valorWLDenCOP * 0.9;
+        const valorConDescuento: number = valorWLDenCOP * 0.92;
         const valorTotal: number = valorConDescuento * cantidadWLD;
 
         if (isNaN(valorTotal)) {
