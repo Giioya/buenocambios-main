@@ -319,12 +319,13 @@ input {
   bottom: 0;
   left: 0;
   width: 100%;
-  background: #3b5110 ;
+  background: #3b5110;
   display: flex;
   justify-content: space-around;
   padding: 10px 0;
   border-top: 1px solid #ddd;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
+  z-index: 9999; /* Se asegura de que siempre esté por encima */
 }
 
 .footer-item {
