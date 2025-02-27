@@ -108,7 +108,6 @@ const PagoExitoso = () => {
             {/* Mensaje de soporte */}
             <p className="text-red-500 mt-6 text-center">
                 Si tienes algún inconveniente con tu pago, <br />
-                guarda tu código de referencia y <br />
                 contáctanos. ¡Estamos aquí para ayudarte!
             </p>
 
