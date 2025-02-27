@@ -101,7 +101,6 @@ const PagoExitoso = () => {
                     <p className="flex justify-between"><span>Moneda a Enviar:</span> <span className="font-normal">{datosUsuario.monedaAEnviar}</span></p>
                     <p className="flex justify-between"><span>Dinero a Recibir:</span> <span className="font-normal underline">{datosUsuario.dineroARecibir}</span></p>
                     <p className="flex justify-between"><span>Método de Pago:</span> <span className="font-normal">{datosUsuario.metodoPago}</span></p>
-                    <p className="flex justify-between"><span>Número de Contacto:</span> <span className="font-normal">{datosUsuario.numeroContacto}</span></p>
                 </div>
                 <div className="absolute bottom-0 left-0 w-full h-6 bg-[#589013] rounded-b-lg border-t border-gray-300 shadow-sm"></div>
             </div>
