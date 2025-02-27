@@ -68,7 +68,7 @@ const PagoExitoso = () => {
     }, []);
 
     return (
-        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 pt-25 pb-40 px-6 relative">
+        <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100 pt-5 pb-40 px-6 relative">
             {/* Encabezado con logo y nombre alineados a la izquierda */}
             <div className="bg-[#589013] text-white w-full py-4 flex items-center justify-start rounded-t-xl shadow-md pl-4">
                 <img src="/images/carga_buenocambios.jpg" alt="Logo" className="w-10 h-10 object-contain rounded-full mr-3" />
