@@ -22,7 +22,6 @@ const redirigirSegunMetodoPago = (
   localStorage.setItem("metodo-pago", metodoPago);
 
   setErrorMessage(null);
-
   window.location.href = `/${metodoPago}`;
 };
 
@@ -31,124 +30,127 @@ export default function Home() {
   const [metodoPago, setMetodoPago] = useState<string>("");
   const [dineroARecibir, setDineroARecibir] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
+  const [precioWLD, setPrecioWLD] = useState<number | null>(null);
 
+  // Función para obtener el precio de WLD en USD
+  const actualizarPrecioWLD = async () => {
+    try {
+      const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=worldcoin-wld&vs_currencies=usd&_=${Date.now()}`);
+      const data = await response.json();
+      setPrecioWLD(data["worldcoin-wld"].usd);
+    } catch (error) {
+      console.error('Error al obtener el precio de WLD:', error);
+      setPrecioWLD(null);
+    }
+  };
+
+  // Llamar la API de CoinGecko al cargar el componente y cada 30s
   useEffect(() => {
-    const actualizarValor = async (): Promise<void> => {
-      if (cantidadWLD <= 0) {
-        setDineroARecibir(""); 
-        return;
-      }
+    actualizarPrecioWLD();
+    const interval = setInterval(actualizarPrecioWLD, 30000);
+    return () => clearInterval(interval);
+  }, []);
 
-      try {
-        const response: Response = await fetch('https://api.coingecko.com/api/v3/simple/price?ids=worldcoin-wld&vs_currencies=usd');
-        const data: { [key: string]: { usd: number } } = await response.json();
+  // Calcular el valor en COP cuando cambia `cantidadWLD` o `precioWLD`
+  useEffect(() => {
+    if (precioWLD !== null && cantidadWLD > 0) {
+      const tasaCambioCOP = 4060;
+      const valorWLDenCOP = precioWLD * tasaCambioCOP;
+      const valorConDescuento = valorWLDenCOP * 0.91;
+      const valorTotal = valorConDescuento * cantidadWLD;
 
-        const valorWLDUSD: number = data["worldcoin-wld"].usd;
-        const tasaCambioCOP: number = 4060;
-        const valorWLDenCOP: number = valorWLDUSD * tasaCambioCOP;
-
-        const valorConDescuento: number = valorWLDenCOP * 0.91;
-        const valorTotal: number = valorConDescuento * cantidadWLD;
-
-        if (isNaN(valorTotal)) {
-          setDineroARecibir("");
-        } else {
-          setDineroARecibir(valorTotal.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 }));
-        }
-      } catch (error) {
-        console.error('Error al obtener el valor de WLD:', error);
-        setDineroARecibir("");
-      }
-    };
-
-    actualizarValor();
-  }, [cantidadWLD]);
+      setDineroARecibir(valorTotal.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 }));
+    } else {
+      setDineroARecibir("");
+    }
+  }, [precioWLD, cantidadWLD]);
 
   return (
-  <div>
-    {/* Aviso en rojo */}
-<div className="w-full max-w-2xl mb-4 flex justify-center">
-  <div className="bg-yellow-50 border-l-4 border-yellow-500 text-red-600 text-sm p-2 rounded-md shadow-md text-center">
-    <p className="font-semibold">
-      ⚠ Si tienes problemas con tu transacción, dirígete al apartado de &quot;Ayuda&quot; o escribenos a soporte.
-    </p>
-    <p className="font-semibold">
-      * Las transacciones que se realicen después de las 10pm se verán reflejadas a las 9am del día siguiente.
-    </p>
-  </div>
-</div>
-
-    <div className="container">
-      <div className="input-group">
-        <label htmlFor="moneda_a_enviar">Moneda a enviar</label>
-        <div className="input-wrapper">
-          <Image 
-            src={monedaEnviarImg.src} 
-            alt="Moneda a enviar" 
-            className="input-icon" 
-            width={24} 
-            height={24} 
-          />
-          <input
-            type="number"
-            step="0.1"
-            id="moneda_a_enviar"
-            value={cantidadWLD || ''}
-            onChange={(e) => setCantidadWLD(parseFloat(e.target.value))}
-            placeholder="Cantidad en WLD"
-          />
+    <div>
+      {/* Aviso en rojo */}
+      <div className="w-full max-w-2xl mb-4 flex justify-center">
+        <div className="bg-yellow-50 border-l-4 border-yellow-500 text-red-600 text-sm p-2 rounded-md shadow-md text-center">
+          <p className="font-semibold">
+            ⚠ Si tienes problemas con tu transacción, dirígete al apartado de &quot;Ayuda&quot; o escríbenos a soporte.
+          </p>
+          <p className="font-semibold">
+            * Las transacciones que se realicen después de las 10pm se verán reflejadas a las 9am del día siguiente.
+          </p>
         </div>
       </div>
 
-      <div className="input-group">
-        <label htmlFor="dinero_a_recibir">Dinero a recibir</label>
-        <div className="input-wrapper">
-          <Image 
-            src={dineroRecibirImg.src} 
-            alt="Dinero a recibir" 
-            className="input-icon" 
-            width={24} 
-            height={24} 
-          />
-          <input
-            type="text"
-            id="dinero_a_recibir"
-            value={dineroARecibir || ''}
-            placeholder="Cantidad en COP"
-            readOnly
-          />
+      <div className="container">
+        <div className="input-group">
+          <label htmlFor="moneda_a_enviar">Moneda a enviar</label>
+          <div className="input-wrapper">
+            <Image 
+              src={monedaEnviarImg.src} 
+              alt="Moneda a enviar" 
+              className="input-icon" 
+              width={24} 
+              height={24} 
+            />
+            <input
+              type="number"
+              step="0.1"
+              id="moneda_a_enviar"
+              value={cantidadWLD || ''}
+              onChange={(e) => setCantidadWLD(parseFloat(e.target.value))}
+              placeholder="Cantidad en WLD"
+            />
+          </div>
         </div>
-      </div>
 
-      <div className="input-group">
-        <label htmlFor="metodo-pago">Método de pago</label>
-        <select
-          id="metodo-pago"
-          value={metodoPago}
-          onChange={(e) => setMetodoPago(e.target.value)}
-        >
-          <option value="" disabled>Selecciona un banco</option>
-          <option value="nequi">Nequi</option>
-          <option value="daviplata">Daviplata</option>
-          <option value="bancolombia">Bancolombia</option>
-        </select>
-      </div>
-
-      {errorMessage && (
-        <div style={{ color: 'red', marginTop: '10px', marginBottom: '20px' }}>
-          {errorMessage}
+        <div className="input-group">
+          <label htmlFor="dinero_a_recibir">Dinero a recibir</label>
+          <div className="input-wrapper">
+            <Image 
+              src={dineroRecibirImg.src} 
+              alt="Dinero a recibir" 
+              className="input-icon" 
+              width={24} 
+              height={24} 
+            />
+            <input
+              type="text"
+              id="dinero_a_recibir"
+              value={dineroARecibir || ''}
+              placeholder="Cantidad en COP"
+              readOnly
+            />
+          </div>
         </div>
-      )}
 
-      <div className="btn-continuar">
-        <button
-          onClick={() => redirigirSegunMetodoPago(setErrorMessage, { cantidadWLD, metodoPago, dineroARecibir })}
-          type="submit"
-        >
-          Continuar
-        </button>
+        <div className="input-group">
+          <label htmlFor="metodo-pago">Método de pago</label>
+          <select
+            id="metodo-pago"
+            value={metodoPago}
+            onChange={(e) => setMetodoPago(e.target.value)}
+          >
+            <option value="" disabled>Selecciona un banco</option>
+            <option value="nequi">Nequi</option>
+            <option value="daviplata">Daviplata</option>
+            <option value="bancolombia">Bancolombia</option>
+          </select>
+        </div>
+
+        {errorMessage && (
+          <div style={{ color: 'red', marginTop: '10px', marginBottom: '20px' }}>
+            {errorMessage}
+          </div>
+        )}
+
+        <div className="btn-continuar">
+          <button
+            onClick={() => redirigirSegunMetodoPago(setErrorMessage, { cantidadWLD, metodoPago, dineroARecibir })}
+            type="submit"
+          >
+            Continuar
+          </button>
+        </div>
       </div>
     </div>
-  </div>
   );
 }
+
