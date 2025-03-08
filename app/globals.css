@@ -17,12 +17,16 @@
 }
 
 body {
-  background: linear-gradient(
-      to bottom,
-      transparent,
-      rgb(var(--background-end-rgb))
-    )
+  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
     rgb(var(--background-start-rgb));
+  font-family: Arial, sans-serif;
+  display: flex;
+  justify-content: center;
+  flex-direction: column;
+  align-items: center;
+  min-height: 100vh;
+  padding: 80px 20px 20px; /* Evita que el header fijo cubra el contenido */
+  margin: 0;
 }
 
 @layer utilities {
@@ -31,48 +35,35 @@ body {
   }
 }
 
-/* Estilo base */
+/* Reset básico */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
 }
 
-body {
-  font-family: Arial, sans-serif;
-  padding: 20px;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  margin: 0;
-}
-
+/* Header fijo */
 header {
   display: flex;
   justify-content: space-between;
   align-items: center;
   padding: 20px;
   background-color: #589013;
-  position: fixed;  /* Fija el header en la parte superior */
-  top: 0;           /* Lo coloca en la parte superior */
-  left: 0;          /* Alineado al lado izquierdo */
-  width: 100%;      /* Ocupa todo el ancho */
-  z-index: 1000;    /* Asegura que esté por encima del contenido */
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
 }
 
 .title {
-  color: #ffffff; /* Corregido */
+  color: #ffffff;
   font-style: oblique;
   font-size: 1.9rem;
   font-weight: bold;
   animation: shine 1.5s infinite alternate;
-  text-align: center; /* Centra el texto */
-  display: flex;
-  justify-content: center; /* Centra horizontalmente si es un contenedor flex */
-  align-items: center; /* Centra verticalmente si es necesario */
-  width: 100%; /* Asegura que ocupe todo el ancho */
+  text-align: center;
+  width: 100%;
 }
 
 @keyframes shine {
@@ -84,6 +75,7 @@ header {
   }
 }
 
+/* Menú */
 .menu ul {
   list-style-type: none;
   display: flex;
@@ -91,7 +83,6 @@ header {
 
 .menu ul li {
   margin-left: 20px;
-  position: relative;
 }
 
 .menu a {
@@ -104,8 +95,7 @@ header {
   color: #99CCCC;
 }
 
-
-/* Ajusta el contenedor */
+/* Contenedor */
 .container {
   width: 100%;
   max-width: 400px;
@@ -113,10 +103,11 @@ header {
   border-radius: 10px;
   box-shadow: 0 4px 10px #589013;
   padding: 20px;
-  margin: 20px auto; /* ✅ Esto lo centra horizontalmente */
-  flex-direction: column; /* ✅ Asegura que todo se alinee bien */
-  align-items: center; /* ✅ Centra el contenido dentro del container */
+  margin: 40px auto 20px;
+  flex-direction: column;
+  align-items: center;
   box-sizing: border-box;
+  margin-bottom: 80px;
 }
 
 .spana {
@@ -125,41 +116,12 @@ header {
   color: #000;
   background-color: #ffffff;
   border-radius: 10px;
-  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 10px #589013;
   padding: 20px;
-  margin-top: 20px; /* Espacio debajo del header fijo */
-  margin-bottom: 60px; /* Ajusta según la altura del footer */
+  margin: 20px auto 60px;
 }
 
-
-#nombre-completo{
-  color: #000000;
-}
-
-#telefono-nequi{
-  color: #000000;
-}
-
-#moneda-a-enviar{
-  color: #000000;
-}
-
-#dinero-a-recibir{
-  color: #000000;
-}
-
-#metodo-depago{
-  color: #000000;
-}
-
-#telefono-daviplata{
-  color: #000000;
-}
-
-#cedula{
-  color: #000000;
-}
-
+/* Estilos de formularios */
 .input-group {
   margin-bottom: 20px;
 }
@@ -178,6 +140,7 @@ label {
   border-radius: 5px;
   padding: 10px;
   background-color: #fafafa;
+  position: relative;
 }
 
 .input-wrapper input {
@@ -189,9 +152,23 @@ label {
   background-color: transparent;
 }
 
-
 .input-wrapper input::placeholder {
   color: #aaa;
+}
+
+.input-icon {
+  position: absolute;
+  right: 10px;
+  top: 50%;
+  transform: translateY(-50%);
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  border: 3px solid #589013;
+}
+
+input {
+  padding-left: 30px;
 }
 
 select {
@@ -209,17 +186,20 @@ select:focus {
   border-color: #99CCCC;
 }
 
-/* Estilo para el botón CONTINUAR */
-
-.btn-continuar{
-  margin-bottom: 20px;
-  margin-left: 110px;
-  margin-right: 110px;
-  display: flex;
-  justify-content: center;
-  background-color: #99CCCC;
+input[type="number"]::-webkit-outer-spin-button,
+input[type="number"]::-webkit-inner-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
 }
 
+/* Botón Continuar */
+.btn-continuar {
+  margin: 20px auto;
+  display: flex;
+  justify-content: center;
+}
+
+/* Grupo de botones */
 .button-group {
   display: flex;
   justify-content: space-between;
@@ -233,66 +213,27 @@ button {
   border: none;
   border-radius: 5px;
   font-size: 16px;
+  cursor: pointer;
 }
 
 button:hover {
   background-color: #589013;
 }
 
-
-input[type="number"]::-webkit-outer-spin-button,
-input[type="number"]::-webkit-inner-spin-button {
-    -webkit-appearance: none;
-    margin: 0;
+.botonfinalizar {
+  padding: 10px 20px;
+  background-color: #333;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-left: auto;
+  display: block;
 }
 
-#moneda_a_enviar, #dinero_a_recibir {
-  color: black !important;
-}
-
-#nombre_completo, #nombre_completo {
-  color: black;
-}
-
-#telefono_nequi, #telefono_nequi {
-  color: black !important;
-}
-
-  .botonfinalizar {
-    padding: 10px 20px;
-    background-color: #333;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 16px;
-    cursor: pointer;
-    margin-left: auto; /* Empuja el botón hacia la derecha */
-    display: block;
-  }
-  
-
-
-.input-wrapper {
-  position: relative;
-}
-
-.input-icon {
-  position: absolute;
-  right: 10px; /* Ajusta la posición horizontal */
-  top: 50%;
-  transform: translateY(-50%);
-  width: 40px; /* Tamaño de la imagen */
-  height: 40px; /* Tamaño de la imagen */
-  border-radius: 50%;
-  border: 3px solid #589013;
-  
-}
-
-input {
-  padding-left: 30px; /* Asegúrate de dejar espacio para la imagen */
-}
-
-.carga_bc{
+/* Animación de carga */
+.carga_bc {
   position: fixed;
   top: 50%;
   left: 50%;
@@ -302,7 +243,7 @@ input {
   border-radius: 50%;
   border: 3px solid #589013;
   animation: rotateSlow 10s linear infinite;
-  z-index: -1; /* Lo envía al fondo */
+  z-index: -1;
 }
 
 @keyframes rotateSlow {
@@ -314,6 +255,7 @@ input {
   }
 }
 
+/* Footer */
 .footer {
   position: fixed;
   bottom: 0;
@@ -325,7 +267,7 @@ input {
   padding: 10px 0;
   border-top: 1px solid #ddd;
   box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 9999; /* Se asegura de que siempre esté por encima */
+  z-index: 9999;
 }
 
 .footer-item {
@@ -341,6 +283,15 @@ input {
   font-size: 24px;
 }
 
-#celular, #celular {
+/* Corrección de colores */
+#nombre-completo, #telefono-nequi, #moneda-a-enviar, 
+#dinero-a-recibir, #metodo-depago, #telefono-daviplata, 
+#cedula, #moneda_a_enviar, #dinero_a_recibir, 
+#nombre_completo, #telefono_nequi, #celular {
   color: black !important;
+}
+
+.hide-header-footer header,
+.hide-header-footer footer {
+    display: none;
 }

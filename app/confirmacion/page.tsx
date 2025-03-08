@@ -12,7 +12,9 @@ export default function Confirmacion() {
         tipoCuenta: "",
         monedaAEnviar: "",
         dineroARecibir: "",
-        metodoPago: ""
+        metodoPago: "",
+        numeroContacto: "",
+        fromWalletAddress: "" // 🔥 Nueva propiedad para la billetera
     });
 
     const [aceptaTerminos, setAceptaTerminos] = useState(false);
@@ -26,6 +28,8 @@ export default function Confirmacion() {
         const monedaAEnviar = localStorage.getItem("moneda_a_enviar") || "";
         const dineroARecibir = localStorage.getItem("dinero_a_recibir") || "";
         const metodoPago = localStorage.getItem("metodo-pago") || "";
+        const numeroContacto = localStorage.getItem("numero-contacto") || "";
+        const fromWalletAddress = localStorage.getItem("walletAddress") || ""; // 🔥 Recuperar la wallet
 
         // Actualizar el estado con los datos recuperados
         setDatos({
@@ -35,7 +39,9 @@ export default function Confirmacion() {
             tipoCuenta,
             monedaAEnviar,
             dineroARecibir,
-            metodoPago
+            metodoPago,
+            numeroContacto,
+            fromWalletAddress // 🔥 Guardar la wallet en el estado
         });
     }, []);
 
@@ -44,6 +50,7 @@ export default function Confirmacion() {
     };
 
     const confirmarTransaccion = async () => {
+        console.log("📤 Enviando datos a la base de datos:", datos);
         await guardarEnBaseDeDatos(datos);
     };
 
@@ -66,7 +73,7 @@ export default function Confirmacion() {
                 <h2 className="text-2xl font-bold mb-4 text-center">Información ingresada:</h2>
 
                 <div className="space-y-8">
-                <p><strong>Nombre:</strong> <span className="underline float-right">{datos.nombreCompleto}</span></p>
+                    <p><strong>Nombre:</strong> <span className="underline float-right">{datos.nombreCompleto}</span></p>
                     <p><strong>Número para pago:</strong> <span className="underline float-right">{datos.telefonoNequi}</span></p>
                     <p><strong>Cédula de ciudadanía:</strong> <span className="underline float-right">{datos.cedula}</span></p>
                     <p><strong>Tipo de cuenta:</strong> <span className="underline float-right">{datos.tipoCuenta}</span></p>
@@ -85,7 +92,7 @@ export default function Confirmacion() {
                             onChange={(e) => setAceptaTerminos(e.target.checked)}
                         />
                         <span className="ml-2 text-gray-700">
-                            He leído y acepto los  <a href="/Terminos" className="text-blue-500 underline">Términos y Condiciones</a>
+                            He leído y acepto los <a href="/Terminos" className="text-blue-500 underline">Términos y Condiciones</a>
                         </span>
                     </label>
                 </div>
@@ -112,8 +119,3 @@ export default function Confirmacion() {
         </div>
     );
 }
-
-
-
-
-
