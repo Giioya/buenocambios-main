@@ -10,20 +10,15 @@ const ERC20_ABI = [
 
     export async function getBalance(walletAddress: string): Promise<number> {
         try {
-            console.log("🟡 Obteniendo saldo para la dirección:", walletAddress);
     
             const provider = new ethers.JsonRpcProvider(WORLD_CHAIN_RPC_URL);
-            console.log("✅ Conectado al proveedor:", WORLD_CHAIN_RPC_URL);
     
             const contract = new ethers.Contract(WLD_CONTRACT_ADDRESS, ERC20_ABI, provider);
-            console.log("✅ Contrato creado en la dirección:", WLD_CONTRACT_ADDRESS);
     
             // Verifica si el contrato responde con los decimales
             const decimals = await contract.decimals();
-            console.log("✅ Decimales del contrato:", decimals);
     
             const balance: bigint = await contract.balanceOf(walletAddress);
-            console.log("💰 Saldo en wei:", balance.toString());
     
             return Number(ethers.formatUnits(balance, decimals));
         } catch (error) {

@@ -69,7 +69,7 @@ export function useWalletAuth() {
 
             const verifyData = await verifyRes.json();
             if (verifyData.status === "success" && verifyData.isValid) {
-                const address = MiniKit.walletAddress ?? null;
+                const address = MiniKit.user?.walletAddress ?? null;
                 if (address) {
                     console.log("✅ Wallet obtenida de MiniKit:", address);
                     setWalletAddress(address);
