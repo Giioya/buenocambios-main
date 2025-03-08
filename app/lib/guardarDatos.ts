@@ -16,17 +16,17 @@ export const guardarEnBaseDeDatos = async (datos: any) => {
                     dinero_a_recibir: datos.dineroARecibir,
                     metodo_pago: datos.metodoPago,
                     updated_at: new Date(),
-                    from_wallet_address: datos.fromWalletAddress,
-                    // Puedes agregar más campos según tu tabla, por ejemplo:
-                    transaction_id: '', // Si tienes alguna transacción específica
-                    transaction_hash: '', // O un hash
-                    transaction_status: '', // O el estado
-                    reference: '', // Si tienes una referencia
-                    miniapp_id: '', // ID de tu miniapp
-                    network: '', // Red de la transacción
-                    recipient_address: '', // Dirección de la billetera de recepción
-                    input_token: '', // Token de entrada (si aplica)
-                    input_token_amount: '', // Cantidad de token (si aplica)
+                    from_wallet_address: datos.fromWalletAddress, 
+
+                    transaction_id: '', 
+                    transaction_hash: '', 
+                    transaction_status: '', 
+                    reference: '', 
+                    miniapp_id: '', 
+                    network: '',                    
+                    recipient_address: '', 
+                    input_token: '', 
+                    input_token_amount: '', 
                     fecha: new Date(),
                 },
             ]);
@@ -40,8 +40,3 @@ export const guardarEnBaseDeDatos = async (datos: any) => {
         console.error('Error al guardar datos en Supabase:', error);
     }
 };
-
-
-
-
-    

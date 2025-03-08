@@ -33,15 +33,6 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
         console.log("Referencia en la cookie:", reference);
         console.log("Referencia en el payload:", payload.reference);
 
-        // Recuperar datos de las cookies
-        const nombre_completo = cookies["nombre_completo"] || null;
-        const telefono_nequi = cookies["telefono_nequi"] || null;
-        const cedula = cookies["cedula"] || null;
-        const tipo_cuenta = cookies["tipo_cuenta"] || null;
-        const moneda_a_enviar = cookies["moneda_a_enviar"] || null;
-        const dinero_a_recibir = cookies["dinero_a_recibir"] || null;
-        const metodo_pago = cookies["metodo_pago"] || null;
-
         if (!reference) {
             console.log("No se encontró la referencia en las cookies.");
             return NextResponse.json({ success: false, message: "Referencia no encontrada" });
@@ -67,38 +58,45 @@ export async function POST(req: NextRequest): Promise<NextResponse> {
             const transaction = await response.json();
             console.log("Respuesta de la API de Worldcoin:", transaction);
 
-            // Si la transacción no falló, guardamos los detalles en Supabase
+            // Obtiene la última transacción registrada de esa wallet
+            const { data: lastTransaction, error: fetchError } = await supabase
+                .from('transacciones')
+                .select('id')
+                .eq('from_wallet_address', transaction.fromWalletAddress)
+                .order('fecha', { ascending: false })
+                .limit(1)
+                .single();
+
+            if (fetchError || !lastTransaction) {
+                console.error("No se encontró una transacción para actualizar:", fetchError);
+                return NextResponse.json({ success: false, message: "No se encontró transacción para actualizar" });
+            }
+
+            // Si la transacción no falló, actualizamos los detalles en Supabase
             if (transaction.reference == reference && transaction.status !== "failed") {
-                const { data, error } = await supabase
-                    .from('transacciones') // Nombre de la tabla en Supabase
-                    .insert([{
-                        nombre_completo,
-                        telefono_nequi,
-                        cedula,
-                        tipo_cuenta,
-                        moneda_a_enviar,
-                        dinero_a_recibir,
-                        metodo_pago,
-                        transaction_id: transaction.transactionId, // Asegúrate de que esto coincida
-                        transaction_hash: transaction.transactionHash, // Asegúrate de que esto esté bien
-                        transaction_status: transaction.transactionStatus, // Asegúrate de que esto coincida
+                const { error } = await supabase
+                    .from('transacciones')
+                    .update({
+                        transaction_id: transaction.transactionId,
+                        transaction_hash: transaction.transactionHash,
+                        transaction_status: transaction.transactionStatus,
                         reference: transaction.reference,
                         miniapp_id: transaction.miniappId,
                         updated_at: transaction.updatedAt,
                         network: transaction.network,
-                        from_wallet_address: transaction.fromWalletAddress, // Asegúrate de que no sea null o undefined
-                        recipient_address: transaction.recipientAddress, // Asegúrate de que no sea null o undefined
+                        recipient_address: transaction.recipientAddress,
                         input_token: transaction.inputToken,
                         input_token_amount: transaction.inputTokenAmount
-                    }]);
+                    })
+                    .eq('id', lastTransaction.id);
 
                 if (error) {
-                    console.error('Error al guardar en Supabase:', error);
-                    return NextResponse.json({ success: false, message: "Error al guardar en Supabase" });
+                    console.error('Error al actualizar en Supabase:', error);
+                    return NextResponse.json({ success: false, message: "Error al actualizar la transacción" });
                 }
 
-                console.log("Datos guardados en Supabase:", data);
-                return NextResponse.json({ success: true, message: "Transacción exitosa" });
+                console.log("Transacción actualizada correctamente");
+                return NextResponse.json({ success: true, message: "Transacción actualizada correctamente" });
             } else {
                 console.log("Transacción fallida o no válida.");
                 return NextResponse.json({ success: false, message: "Transacción no válida o fallida" });
