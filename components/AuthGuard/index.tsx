@@ -3,6 +3,8 @@
 import { useRouter, usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 import { MiniKit } from "@worldcoin/minikit-js";
+import Image from "next/image";
+import carga from "@/public/images/carga_buenocambios.jpg"; // Ajusta la ruta según la ubicación real de la imagen
 
 export default function AuthGuard({ children }: { children: React.ReactNode }) {
     const router = useRouter();
@@ -31,7 +33,17 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
     }, [router, pathname, isClient, MiniKit.user?.username]); // Se agregó MiniKit.user?.username a las dependencias
 
     if (!isClient) {
-        return <p>Cargando...</p>;
+        return (
+            <div className="flex justify-center mt-4">
+                <Image 
+                    src={carga} 
+                    alt="Carga BuenoCambios" 
+                    className="carga_bc" 
+                    width={800} 
+                    height={600} 
+                />
+            </div>
+        );
     }
 
     return <>{children}</>;
