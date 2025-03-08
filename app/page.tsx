@@ -4,6 +4,8 @@ import { useState, useEffect } from "react";
 import Image from 'next/image';
 import monedaEnviarImg from '@/public/images/wld-logo.png';
 import dineroRecibirImg from '@/public/images/colombia-flag.png';
+import { useWalletAuth } from "@/components/wallet/";
+import { getBalance } from "@/components/balance";
 
 // Función para redirigir según el método de pago
 const redirigirSegunMetodoPago = (
@@ -31,6 +33,19 @@ export default function Home() {
   const [dineroARecibir, setDineroARecibir] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [precioWLD, setPrecioWLD] = useState<number | null>(null);
+  const { walletAddress, username } = useWalletAuth();
+  const [saldoDisponible, setSaldoDisponible] = useState<number>(0);
+
+  useEffect(() => {
+    const obtenerSaldo = async () => {
+      if (walletAddress) {
+        const saldo = await getBalance(walletAddress);
+        console.log("Saldo disponible en WLD:", saldo);
+        setSaldoDisponible(saldo);
+      }
+    };
+    obtenerSaldo();
+  }, [walletAddress]);
 
   // Función para obtener el precio de WLD en USD
   const actualizarPrecioWLD = async () => {
@@ -80,6 +95,12 @@ export default function Home() {
       </div>
 
       <div className="container">
+        {/* Mensaje de bienvenida */}
+        <div className="text-center text-xl font-bold my-4">
+          {username ? `Bienvenido, ${username}` : `Bienvenido, ${walletAddress?.slice(0, 6)}...`}
+        </div>
+
+      <div className="container">
         <div className="input-group">
           <label htmlFor="moneda_a_enviar">Moneda a enviar</label>
           <div className="input-wrapper">
@@ -99,6 +120,15 @@ export default function Home() {
               placeholder="Cantidad en WLD"
             />
           </div>
+          {/* Botón "MAX" como texto subrayado */}
+          {saldoDisponible > 0 && (
+            <p 
+              className="text-blue-600 text-sm cursor-pointer underline mt-1"
+              onClick={() => setCantidadWLD(parseFloat((saldoDisponible * 0.996).toFixed(2)))}
+            >
+              MAX ({(saldoDisponible * 0.997).toFixed(2)} WLD)
+            </p>
+          )}
         </div>
 
         <div className="input-group">
@@ -151,6 +181,6 @@ export default function Home() {
         </div>
       </div>
     </div>
+    </div>
   );
 }
-
