@@ -99,7 +99,7 @@ export default function Home() {
       <div className="container">
         {/* Mensaje de bienvenida */}
         <div className="text-center text-xl font-bold my-4">
-          {`Bienvenido, ${username}`}
+          {username ? `Bienvenido, ${username}` : `Bienvenido, ${walletAddress?.slice(0, 6)}...`}
         </div>
 
       <div className="container">
