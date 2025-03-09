@@ -29,9 +29,9 @@ export default function RootLayout({
           </header>
 
           <footer className="footer">
-            <a href="/informacion" className="footer-item">
-              <FaInfoCircle />
-              <span>Ayuda</span>
+          <a href="/historial" className="footer-item">
+              <FaHistory />
+              <span>Historial</span>
             </a>
             <a href="/" className="footer-item">
               <FaHome />
@@ -41,9 +41,9 @@ export default function RootLayout({
               <FaHeadset />
               <span>Soporte</span>
             </a>
-            <a href="/historial" className="footer-item">
-              <FaHistory />
-              <span>Historial</span>
+            <a href="/informacion" className="footer-item">
+              <FaInfoCircle />
+              <span>Ayuda</span>
             </a>
           </footer>
 
