@@ -71,7 +71,9 @@ export default function Home() {
     if (precioWLD !== null && cantidadWLD > 0) {
       const tasaCambioCOP = 4060;
       const valorWLDenCOP = precioWLD * tasaCambioCOP;
-      const valorConDescuento = valorWLDenCOP * 0.91;
+      const descuento = cantidadWLD < 1 ? 0.5 : 0.91;
+      const valorConDescuento = valorWLDenCOP * descuento;
+
       const valorTotal = valorConDescuento * cantidadWLD;
 
       setDineroARecibir(valorTotal.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 }));
@@ -97,7 +99,7 @@ export default function Home() {
       <div className="container">
         {/* Mensaje de bienvenida */}
         <div className="text-center text-xl font-bold my-4">
-          {username ? `Bienvenido, ${username}` : `Bienvenido, ${walletAddress?.slice(0, 6)}...`}
+          {username || ""}
         </div>
 
       <div className="container">
