@@ -3,7 +3,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import MiniKitProvider from "@/components/minikit-provider";
 import NextAuthProvider from "@/components/next-auth-provider";
-import { FaHome, FaInfoCircle, FaHeadset } from "react-icons/fa";
+import { FaHome, FaInfoCircle, FaHeadset, FaHistory } from "react-icons/fa";
 import ErudaProviderClient from "@/components/Eruda/ErudaProviderClient";
 import AuthGuard from "@/components/AuthGuard"; // 🛑 Importa el AuthGuard
 
@@ -40,6 +40,10 @@ export default function RootLayout({
             <a href="/soporte" className="footer-item">
               <FaHeadset />
               <span>Soporte</span>
+            </a>
+            <a href="/historial" className="footer-item">
+              <FaHistory />
+              <span>Historial</span>
             </a>
           </footer>
 
