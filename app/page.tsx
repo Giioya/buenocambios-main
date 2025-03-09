@@ -99,7 +99,7 @@ export default function Home() {
       <div className="container">
         {/* Mensaje de bienvenida */}
         <div className="text-center text-xl font-bold my-4">
-          {username || ""}
+          {`Bienvenido, ${username}`}
         </div>
 
       <div className="container">
