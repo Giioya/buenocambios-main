@@ -67,7 +67,7 @@ interface Transaccion {
                     <tr key={trx.id} className="border">
                     <td className="border p-1">{trx.id}</td>
                     <td className="border p-1">{Number(trx.moneda_a_enviar).toFixed(2)}</td>
-                    <td className="border p-1">{Number(trx.dinero_a_recibir).toFixed(2)}</td>
+                    <td className="border p-1">{Number(trx.dinero_a_recibir).toFixed(6)}</td>
                     <td className="border p-1 relative">
                         <div className="group inline-block">
                             {/* Mostrar solo los 4 primeros y últimos caracteres */}
