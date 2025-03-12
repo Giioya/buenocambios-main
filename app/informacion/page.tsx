@@ -18,11 +18,6 @@ const Informacion = () => {
                         Quiero retirar, pero el sistema me dice que estoy <strong>sin fondos</strong>. ¿Qué debo hacer?
                     </Link>
                 </li>
-                <li className="text-2xl text-center mb-16">
-                    <Link href="/informacion/guia-fallida" className="text-blue-500 underline">
-                        Error <strong>Transacción fallida, intente más tarde</strong>
-                    </Link>
-                </li>
             </ul>
         </div>
     );
