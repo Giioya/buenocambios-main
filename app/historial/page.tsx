@@ -10,7 +10,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 interface Transaccion {
     id: number;
     moneda_a_enviar: number;
-    dinero_a_recibir: number;
+    dinero_a_recibir: string;
     transaction_status: string;
     fecha: string;
 }
@@ -101,14 +101,7 @@ const HistorialTransacciones = () => {
                                         {trx.id}
                                     </td>
                                     <td className="border p-1">{Number(trx.moneda_a_enviar).toFixed(2)}</td>
-                                    <td className="border p-1">
-                                        {new Intl.NumberFormat("es-CO", {
-                                            style: "currency",
-                                            currency: "COP",
-                                            minimumFractionDigits: 3,
-                                            useGrouping: true,
-                                        }).format(trx.dinero_a_recibir).replace(/\./g, "#").replace(/,/g, ".").replace(/#/g, ",")}
-                                    </td>
+                                    <td className="border p-1">${trx.dinero_a_recibir}</td>
                                     <td 
                                         className={`border p-1 font-bold cursor-pointer estado-tooltip ${getStatusColor(trx.transaction_status)}`}
                                         onClick={(e) => handleStatusClick(e, trx.id)}
