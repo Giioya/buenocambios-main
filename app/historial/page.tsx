@@ -11,101 +11,162 @@ interface Transaccion {
     id: number;
     moneda_a_enviar: number;
     dinero_a_recibir: number;
-    reference: string;
     transaction_status: string;
-    }
+    fecha: string;
+}
 
-    const HistorialTransacciones = () => {
+const HistorialTransacciones = () => {
     const [transacciones, setTransacciones] = useState<Transaccion[]>([]);
     const [loading, setLoading] = useState(true);
+    const [selectedId, setSelectedId] = useState<number | null>(null);
+    const [tooltipPos, setTooltipPos] = useState<{ top: number; left: number } | null>(null);
 
     useEffect(() => {
         const fetchTransacciones = async () => {
-        const walletAddress = localStorage.getItem("walletAddress");
+            const walletAddress = localStorage.getItem("walletAddress");
 
-        if (!walletAddress) {
+            if (!walletAddress) {
+                setLoading(false);
+                return;
+            }
+
+            const { data, error } = await supabase
+                .from("transacciones")
+                .select("id, moneda_a_enviar, dinero_a_recibir, transaction_status, fecha")
+                .or("transaction_status.ilike.%CONFIRMADO%, transaction_status.ilike.%pending%, transaction_status.ilike.%DEVUELTO%, transaction_status.ilike.%NO COINCIDE%")
+                .eq("from_wallet_address", walletAddress)
+                .order("fecha", { ascending: false });
+
+            if (!error) setTransacciones(data as Transaccion[]);
             setLoading(false);
-            return;
-        }
-
-        const { data, error } = await supabase
-            .from("transacciones")
-            .select("id, moneda_a_enviar, dinero_a_recibir, reference, transaction_status, fecha")
-            .or("transaction_status.ilike.%CONFIRMADO%, transaction_status.ilike.%pending%, transaction_status.ilike.%DEVUELTO%, transaction_status.ilike.%NO COINCIDE%")
-            .eq("from_wallet_address", walletAddress)
-            .order("fecha", { ascending: false });
-
-
-        if (!error) setTransacciones(data as Transaccion[]);
-        setLoading(false);
         };
 
         fetchTransacciones();
     }, []);
 
+    // Cerrar el tooltip solo si se hace clic fuera del estado
+    useEffect(() => {
+        const handleClickOutside = (event: MouseEvent) => {
+            if (!(event.target as HTMLElement).closest(".estado-tooltip")) {
+                setSelectedId(null);
+                setTooltipPos(null);
+            }
+        };
+        document.addEventListener("click", handleClickOutside);
+        return () => document.removeEventListener("click", handleClickOutside);
+    }, []);
+
+    const handleStatusClick = (e: React.MouseEvent<HTMLTableCellElement>, id: number) => {
+        e.stopPropagation(); // Evita que se cierre inmediatamente
+        const rect = (e.target as HTMLElement).getBoundingClientRect();
+        const screenWidth = window.innerWidth;
+        const screenHeight = window.innerHeight;
+        const tooltipWidth = 200; // Ancho estimado del tooltip
+        const tooltipHeight = 60; // Alto estimado del tooltip
+
+        let left = rect.left + rect.width / 2 - tooltipWidth / 2;
+        let top = rect.top - tooltipHeight - 10; // Aparece arriba del estado
+
+        // Ajustar si se sale de la pantalla
+        if (left < 10) left = 10;
+        if (left + tooltipWidth > screenWidth - 10) left = screenWidth - tooltipWidth - 10;
+        if (top < 10) top = rect.bottom + 10; // Si no cabe arriba, lo muestra abajo
+
+        setSelectedId(selectedId === id ? null : id);
+        setTooltipPos({ top, left });
+    };
+
     if (loading) return <p className="text-center mt-10">Cargando historial...</p>;
 
     return (
         <div className="fixed top-0 left-0 w-full h-full flex flex-col items-center bg-gray-50 p-2 pt-32 overflow-hidden">
-        <h2 className="text-lg font-bold mb-2">Historial de Transacciones</h2>
-        {transacciones.length === 0 ? (
-            <p>No tienes transacciones registradas.</p>
-        ) : (
-            <div className="w-full h-full max-w-5xl overflow-y-auto">
-            <table className="w-full border border-gray-300 text-xs text-center">
-                <thead className="bg-gray-200 sticky top-0">
-                <tr>
-                    <th className="border p-1">ID</th>
-                    <th className="border p-1">Moneda</th>
-                    <th className="border p-1">Recibido</th>
-                    <th className="border p-1">Referencia</th>
-                    <th className="border p-1">Estado</th>
-                </tr>
-                </thead>
-                <tbody>
-                {transacciones.map((trx) => (
-                    <tr key={trx.id} className="border">
-                    <td className="border p-1">{trx.id}</td>
-                    <td className="border p-1">{Number(trx.moneda_a_enviar).toFixed(2)}</td>
-                    <td className="border p-1">{Number(trx.dinero_a_recibir).toFixed(6)}</td>
-                    <td className="border p-1 relative">
-                        <div className="group inline-block">
-                            {/* Mostrar solo los 4 primeros y últimos caracteres */}
-                            <span>{trx.reference.slice(0, 4)}...{trx.reference.slice(-4)}</span>
+            <h2 className="text-lg font-bold mb-2">Historial de Transacciones</h2>
+            {transacciones.length === 0 ? (
+                <p>No tienes transacciones registradas.</p>
+            ) : (
+                <div className="w-full h-full max-w-5xl overflow-y-auto">
+                    <table className="w-full border border-gray-300 text-xs text-center">
+                        <thead className="bg-gray-200 sticky top-0">
+                            <tr>
+                                <th className="border p-1">ID</th>
+                                <th className="border p-1">Moneda</th>
+                                <th className="border p-1">Recibido</th>
+                                <th className="border p-1">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {transacciones.map((trx) => (
+                                <tr key={trx.id} className="border">
+                                    <td className="border p-1 cursor-pointer text-blue-500 hover:underline">
+                                        {trx.id}
+                                    </td>
+                                    <td className="border p-1">{Number(trx.moneda_a_enviar).toFixed(2)}</td>
+                                    <td className="border p-1">
+                                        {new Intl.NumberFormat("es-CO", {
+                                            style: "currency",
+                                            currency: "COP",
+                                            minimumFractionDigits: 3,
+                                            useGrouping: true,
+                                        }).format(trx.dinero_a_recibir).replace(/\./g, "#").replace(/,/g, ".").replace(/#/g, ",")}
+                                    </td>
+                                    <td 
+                                        className={`border p-1 font-bold cursor-pointer estado-tooltip ${getStatusColor(trx.transaction_status)}`}
+                                        onClick={(e) => handleStatusClick(e, trx.id)}
+                                    >
+                                        {trx.transaction_status}
+                                    </td>
+                                </tr>
+                            ))}
+                        </tbody>
+                    </table>
+                </div>
+            )}
 
-                            {/* Tooltip con la referencia completa */}
-                            <span className="absolute left-1/2 transform -translate-x-1/2 mt-1 w-max px-2 py-1 bg-black text-white text-xs rounded opacity-0 group-hover:opacity-100 transition-opacity">
-                            {trx.reference}
-                            </span>
-                        </div>
-                    </td>
-                    <td className={`border p-1 font-bold ${getStatusColor(trx.transaction_status)}`}>
-                        {trx.transaction_status}
-                    </td>
-                    </tr>
-                ))}
-                </tbody>
-            </table>
-            </div>
-        )}
+            {/* Tooltip flotante */}
+            {selectedId !== null && tooltipPos && (
+                <div
+                    className="fixed z-50 bg-gray-800 text-white text-xs rounded shadow-md px-4 py-3 text-center whitespace-pre-line"
+                    style={{
+                        top: tooltipPos.top,
+                        left: tooltipPos.left,
+                        maxWidth: "200px",
+                    }}
+                >
+                    {getStatusMessage(transacciones.find(trx => trx.id === selectedId)?.transaction_status || "")}
+                </div>
+            )}
         </div>
     );
-    };
+};
 
-    const getStatusColor = (status: string) => {
-        switch (status.trim()) { // Elimina espacios antes y después del estado
-            case "CONFIRMADO":
-                return "text-green-600";
-            case "pending":
-                return "text-yellow-600";
-            case "DEVUELTO":
-                return "text-red-600";
-            case "NO COINCIDE":
-                return "text-gray-600";
-            default:
-                return "";
-        }
-    };
-    
+const getStatusColor = (status: string) => {
+    switch (status.trim()) {
+        case "CONFIRMADO":
+            return "text-green-600";
+        case "pending":
+            return "text-yellow-600";
+        case "DEVUELTO":
+            return "text-red-600";
+        case "NO COINCIDE":
+            return "text-gray-600";
+        default:
+            return "";
+    }
+};
+
+const getStatusMessage = (status: string) => {
+    switch (status.trim()) {
+        case "CONFIRMADO":
+            return "Tu transacción\nse ha completado\ncon éxito.";
+        case "pending":
+            return "Tu transacción\nestá en proceso.\nPronto recibirás\nuna actualización.";
+        case "NO COINCIDE":
+            return "Tus datos no coinciden\ncon la cuenta bancaria.\nPor favor contacta\na soporte.";
+        case "DEVUELTO":
+            return "La transacción\nno pudo completarse.\nTus fondos han\nsido devueltos.";
+        default:
+            return "";
+    }
+};
 
 export default HistorialTransacciones;
