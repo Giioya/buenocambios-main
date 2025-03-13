@@ -101,7 +101,7 @@ const HistorialTransacciones = () => {
                                         {trx.id}
                                     </td>
                                     <td className="border p-1">{Number(trx.moneda_a_enviar).toFixed(2)}</td>
-                                    <td className="border p-1">${trx.dinero_a_recibir}</td>
+                                    <td className="border p-1">${Number(trx.dinero_a_recibir).toFixed(3)}</td>
                                     <td 
                                         className={`border p-1 font-bold cursor-pointer estado-tooltip ${getStatusColor(trx.transaction_status)}`}
                                         onClick={(e) => handleStatusClick(e, trx.id)}
