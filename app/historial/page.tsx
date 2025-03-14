@@ -10,7 +10,7 @@ const supabase = createClient(supabaseUrl, supabaseKey);
 interface Transaccion {
     id: number;
     moneda_a_enviar: number;
-    dinero_a_recibir: number;
+    dinero_a_recibir: string;
     transaction_status: string;
     fecha: string;
 }
@@ -50,6 +50,7 @@ const HistorialTransacciones = () => {
         fetchTransacciones();
     }, []);
 
+    // Cerrar el tooltip solo si se hace clic fuera del estado
     useEffect(() => {
         const handleClickOutside = (event: MouseEvent) => {
             if (!(event.target as HTMLElement).closest(".estado-tooltip")) {
@@ -62,19 +63,20 @@ const HistorialTransacciones = () => {
     }, []);
 
     const handleStatusClick = (e: React.MouseEvent<HTMLTableCellElement>, id: number) => {
-        e.stopPropagation();
+        e.stopPropagation(); // Evita que se cierre inmediatamente
         const rect = (e.target as HTMLElement).getBoundingClientRect();
         const screenWidth = window.innerWidth;
         const screenHeight = window.innerHeight;
-        const tooltipWidth = 200;
-        const tooltipHeight = 60;
+        const tooltipWidth = 200; // Ancho estimado del tooltip
+        const tooltipHeight = 60; // Alto estimado del tooltip
 
         let left = rect.left + rect.width / 2 - tooltipWidth / 2;
-        let top = rect.top - tooltipHeight - 10;
+        let top = rect.top - tooltipHeight - 10; // Aparece arriba del estado
 
+        // Ajustar si se sale de la pantalla
         if (left < 10) left = 10;
         if (left + tooltipWidth > screenWidth - 10) left = screenWidth - tooltipWidth - 10;
-        if (top < 10) top = rect.bottom + 10;
+        if (top < 10) top = rect.bottom + 10; // Si no cabe arriba, lo muestra abajo
 
         setSelectedId(selectedId === id ? null : id);
         setTooltipPos({ top, left });
@@ -96,7 +98,6 @@ const HistorialTransacciones = () => {
                                 <th className="border p-1">Moneda</th>
                                 <th className="border p-1">Recibido</th>
                                 <th className="border p-1">Estado</th>
-                                <th className="border p-1">Fecha</th>
                             </tr>
                         </thead>
                         <tbody>
@@ -106,14 +107,7 @@ const HistorialTransacciones = () => {
                                         {trx.id}
                                     </td>
                                     <td className="border p-1">{Number(trx.moneda_a_enviar).toFixed(2)}</td>
-                                    <td className="border p-1">
-                                        {new Intl.NumberFormat("es-CO", {
-                                            style: "currency",
-                                            currency: "COP",
-                                            minimumFractionDigits: 3,
-                                            useGrouping: true,
-                                        }).format(trx.dinero_a_recibir).replace(/\./g, "#").replace(/,/g, ".").replace(/#/g, ",")}
-                                    </td>
+                                    <td className="border p-1">${trx.dinero_a_recibir}</td>
                                     <td 
                                         className={`border p-1 font-bold cursor-pointer estado-tooltip ${getStatusColor(trx.transaction_status)}`}
                                         onClick={(e) => handleStatusClick(e, trx.id)}
@@ -138,6 +132,7 @@ const HistorialTransacciones = () => {
                 </div>
             )}
 
+            {/* Tooltip flotante */}
             {selectedId !== null && tooltipPos && (
                 <div
                     className="fixed z-50 bg-gray-800 text-white text-xs rounded shadow-md px-4 py-3 text-center whitespace-pre-line"
