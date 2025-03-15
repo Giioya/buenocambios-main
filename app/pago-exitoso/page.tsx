@@ -104,7 +104,7 @@ const PagoExitoso = () => {
             <h1 className="text-4xl font-bold text-[#589013]">Retiro Exitoso</h1>
             <p className="text-gray-600 mt-2 text-center">
                 Gracias por usar nuestro servicio. <br />
-                Su dinero llegará de 30-60 minutos a su cuenta bancaria.
+                Su dinero llegará de 10-60 minutos a su cuenta bancaria.
             </p>
 
             <div className="mt-6 bg-[#589013] text-white px-6 py-3 rounded-lg text-lg font-semibold shadow-md">

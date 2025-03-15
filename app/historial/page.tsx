@@ -95,9 +95,10 @@ const HistorialTransacciones = () => {
                         <thead className="bg-gray-200 sticky top-0">
                             <tr>
                                 <th className="border p-1">ID</th>
-                                <th className="border p-1">Moneda</th>
-                                <th className="border p-1">Recibido</th>
+                                <th className="border p-1">WLD</th>
+                                <th className="border p-1">A recibir</th>
                                 <th className="border p-1">Estado</th>
+                                <th className="border p-1">Fecha</th>
                             </tr>
                         </thead>
                         <tbody>

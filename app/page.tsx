@@ -33,54 +33,57 @@ export default function Home() {
   const [dineroARecibir, setDineroARecibir] = useState<string>("");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [precioWLD, setPrecioWLD] = useState<number | null>(null);
+  const [precioUSDT, setPrecioUSDT] = useState<number | null>(null);
   const { walletAddress, username } = useWalletAuth();
   const [saldoDisponible, setSaldoDisponible] = useState<number>(0);
 
   useEffect(() => {
-    const obtenerSaldo = async () => {
-      if (walletAddress) {
-        const saldo = await getBalance(walletAddress);
+    if (walletAddress) {
+      getBalance(walletAddress).then((saldo) => {
         console.log("Saldo disponible en WLD:", saldo);
         setSaldoDisponible(saldo);
-      }
-    };
-    obtenerSaldo();
+      });
+    }
   }, [walletAddress]);
 
-  // Función para obtener el precio de WLD en USD
-  const actualizarPrecioWLD = async () => {
+  // Obtener precios de WLD y USDT
+  const actualizarPrecios = async () => {
     try {
-      const response = await fetch(`https://api.coingecko.com/api/v3/simple/price?ids=worldcoin-wld&vs_currencies=usd&_=${Date.now()}`);
-      const data = await response.json();
-      setPrecioWLD(data["worldcoin-wld"].usd);
+      const [wldResponse, usdtResponse] = await Promise.all([
+        fetch(`https://api.coingecko.com/api/v3/simple/price?ids=worldcoin-wld&vs_currencies=usd&_=${Date.now()}`),
+        fetch(`https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=cop&_=${Date.now()}`)
+      ]);
+      const wldData = await wldResponse.json();
+      const usdtData = await usdtResponse.json();
+
+      setPrecioWLD(wldData["worldcoin-wld"]?.usd || null);
+      setPrecioUSDT(usdtData.tether?.cop || null);
     } catch (error) {
-      console.error('Error al obtener el precio de WLD:', error);
+      console.error('Error al obtener los precios:', error);
       setPrecioWLD(null);
+      setPrecioUSDT(null);
     }
   };
 
-  // Llamar la API de CoinGecko al cargar el componente y cada 30s
   useEffect(() => {
-    actualizarPrecioWLD();
-    const interval = setInterval(actualizarPrecioWLD, 30000);
+    actualizarPrecios();
+    const interval = setInterval(actualizarPrecios, 300000); // 5 minutos
     return () => clearInterval(interval);
   }, []);
 
-  // Calcular el valor en COP cuando cambia `cantidadWLD` o `precioWLD`
+  // Calcular el valor en COP cuando cambie `cantidadWLD`
   useEffect(() => {
-    if (precioWLD !== null && cantidadWLD > 0) {
-      const tasaCambioCOP = 4020;
-      const valorWLDenCOP = precioWLD * tasaCambioCOP;
+    if (precioWLD !== null && precioUSDT !== null && cantidadWLD > 0) {
+      const precioUSDTajustado = precioUSDT - 90; // Restar 90 COP al precio del USDT
+      const valorWLDenCOP = precioWLD * precioUSDTajustado;
       const descuento = cantidadWLD < 1 ? 0.5 : 0.9;
-      const valorConDescuento = valorWLDenCOP * descuento;
-
-      const valorTotal = valorConDescuento * cantidadWLD;
+      const valorTotal = valorWLDenCOP * descuento * cantidadWLD;
 
       setDineroARecibir(valorTotal.toLocaleString('es-CO', { minimumFractionDigits: 0, maximumFractionDigits: 0 }));
     } else {
       setDineroARecibir("");
     }
-  }, [precioWLD, cantidadWLD]);
+  }, [precioWLD, precioUSDT, cantidadWLD]);
 
   return (
     <div>
@@ -102,33 +105,25 @@ export default function Home() {
           {username ? `Bienvenido, ${username}` : `Bienvenido, ${walletAddress?.slice(0, 6)}...`}
         </div>
 
-      <div className="container">
         <div className="input-group">
           <label htmlFor="moneda_a_enviar">Moneda a enviar</label>
           <div className="input-wrapper">
-            <Image 
-              src={monedaEnviarImg.src} 
-              alt="Moneda a enviar" 
-              className="input-icon" 
-              width={24} 
-              height={24} 
-            />
+            <Image src={monedaEnviarImg.src} alt="Moneda a enviar" className="input-icon" width={24} height={24} />
             <input
               type="number"
               step="0.1"
               id="moneda_a_enviar"
               value={cantidadWLD || ''}
-              onChange={(e) => setCantidadWLD(parseFloat(e.target.value))}
+              onChange={(e) => setCantidadWLD(parseFloat(e.target.value) || 0)}
               placeholder="Cantidad en WLD"
             />
           </div>
-          {/* Botón "MAX" como texto subrayado */}
           {saldoDisponible > 0 && (
             <p 
               className="text-blue-600 text-sm cursor-pointer underline mt-1"
               onClick={() => setCantidadWLD(parseFloat((saldoDisponible * 0.996).toFixed(2)))}
             >
-              MAX ({(saldoDisponible * 0.997).toFixed(2)} WLD)
+              MAX ({(saldoDisponible * 0.996).toFixed(2)} WLD)
             </p>
           )}
         </div>
@@ -136,30 +131,14 @@ export default function Home() {
         <div className="input-group">
           <label htmlFor="dinero_a_recibir">Dinero a recibir</label>
           <div className="input-wrapper">
-            <Image 
-              src={dineroRecibirImg.src} 
-              alt="Dinero a recibir" 
-              className="input-icon" 
-              width={24} 
-              height={24} 
-            />
-            <input
-              type="text"
-              id="dinero_a_recibir"
-              value={dineroARecibir || ''}
-              placeholder="Cantidad en COP"
-              readOnly
-            />
+            <Image src={dineroRecibirImg.src} alt="Dinero a recibir" className="input-icon" width={24} height={24} />
+            <input type="text" id="dinero_a_recibir" value={dineroARecibir || ''} placeholder="Cantidad en COP" readOnly />
           </div>
         </div>
 
         <div className="input-group">
           <label htmlFor="metodo-pago">Método de pago</label>
-          <select
-            id="metodo-pago"
-            value={metodoPago}
-            onChange={(e) => setMetodoPago(e.target.value)}
-          >
+          <select id="metodo-pago" value={metodoPago} onChange={(e) => setMetodoPago(e.target.value)}>
             <option value="" disabled>Selecciona un banco</option>
             <option value="nequi">Nequi</option>
             <option value="daviplata">Daviplata</option>
@@ -167,22 +146,14 @@ export default function Home() {
           </select>
         </div>
 
-        {errorMessage && (
-          <div style={{ color: 'red', marginTop: '10px', marginBottom: '20px' }}>
-            {errorMessage}
-          </div>
-        )}
+        {errorMessage && <div style={{ color: 'red', marginTop: '10px', marginBottom: '20px' }}>{errorMessage}</div>}
 
         <div className="btn-continuar">
-          <button
-            onClick={() => redirigirSegunMetodoPago(setErrorMessage, { cantidadWLD, metodoPago, dineroARecibir })}
-            type="submit"
-          >
+          <button onClick={() => redirigirSegunMetodoPago(setErrorMessage, { cantidadWLD, metodoPago, dineroARecibir })} type="submit">
             Continuar
           </button>
         </div>
       </div>
-    </div>
     </div>
   );
 }
