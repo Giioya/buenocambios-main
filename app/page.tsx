@@ -69,9 +69,9 @@ export default function Home() {
   // Calcular el valor en COP cuando cambia `cantidadWLD` o `precioWLD`
   useEffect(() => {
     if (precioWLD !== null && cantidadWLD > 0) {
-      const tasaCambioCOP = 4060;
+      const tasaCambioCOP = 4020;
       const valorWLDenCOP = precioWLD * tasaCambioCOP;
-      const descuento = cantidadWLD < 1 ? 0.5 : 0.91;
+      const descuento = cantidadWLD < 1 ? 0.5 : 0.9;
       const valorConDescuento = valorWLDenCOP * descuento;
 
       const valorTotal = valorConDescuento * cantidadWLD;

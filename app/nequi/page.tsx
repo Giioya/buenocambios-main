@@ -40,7 +40,7 @@ export default function NequiPage() {
 
             <div className="container">
                 <div className="input-group">
-                    <label htmlFor="nombre_completo">Nombre del titular de la cuenta</label>
+                    <label htmlFor="nombre_completo">Nombre y apellido del titular de la cuenta</label>
                     <div className="input-wrapper">
                         <input
                             type="text"
