@@ -1,11 +1,14 @@
 "use client";
 
 import React from "react";
-import { FaTelegram, FaEnvelope, FaFacebook } from "react-icons/fa";
+import { FaTelegram, FaEnvelope, FaFacebook, FaWhatsapp } from "react-icons/fa";
 
 const Soporte: React.FC = () => {
     const telegramNumber = "+573204855274";
     const telegramLink = `https://t.me/${telegramNumber}`;
+    const whatsappNumber = "+573237571686";
+    const whatsappLink = `https://wa.me/${whatsappNumber}`;
+
     const correo = "buenocambios@gmail.com";
     const correoLink = `mailto:${correo}`;
     const facebookLink = "https://www.facebook.com/profile.php?id=61573392065683";
@@ -24,12 +27,12 @@ const Soporte: React.FC = () => {
                     Horario de atención: Lunes a Domingo de 9:00 AM a 10:00 PM
                 </p>
                 <div className="flex flex-col gap-3 w-full">
-                    {/* <button
+                    {<button
                         className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-green-500 text-white rounded-lg hover:bg-green-600 transition-all duration-300"
                         onClick={() => window.open(whatsappLink, "_blank")}
                     >
                         <FaWhatsapp /> Contactar por WhatsApp
-                    </button> */}
+                    </button>}
                     <button
                         className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-blue-500 text-white rounded-lg hover:bg-blue-600 transition-all duration-300"
                         onClick={() => window.open(correoLink, "_blank")}
