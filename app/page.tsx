@@ -108,6 +108,10 @@ export default function Home() {
           <span className="text-gray-400">
           </span>
         </p>
+        <p className="text-gray-500 text-lg font-semibold text-center">
+            Si no ves tus fondos, verifica que no los tengas en bóveda.
+        </p>
+        
       </div>
 
       <div className="container">
@@ -124,8 +128,12 @@ export default function Home() {
               step="0.1"
               id="moneda_a_enviar"
               value={cantidadWLD || ""}
-              onChange={(e) => setCantidadWLD(parseFloat(e.target.value) || 0)}
+              onChange={(e) => {
+                const value = parseFloat(e.target.value) || 0;
+                setCantidadWLD(Math.min(value, saldoDisponible)); // Restringe el valor máximo
+              }}
               placeholder="Cantidad en WLD"
+              max={saldoDisponible} // Evita que se ingrese manualmente un número mayor
             />
           </div>
           <p

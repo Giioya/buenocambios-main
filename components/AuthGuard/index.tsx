@@ -24,12 +24,18 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
         if (MiniKit.user?.username) {
             localStorage.setItem("username", MiniKit.user.username);
             localStorage.setItem("walletAddress", MiniKit.walletAddress ?? "");
+        
+            // Borra el localStorage cada 30 segundos
+            setInterval(() => {
+                localStorage.clear();
+            }, 86400000);
         }
 
         // Redirigir al login si no hay usuario autenticado
         if (pathname === "/" && !username) {
             router.push("/login");
         }
+
     }, [router, pathname, isClient, MiniKit.user?.username]); // Se agregó MiniKit.user?.username a las dependencias
 
     if (!isClient) {
@@ -48,7 +54,3 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
 
     return <>{children}</>;
 }
-
-
-
-
