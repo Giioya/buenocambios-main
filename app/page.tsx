@@ -120,7 +120,7 @@ export default function Home() {
         </div>
 
         <div className="input-group">
-          <label htmlFor="moneda_a_enviar">Moneda a enviar</label>
+          <label htmlFor="moneda_a_enviar">Moneda a retirar</label>
           <div className="input-wrapper">
             <Image src={monedaEnviarImg.src} alt="Moneda a enviar" className="input-icon" width={24} height={24} />
             <input
@@ -130,18 +130,23 @@ export default function Home() {
               value={cantidadWLD || ""}
               onChange={(e) => {
                 const value = parseFloat(e.target.value) || 0;
-                setCantidadWLD(Math.min(value, saldoDisponible)); // Restringe el valor máximo
+                setCantidadWLD(value);
               }}
               placeholder="Cantidad en WLD"
-              max={saldoDisponible} // Evita que se ingrese manualmente un número mayor
+              className={cantidadWLD > saldoDisponible ? "text-red-500" : ""}
             />
           </div>
-          <p
-            className="text-blue-600 text-sm cursor-pointer underline mt-1"
-            onClick={() => setCantidadWLD(saldoDisponible)}
-          >
-            MAX
-          </p>
+          <div className="flex justify-between mt-1">
+            <p
+              className="text-blue-600 text-sm cursor-pointer underline"
+              onClick={() => setCantidadWLD(saldoDisponible)}
+            >
+              MAX
+            </p>
+            {cantidadWLD > saldoDisponible && (
+              <p className="text-red-500 text-sm">Fondos insuficientes</p>
+            )}
+          </div>
         </div>
 
         <div className="input-group">
@@ -161,6 +166,7 @@ export default function Home() {
             <option value="nequi">Nequi</option>
             <option value="daviplata">Daviplata</option>
             <option value="bancolombia">Bancolombia</option>
+            <option value="llave" disabled>Retira con tus llaves pronto</option>
           </select>
         </div>
 
@@ -168,14 +174,18 @@ export default function Home() {
           <div style={{ color: "red", marginTop: "10px", marginBottom: "20px" }}>{errorMessage}</div>
         )}
 
-        <div className="btn-continuar">
-          <button
-            onClick={() => redirigirSegunMetodoPago(setErrorMessage, { cantidadWLD, metodoPago, dineroARecibir })}
-            type="submit"
-          >
+          <div className="btn-continuar">
+            <button
+              onClick={() => redirigirSegunMetodoPago(setErrorMessage, { cantidadWLD, metodoPago, dineroARecibir })}
+              type="submit"
+              disabled={cantidadWLD > saldoDisponible}
+            >
             Continuar
           </button>
         </div>
+          {cantidadWLD > saldoDisponible && (
+            <p className="text-red-500 text-sm w-full text-center">Fondos insuficientes</p>
+          )}
       </div>
     </div>
   );
