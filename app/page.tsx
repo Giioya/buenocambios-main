@@ -183,9 +183,6 @@ export default function Home() {
             Continuar
           </button>
         </div>
-          {cantidadWLD > saldoDisponible && (
-            <p className="text-red-500 text-sm w-full text-center">Fondos insuficientes</p>
-          )}
       </div>
     </div>
   );
