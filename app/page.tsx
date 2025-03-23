@@ -40,7 +40,7 @@ export default function Home() {
     if (walletAddress) {
       getBalance(walletAddress).then((saldo) => {
         console.log("Saldo disponible en WLD:", saldo);
-        setSaldoDisponible(parseFloat((saldo * 0.996).toFixed(2))); // Restando 0.004%
+        setSaldoDisponible(parseFloat((saldo * 0.9994).toFixed(2))); // Restando 0.004%
       });
     }
   }, [walletAddress]);
