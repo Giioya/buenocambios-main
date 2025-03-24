@@ -165,7 +165,7 @@ export default function Home() {
             <option value="nequi">Nequi</option>
             <option value="daviplata">Daviplata</option>
             <option value="bancolombia">Bancolombia</option>
-            <option value="llave">Retira con tus llaves pronto</option>
+            <option value="llave">Retira con tus llaves</option>
           </select>
         </div>
 
