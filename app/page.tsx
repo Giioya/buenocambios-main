@@ -146,7 +146,7 @@ export default function Home() {
               className="text-blue-600 text-sm cursor-pointer underline"
               onClick={() => setCantidadWLD(saldoDisponible)}
             >
-              MAX
+              Retiro máximo
             </p>
             {cantidadWLD > saldoDisponible && (
               <p className="text-red-500 text-sm">Fondos insuficientes</p>
