@@ -4,6 +4,11 @@ import React from "react";
 import Link from "next/link";
 
 const Informacion = () => {
+    const borrarLocalStorage = () => {
+        localStorage.clear();
+        alert("Local Storage eliminado.");
+    };
+
     return (
         <div className="container">
             <h2 className="text-4xl text-black font-bold underline text-center mb-16">Guías</h2>
@@ -19,6 +24,16 @@ const Informacion = () => {
                     </Link>
                 </li>
             </ul>
+
+            {/* Botón para borrar el Local Storage */}
+            <div className="text-center mt-8 mb-32">
+                <button
+                    onClick={borrarLocalStorage}
+                    className="bg-red-500 hover:bg-red-600 text-white font-bold py-2 px-4 rounded"
+                >
+                    Borrar Local Storage
+                </button>
+            </div>
         </div>
     );
 };

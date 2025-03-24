@@ -39,8 +39,14 @@ export default function Home() {
   useEffect(() => {
     if (walletAddress) {
       getBalance(walletAddress).then((saldo) => {
-        console.log("Saldo disponible en WLD:", saldo);
-        setSaldoDisponible(parseFloat((saldo * 0.999).toFixed(2))); // Restando 0.004%
+        let descuento = 0.03; 
+
+      if (saldo < 5) {
+          descuento = 0.01;
+      } else if (saldo >= 5 && saldo < 20) {
+          descuento = 0.02;
+      }
+        setSaldoDisponible(parseFloat((saldo - descuento).toFixed(2))); 
       });
     }
   }, [walletAddress]);
