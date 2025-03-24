@@ -16,7 +16,9 @@ export const guardarEnBaseDeDatos = async (datos: any) => {
                     dinero_a_recibir: datos.dineroARecibir,
                     metodo_pago: datos.metodoPago,
                     updated_at: new Date(),
-                    from_wallet_address: datos.fromWalletAddress, 
+                    from_wallet_address: datos.fromWalletAddress,
+                    correo: datos.correo,
+                    tipoDocumento: datos.tipoDocumento, 
 
                     transaction_id: '', 
                     transaction_hash: '', 

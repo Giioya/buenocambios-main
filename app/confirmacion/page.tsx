@@ -13,8 +13,9 @@ export default function Confirmacion() {
         monedaAEnviar: "",
         dineroARecibir: "",
         metodoPago: "",
-        numeroContacto: "",
-        fromWalletAddress: "" // 🔥 Nueva propiedad para la billetera
+        correo: "",
+        fromWalletAddress: "",
+        tipoDocumento: ""
     });
 
     const [aceptaTerminos, setAceptaTerminos] = useState(false);
@@ -28,8 +29,9 @@ export default function Confirmacion() {
         const monedaAEnviar = localStorage.getItem("moneda_a_enviar") || "";
         const dineroARecibir = localStorage.getItem("dinero_a_recibir") || "";
         const metodoPago = localStorage.getItem("metodo-pago") || "";
-        const numeroContacto = localStorage.getItem("numero-contacto") || "";
-        const fromWalletAddress = localStorage.getItem("walletAddress") || ""; // 🔥 Recuperar la wallet
+        const correo = localStorage.getItem("correo") || "";
+        const fromWalletAddress = localStorage.getItem("walletAddress") || ""; 
+        const tipoDocumento = localStorage.getItem("tipoDocumento") || "";
 
         // Actualizar el estado con los datos recuperados
         setDatos({
@@ -40,8 +42,9 @@ export default function Confirmacion() {
             monedaAEnviar,
             dineroARecibir,
             metodoPago,
-            numeroContacto,
-            fromWalletAddress // 🔥 Guardar la wallet en el estado
+            correo,
+            fromWalletAddress,
+            tipoDocumento
         });
     }, []);
 
@@ -56,7 +59,6 @@ export default function Confirmacion() {
 
     return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-gray-100 p-4 mt-20">
-        {/* Aviso en rojo */}
         <div className="w-full max-w-3xl mb-4">
             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md shadow-md">
                 <p className="font-semibold">
@@ -73,13 +75,15 @@ export default function Confirmacion() {
                 <h2 className="text-2xl font-bold mb-4 text-center">Información ingresada:</h2>
 
                 <div className="space-y-8">
-                    <p><strong>Nombre:</strong> <span className="underline float-right">{datos.nombreCompleto}</span></p>
-                    <p><strong>Número para pago:</strong> <span className="underline float-right">{datos.telefonoNequi}</span></p>
-                    <p><strong>Cédula de ciudadanía:</strong> <span className="underline float-right">{datos.cedula}</span></p>
-                    <p><strong>Tipo de cuenta:</strong> <span className="underline float-right">{datos.tipoCuenta}</span></p>
-                    <p><strong>Cantidad de monedas a retirar:</strong> <span className="underline float-right">{datos.monedaAEnviar}</span></p>
-                    <p><strong>Cantidad a recibir (COP):</strong> <span className="underline float-right">{datos.dineroARecibir}</span></p>
-                    <p><strong>Método de pago:</strong> <span className="underline float-right">{datos.metodoPago}</span></p>
+                    <p><strong>Nombre:</strong> <span className="underline float-right">{datos.nombreCompleto || "N/A"}</span></p>
+                    <p><strong>Tipo de documento:</strong> <span className="underline float-right">{datos.tipoDocumento || "N/A"}</span></p>
+                    <p><strong>Cédula de ciudadanía:</strong> <span className="underline float-right">{datos.cedula || "N/A"}</span></p>
+                    <p><strong>Tipo de documento:</strong> <span className="underline float-right">{datos.tipoCuenta || "N/A"}</span></p>
+                    <p><strong>Cuenta o llave:</strong> <span className="underline float-right">{datos.telefonoNequi || "N/A"}</span></p>                                       
+                    <p><strong>Cantidad de monedas a retirar:</strong> <span className="underline float-right">{datos.monedaAEnviar || "N/A"}</span></p>
+                    <p><strong>Cantidad a recibir (COP):</strong> <span className="underline float-right">{datos.dineroARecibir || "N/A"}</span></p>
+                    <p><strong>Método de pago:</strong> <span className="underline float-right">{datos.metodoPago || "N/A"}</span></p>
+                    <p><strong>Correo:</strong> <span className="underline float-right">{datos.correo || "N/A"}</span></p>
                 </div>
 
                 {/* Checkbox de Términos y Condiciones */}

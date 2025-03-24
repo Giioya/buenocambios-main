@@ -24,6 +24,7 @@ const Informacion: React.FC = () => {
                         <li>No nos hacemos responsables por errores en los datos ingresados por el usuario.</li>
                         <li>Nos reservamos el derecho de modificar las tasas de cambio y comisiones en cualquier momento.</li>
                         <li>Nos reservamos el derecho de cancelar transacciones sospechosas de fraude o actividad ilegal.</li>
+                        <li>En caso de error en tus datos, aceptas que nos comuniquemos contigo para corregirlos.</li>
                     </ul>
                     <p className="text-gray-600 mb-4">
                         Al continuar utilizando esta aplicación, aceptas estos términos en su totalidad. Si no estás de acuerdo, por favor, no utilices nuestra plataforma.
@@ -71,7 +72,8 @@ const Informacion: React.FC = () => {
 
                 <div className="text-center mt-6">
                     <p className="text-gray-500 text-sm">
-                        Última actualización: Febrero 2025
+                        Última actualización: 23 de Marzo 2025
+                        BuenoCambios - Version 1.1.5
                     </p>
                 </div>
             </div>

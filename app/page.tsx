@@ -86,7 +86,6 @@ export default function Home() {
 
   return (
     <div>
-      {/* Aviso en rojo */}
       <div className="w-full max-w-2xl mb-4 flex justify-center">
         <div className="bg-yellow-50 border-l-4 border-yellow-500 text-red-600 text-sm p-2 rounded-md shadow-md text-center">
           <p className="font-semibold">
@@ -97,7 +96,7 @@ export default function Home() {
           </p>
         </div>
       </div>
-      {/* Saldo disponible con formato mejorado */}
+
       <div className="flex flex-col items-center mt-4">
         <p className="text-gray-500 text-lg font-semibold">Saldo disponible para retiro:</p>
         <p className="text-4xl font-bold">
@@ -166,7 +165,7 @@ export default function Home() {
             <option value="nequi">Nequi</option>
             <option value="daviplata">Daviplata</option>
             <option value="bancolombia">Bancolombia</option>
-            <option value="llave" disabled>Retira con tus llaves pronto</option>
+            <option value="llave">Retira con tus llaves pronto</option>
           </select>
         </div>
 

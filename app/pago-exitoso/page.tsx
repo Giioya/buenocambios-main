@@ -82,13 +82,13 @@ const PagoExitoso = () => {
     useEffect(() => {
         // Cargar datos del usuario desde localStorage
         setDatosUsuario({
-            nombreCompleto: localStorage.getItem("nombre_completo") || "No disponible",
-            telefonoNequi: localStorage.getItem("telefono_nequi") || "No disponible",
-            cedula: localStorage.getItem("cedula") || "No disponible",
+            nombreCompleto: localStorage.getItem("nombre_completo") || "N/A",
+            telefonoNequi: localStorage.getItem("telefono_nequi") || "N/A",
+            cedula: localStorage.getItem("cedula") || "N/A",
             tipoCuenta: localStorage.getItem("tipo_cuenta") || "N/A",
-            monedaAEnviar: localStorage.getItem("moneda_a_enviar") || "No disponible",
-            dineroARecibir: localStorage.getItem("dinero_a_recibir") || "No disponible",
-            metodoPago: localStorage.getItem("metodo-pago") || "No disponible",
+            monedaAEnviar: localStorage.getItem("moneda_a_enviar") || "N/A",
+            dineroARecibir: localStorage.getItem("dinero_a_recibir") || "N/A",
+            metodoPago: localStorage.getItem("metodo-pago") || "N/A",
             numeroContacto: localStorage.getItem("numero-contacto") || "N/A",
         });
     }, []);
