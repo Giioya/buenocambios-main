@@ -106,10 +106,13 @@ export const PayBlock = () => {
     } 
   }, [paymentSuccess, router]);
 
-  return (
-    <p onClick={handlePay}>
-      Finalizar
-    </p>
+    return (
+      <button 
+          className="button-group" 
+          onClick={handlePay}
+      >
+          Confirmar retiro
+      </button>
   );
 };
 

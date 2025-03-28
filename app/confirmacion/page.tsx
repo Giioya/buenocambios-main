@@ -19,6 +19,9 @@ export default function Confirmacion() {
     });
 
     const [aceptaTerminos, setAceptaTerminos] = useState(false);
+    const [transaccionConfirmada, setTransaccionConfirmada] = useState(false);
+    const [error, setError] = useState(false);
+    const [cargando, setCargando] = useState(false);
 
     useEffect(() => {
         // Recuperar los datos del localStorage
@@ -53,8 +56,26 @@ export default function Confirmacion() {
     };
 
     const confirmarTransaccion = async () => {
-        console.log("📤 Enviando datos a la base de datos:", datos);
-        await guardarEnBaseDeDatos(datos);
+        setCargando(true);
+        setError(false);
+        setTransaccionConfirmada(false); // Resetear estado antes de procesar
+
+        try {
+            console.log("📤 Enviando datos a la base de datos:", datos);
+            const respuesta = await guardarEnBaseDeDatos(datos);
+
+            if (respuesta.error) { 
+                throw new Error("Error en Supabase"); // Si Supabase devuelve un error, no se confirma la transacción
+            }
+
+            setTransaccionConfirmada(true); // ✅ Confirmar solo si la transacción fue exitosa
+        } catch (error) {
+            console.error("❌ Error en la transacción:", error);
+            setError(true);
+            setTransaccionConfirmada(false); // ❌ Asegurar que PayBlock NO se muestre si falla
+        } finally {
+            setCargando(false);
+        }
     };
 
     return (
@@ -109,16 +130,25 @@ export default function Confirmacion() {
                     >
                         Atrás
                     </button>
-                    <button 
-                        onClick={confirmarTransaccion} 
-                        disabled={!aceptaTerminos} 
-                        className={`button-group ${
-                            aceptaTerminos ? 'bg-[#3b5110] hover:bg-[#589013]' : 'bg-gray-400 cursor-not-allowed'
-                        }`}
-                    >
-                        <PayBlock />
-                    </button>
-                </div>
+                     {/* ✅ Solo muestra el botón si la transacción NO ha sido confirmada */}
+                    {!transaccionConfirmada && (
+                        <button
+                            onClick={confirmarTransaccion}
+                            disabled={!aceptaTerminos || cargando}
+                            className={`button-group flex items-center justify-center px-6 py-3 rounded-md text-white transition-all ${
+                                aceptaTerminos
+                                    ? 'bg-[#3b5110] hover:bg-[#589013]'
+                                    : 'bg-gray-400 cursor-not-allowed'
+                            } ${cargando ? "opacity-50 cursor-wait" : ""}`}
+                        >
+                            {cargando ? "Procesando..." : "Finalizar"}
+                        </button>
+                    )}
+
+                    {transaccionConfirmada && <PayBlock/>}
+                    </div>
+                {/* ✅ Si hay error, mostrar mensaje */}
+                {error && <div className="text-red-500 mt-2 text-right ml-auto">⚠️ Error, intenta <br></br> nuevamente.</div>}                
             </div>
         </div>
     );

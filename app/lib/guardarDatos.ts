@@ -33,12 +33,15 @@ export const guardarEnBaseDeDatos = async (datos: any) => {
                 },
             ]);
 
-        if (error) {
-            throw error;
+            if (error) {
+                console.error('❌ Error al guardar datos en Supabase:', error);
+                return { error: error.message }; // ✅ Devuelve error si hay un problema
+            }
+    
+            console.log('✅ Datos guardados en Supabase:', data);
+            return { success: true }; // ✅ Devuelve éxito si todo sale bien
+        } catch (error) {
+            console.error('❌ Error inesperado en Supabase:', error);
+            return { error: "Error inesperado en la base de datos" }; // ✅ Captura cualquier error inesperado
         }
-
-        console.log('Datos guardados en Supabase:', data);
-    } catch (error) {
-        console.error('Error al guardar datos en Supabase:', error);
-    }
-};
+    };
