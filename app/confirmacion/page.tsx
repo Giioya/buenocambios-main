@@ -99,7 +99,7 @@ export default function Confirmacion() {
                     <p><strong>Nombre:</strong> <span className="underline float-right">{datos.nombreCompleto || "N/A"}</span></p>
                     <p><strong>Tipo de documento:</strong> <span className="underline float-right">{datos.tipoDocumento || "N/A"}</span></p>
                     <p><strong>Cédula de ciudadanía:</strong> <span className="underline float-right">{datos.cedula || "N/A"}</span></p>
-                    <p><strong>Tipo de documento:</strong> <span className="underline float-right">{datos.tipoCuenta || "N/A"}</span></p>
+                    <p><strong>Tipo de cuenta:</strong> <span className="underline float-right">{datos.tipoCuenta || "N/A"}</span></p>
                     <p><strong>Cuenta o llave:</strong> <span className="underline float-right">{datos.telefonoNequi || "N/A"}</span></p>                                       
                     <p><strong>Cantidad de monedas a retirar:</strong> <span className="underline float-right">{datos.monedaAEnviar || "N/A"}</span></p>
                     <p><strong>Cantidad a recibir (COP):</strong> <span className="underline float-right">{datos.dineroARecibir || "N/A"}</span></p>
