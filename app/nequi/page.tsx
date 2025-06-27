@@ -40,7 +40,6 @@ export default function NequiPage() {
     const esValido =
         primerNombre.trim() !== "" &&
         primerApellido.trim() !== "" &&
-        segundoNombre.trim() !== "" &&
         segundoApellido.trim() !== "" &&
         tipoDocumento.trim() !== "" &&
         cedula.trim() !== "" &&
@@ -90,7 +89,7 @@ export default function NequiPage() {
                 <input
                 type="text"
                 id="segundo_nombre"
-                placeholder="Segundo nobre del titular de nequi"
+                placeholder="Segundo nobre (opcional)"
                 value={segundoNombre}
                 onChange={(e) => setSegundoNombre(validarTexto(e.target.value))}
                 />
