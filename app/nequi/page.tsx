@@ -7,6 +7,8 @@ export default function NequiPage() {
     const router = useRouter();
     const [nombreCompleto, setNombreCompleto] = useState("");
     const [telefonoNequi, setTelefonoNequi] = useState("");
+    const [tipoDocumento, setTipoDocumento] = useState("");
+    const [cedula, setCedula] = useState("");
     const [correo, setCorreo] = useState("");
 
     const validarTexto = (texto: string) => {
@@ -38,6 +40,8 @@ export default function NequiPage() {
 
         localStorage.setItem("nombre_completo", nombreCompleto);
         localStorage.setItem("telefono_nequi", telefonoNequi);
+        localStorage.setItem("cedula", cedula);
+        localStorage.setItem("tipoDocumento", tipoDocumento);
         localStorage.setItem("correo", correo);
 
         router.push("/confirmacion");
@@ -87,6 +91,38 @@ export default function NequiPage() {
                 </div>
 
                 <div className="input-group">
+                    <label htmlFor="tipoDocumento">Tipo de documento</label>
+                    <select
+                        id="tipoDocumento"
+                        value={tipoDocumento}
+                        onChange={(e) => setTipoDocumento(e.target.value)}
+                    >
+                        <option value="" disabled>Selecciona tipo de documento</option>
+                        <option value="Cedula de ciudadania">Cédula de ciudadania</option>
+                        <option value="Cedula de extranjeria">Cédula de extranjeria</option>                   
+                        <option value="NIT">NIT</option>
+                        <option value="Tarjeta de identidad">Tarjeta de identidad</option>
+                        <option value="PPT">PPT</option>
+                        <option value="Pasaporte">Pasaporte</option>
+                        <option value="Fideicomiso">Fideicomiso</option>
+                        <option value="Registro civil">Registro civil</option>
+                    </select>
+                </div>
+
+                <div className="input-group">
+                    <label htmlFor="cedula">Cédula de ciudadanía</label>
+                    <div className="input-wrapper">
+                        <input
+                            type="number"
+                            id="cedula"
+                            placeholder="Cédula del titular"
+                            value={cedula}
+                            onChange={(e) => setCedula(e.target.value)}
+                        />
+                    </div>
+                </div>
+
+                <div className="input-group">
                     <label htmlFor="correo">Correo electronico</label>
                     <div className="input-wrapper">
                         <input
@@ -101,12 +137,20 @@ export default function NequiPage() {
 
                 <div className="button-group">
                     <button onClick={() => router.push("/")}>Atrás</button>
-                    <button 
-                        id="continuar2" 
-                        onClick={guardarYRedirigir} 
-                        disabled={!esValido}
-                        className={`${esValido ? "bg-[#3b5110] hover:bg-[#589013]" : "bg-gray-300 cursor-not-allowed"} text-white`}
-
+                    <button
+                        id="continuar2"
+                        onClick={guardarYRedirigir}
+                        disabled={
+                            nombreCompleto.trim() === "" || 
+                            telefonoNequi.trim() === "" || 
+                            cedula.trim() === "" || 
+                            tipoDocumento.trim() === ""
+                        }
+                        className={`${
+                            nombreCompleto.trim() !== "" && telefonoNequi.trim() !== "" && cedula.trim() !== "" && tipoDocumento.trim() !== "" 
+                                ? "bg-[#3b5110] hover:bg-[#589013]" 
+                                : "bg-gray-300 cursor-not-allowed"
+                        } text-white font-bold py-2 px-4 rounded`}
                     >
                         Continuar
                     </button>
