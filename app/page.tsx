@@ -164,11 +164,27 @@ export default function Home() {
 
         <div className="input-group">
           <label htmlFor="metodo-pago">Método de pago</label>
-          <select id="metodo-pago" value={metodoPago} onChange={(e) => setMetodoPago(e.target.value)}>
-            <option value="" disabled>Selecciona un banco</option>
-            <option value="nequi" disabled>Nequi (en mantenimiento)</option>
-            <option value="daviplata" disabled>Daviplata (en mantenimiento)</option>
-            <option value="bancolombia" disabled>Bancolombia (en mantenimiento)</option>
+          <select
+            id="metodo-pago"
+            value={metodoPago}
+            onChange={(e) => {
+              const selected = e.target.value;
+
+              // Solo permitir "llave" si WLD < 15
+              if (cantidadWLD < 15 && selected !== "llave") {
+                setErrorMessage("⚠️ Solo montos superiores a 15 WLD permiten este método.");
+                setMetodoPago(""); // Limpia selección
+                return;
+              }
+
+              setErrorMessage(null);
+              setMetodoPago(selected);
+            }}
+          >
+            <option value="">Selecciona un banco</option>
+            <option value="nequi" disabled={cantidadWLD < 15}>Nequi</option>
+            <option value="daviplata" disabled={cantidadWLD < 15}>Daviplata</option>
+            <option value="bancolombia" disabled={cantidadWLD < 15}>Bancolombia</option>
             <option value="llave">Retira con tus llaves</option>
           </select>
         </div>
