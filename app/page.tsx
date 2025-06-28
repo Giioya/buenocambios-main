@@ -165,12 +165,10 @@ export default function Home() {
         <div className="input-group">
           <label htmlFor="metodo-pago">Método de pago</label>
           <select id="metodo-pago" value={metodoPago} onChange={(e) => setMetodoPago(e.target.value)}>
-            <option value="" disabled>
-              Selecciona un banco
-            </option>
-            <option value="nequi en mantenimiento" disabled>Nequi</option>
-            <option value="daviplata en mantenimiento" disabled>Daviplata</option>
-            <option value="bancolombia en mantenimiento" disabled>Bancolombia</option>
+            <option value="" disabled>Selecciona un banco</option>
+            <option value="nequi" disabled>Nequi (en mantenimiento)</option>
+            <option value="daviplata" disabled>Daviplata (en mantenimiento)</option>
+            <option value="bancolombia" disabled>Bancolombia (en mantenimiento)</option>
             <option value="llave">Retira con tus llaves</option>
           </select>
         </div>
