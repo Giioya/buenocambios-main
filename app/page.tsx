@@ -168,9 +168,9 @@ export default function Home() {
             <option value="" disabled>
               Selecciona un banco
             </option>
-            <option value="nequi (en mantenimiento)" disabled>Nequi</option>
-            <option value="daviplata (en mantenimiento)" disabled>Daviplata</option>
-            <option value="bancolombia (en mantenimiento)" disabled>Bancolombia</option>
+            <option value="nequi en mantenimiento" disabled>Nequi</option>
+            <option value="daviplata en mantenimiento" disabled>Daviplata</option>
+            <option value="bancolombia en mantenimiento" disabled>Bancolombia</option>
             <option value="llave">Retira con tus llaves</option>
           </select>
         </div>
