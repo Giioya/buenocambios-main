@@ -172,7 +172,7 @@ export default function Home() {
 
               // Solo permitir "llave" si WLD < 15
               if (cantidadWLD < 10 && selected !== "llave") {
-                setErrorMessage("⚠️ Solo montos superiores a 15 WLD permiten este método.");
+                setErrorMessage("⚠️ Solo montos superiores a 10 WLD permiten este método.");
                 setMetodoPago(""); // Limpia selección
                 return;
               }
