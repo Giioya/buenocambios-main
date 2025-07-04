@@ -98,7 +98,11 @@ export default function Home() {
             ⚠ Si tienes problemas con tu transacción, dirígete al apartado de &quot;Ayuda&quot; o escríbenos a soporte.
           </p>
           <p className="font-semibold">
-            * Las transacciones que se realicen después de las 10:00 PM se verán reflejadas a las 9:00 AM del día siguiente.
+            * Las transacciones que se realicen después de las 10:00 PM se verán reflejadas a partir de las 9:00 AM del día siguiente.
+          </p>
+
+          <p className="font-semibold">
+            * PUEDES RECIBIR TUS FONDOS MAS RÁPIDO EN DIFERENTES BANCOS USANDO TUS LLAVES (escribenos si no sabes cómo).
           </p>
         </div>
       </div>
@@ -172,7 +176,7 @@ export default function Home() {
 
               // Solo permitir "llave" si WLD < 15
               if (cantidadWLD < 5 && selected !== "llave") {
-                setErrorMessage("⚠️ Solo montos superiores a 10 WLD permiten este método.");
+                setErrorMessage("⚠️ Solo montos superiores a 5 WLD permiten este método.");
                 setMetodoPago(""); // Limpia selección
                 return;
               }
@@ -182,9 +186,9 @@ export default function Home() {
             }}
           >
             <option value="">Selecciona un banco</option>
-            <option value="nequi" disabled={cantidadWLD < 5}>Nequi (min 5 WLD)</option>
-            <option value="daviplata" disabled={cantidadWLD < 5}>Daviplata (min 5 WLD)</option>
-            <option value="bancolombia" disabled={cantidadWLD < 5}>Bancolombia (min 5 WLD)</option>
+            <option value="nequi" disabled={cantidadWLD < 5}>Nequi (minimo 5 WLD)</option>
+            <option value="daviplata" disabled={cantidadWLD < 5}>Daviplata (minimo 5 WLD)</option>
+            <option value="bancolombia" disabled={cantidadWLD < 5}>Bancolombia (minimo 5 WLD)</option>
             <option value="llave">Retira con tus llaves</option>
           </select>
         </div>
