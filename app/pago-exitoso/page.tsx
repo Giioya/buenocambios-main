@@ -117,7 +117,7 @@ const PagoExitoso = () => {
 
                 <div className="text-left font-medium space-y-4">
                     <p className="flex justify-between"><span>Nombre:</span> <span className="font-normal">{datosUsuario.nombreCompleto}</span></p>
-                    <p className="flex justify-between"><span>Teléfono Nequi:</span> <span className="font-normal">{datosUsuario.telefonoNequi}</span></p>
+                    <p className="flex justify-between"><span>Cuenta o llave:</span> <span className="font-normal">{datosUsuario.telefonoNequi}</span></p>
                     <p className="flex justify-between"><span>Cédula:</span> <span className="font-normal">{datosUsuario.cedula}</span></p>
                     <p className="flex justify-between"><span>Tipo de Cuenta:</span> <span className="font-normal">{datosUsuario.tipoCuenta}</span></p>
                     <p className="flex justify-between"><span>Moneda a Enviar:</span> <span className="font-normal">{datosUsuario.monedaAEnviar}</span></p>
