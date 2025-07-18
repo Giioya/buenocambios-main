@@ -24,7 +24,7 @@ const Soporte: React.FC = () => {
                     Correo: <a href={correoLink} className="text-blue-600 hover:underline">{correo}</a>
                 </p>
                 <p className="text-gray-600 mb-4">
-                    Horario de atención: Lunes a Domingo de 9:00 AM a 10:00 PM
+                    Horario de atención: Lunes a Domingo de 9:00 AM a 8:00 PM
                 </p>
                 <div className="flex flex-col gap-3 w-full">
                     {<button
