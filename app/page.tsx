@@ -175,8 +175,7 @@ export default function Home() {
               const selected = e.target.value;
 
               // Solo permitir "llave" si WLD < 15
-              if (cantidadWLD < 5 && selected !== "llave") {
-                setErrorMessage("⚠️ Solo montos superiores a 5 WLD permiten este método.");
+              if (cantidadWLD < 3 && selected !== "llave") {
                 setMetodoPago(""); // Limpia selección
                 return;
               }
@@ -186,10 +185,10 @@ export default function Home() {
             }}
           >
             <option value="">Selecciona un banco</option>
-            <option value="nequi" disabled={cantidadWLD < 5}>Nequi (minimo 5 WLD)</option>
-            <option value="daviplata" disabled={cantidadWLD < 5}>Daviplata (minimo 5 WLD)</option>
-            <option value="bancolombia" disabled={cantidadWLD < 5}>Bancolombia (minimo 5 WLD)</option>
-            <option value="llave">Retira con tus llaves</option>
+            <option value="nequi" disabled={cantidadWLD < 3}>Nequi (minimo 3 WLD)</option>
+            <option value="daviplata" disabled={cantidadWLD < 3}>Daviplata (minimo 3 WLD)</option>
+            <option value="bancolombia" disabled={cantidadWLD < 3}>Bancolombia (minimo 3 WLD)</option>
+            <option value="llave">Retira con tus  (🚀 MÁS RÁPIDO)</option>
           </select>
         </div>
 
