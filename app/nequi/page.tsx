@@ -62,9 +62,6 @@ export default function NequiPage() {
         <div className="w-full max-w-3xl mb-4">
             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md shadow-md">
             <p className="font-semibold text-center">⚠ Por favor no usar tildes.</p>
-            <p className="font-semibold text-center">
-                Nuestro sistema de pagos Nequi se encuentra SATURADO lo que puede causar retardos en los pagos pero, no te preocupes, tambien puedes usar tus llaves para recibir a Nequi mas rapido.
-            </p>
             </div>
         </div>
 
