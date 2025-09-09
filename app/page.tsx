@@ -180,7 +180,7 @@ export default function Home() {
             onChange={(e) => {
               const selected = e.target.value;
 
-              // Solo permitir "llave" si WLD < 15
+              // Solo permitir "llave" si WLD < 3
               if (cantidadWLD < 3 && selected !== "llave") {
                 setMetodoPago(""); // Limpia selección
                 return;
@@ -191,10 +191,10 @@ export default function Home() {
             }}
           >
             <option value="">Selecciona un banco</option>
-            <option value="nequi" disabled={cantidadWLD < 3}>Nequi (minimo 3 WLD)</option>
-            <option value="daviplata" disabled={cantidadWLD < 3}>Daviplata (minimo 3 WLD)</option>
-            <option value="bancolombia" disabled={cantidadWLD < 3}>Bancolombia (minimo 3 WLD)</option>
-            <option value="llave">Retira con llaves Bre-B(🚀 MÁS RÁPIDO)</option>
+            <option value="nequi" disabled={cantidadWLD < 500}>Nequi (En mantenimiento)</option>
+            <option value="daviplata" disabled={cantidadWLD < 500}>Daviplata (En mantenimiento)</option>
+            <option value="bancolombia" disabled={cantidadWLD < 500}>Bancolombia (En mantenimiento)</option>
+            <option value="llave" disabled={cantidadWLD < 500}>Retira con llaves Bre-B(En mantenimiento)</option>
           </select>
         </div>
 
