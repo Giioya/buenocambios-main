@@ -177,6 +177,8 @@ const getStatusMessage = (status: string) => {
             return "Tus datos no coinciden\ncon la cuenta bancaria.\nPor favor contacta\na soporte.";
         case "DEVUELTO":
             return "La transacción\nno pudo completarse.\nTus fondos han\nsido devueltos.";
+        case "EN REVISIÓN":
+            return "La transacción\nse encuentra en revisión.\ndebido al fallo del dia\n9 de septiembre.";
         default:
             return "";
     }
