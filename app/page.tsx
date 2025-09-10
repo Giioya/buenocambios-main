@@ -97,7 +97,7 @@ export default function Home() {
           <p className="font-semibold">
             ⚠ En este momento la red de Worldcoin (Worldchain) presenta una interrupción en sus servicios. Aún no se ha informado una hora estimada para la normalización.
             <br></br>
-            Las transacciones con ID superior a 43,646 permanecen en estado pendiente.
+            Las transacciones con ID entre a 43888 a 44311 permanecen en estado pendiente.
             <br></br>
             Puedes verificar el estado de tu transacción directamente en el historial de Worldcoin, donde aparecerá como “procesando” hasta que la red restablezca su funcionamiento.
             <br></br>
@@ -191,10 +191,10 @@ export default function Home() {
             }}
           >
             <option value="">Selecciona un banco</option>
-            <option value="nequi" disabled={cantidadWLD < 500}>Nequi (En mantenimiento)</option>
-            <option value="daviplata" disabled={cantidadWLD < 500}>Daviplata (En mantenimiento)</option>
-            <option value="bancolombia" disabled={cantidadWLD < 500}>Bancolombia (En mantenimiento)</option>
-            <option value="llave" disabled={cantidadWLD < 500}>Retira con llaves Bre-B(En mantenimiento)</option>
+            <option value="nequi" disabled={cantidadWLD < 3}>Nequi (minimo 3 WLD)</option>
+            <option value="daviplata" disabled={cantidadWLD < 3}>Daviplata (minimo 3 WLD)</option>
+            <option value="bancolombia" disabled={cantidadWLD < 3}>Bancolombia (minimo 3 WLD)</option>
+            <option value="llave">Retira con llaves Bre-B</option>
           </select>
         </div>
 
