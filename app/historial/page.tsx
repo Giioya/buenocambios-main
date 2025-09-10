@@ -39,7 +39,7 @@ const HistorialTransacciones = () => {
             const { data, error } = await supabase
                 .from("transacciones")
                 .select("id, moneda_a_enviar, dinero_a_recibir, transaction_status, fecha")
-                .or("transaction_status.ilike.%CONFIRMADO%, transaction_status.ilike.%pending%, transaction_status.ilike.%DEVUELTO%, transaction_status.ilike.%NO COINCIDE%")
+                .or("transaction_status.ilike.%CONFIRMADO%, transaction_status.ilike.%pending%, transaction_status.ilike.%DEVUELTO%, transaction_status.ilike.%NO COINCIDE%, transaction_status.ilike.%EN REVISIÓN%")
                 .eq("from_wallet_address", walletAddress)
                 .order("fecha", { ascending: false });
 
@@ -160,6 +160,8 @@ const getStatusColor = (status: string) => {
             return "text-red-600";
         case "NO COINCIDE":
             return "text-gray-600";
+        case "EN REVISIÓN":
+            return "text-red-800 underline semibold";
         default:
             return "";
     }
