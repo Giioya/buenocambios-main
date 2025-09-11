@@ -95,13 +95,11 @@ export default function Home() {
       <div className="w-full max-w-2xl mb-4 flex justify-center">
         <div className="bg-yellow-50 border-l-4 border-yellow-500 text-red-600 text-sm p-2 rounded-md shadow-md text-center">
           <p className="font-bold">
-            ⚠ En este momento la red de Worldcoin (Worldchain) presenta una interrupción en sus servicios. Aún no se ha informado una hora estimada para la normalización.
+            ⚠ Importante: Las transacciones con ID entre a 43888 a 44311 ya han sido devueltas a la billetera Worldcoin.
+            <br></br>            
+            Puedes verificar el estado de tu transacción directamente en el historial de Worldcoin, donde aparecerá como “fallido”.
             <br></br>
-            Las transacciones con ID entre a 43888 a 44311 se encuentran en REVISIÓN.
-            <br></br>
-            Puedes verificar el estado de tu transacción directamente en el historial de Worldcoin, donde aparecerá como “procesando” hasta que la red restablezca su funcionamiento.
-            <br></br>
-            Agradecemos tu comprensión mientras se soluciona la situación.
+            Agradecemos tu comprensión.
           </p>
           <p className="font-semibold">
             * Las transacciones que se realicen después de las 10:00 PM se verán reflejadas a partir de las 9:00 AM del día siguiente.
