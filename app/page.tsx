@@ -95,7 +95,7 @@ export default function Home() {
       <div className="w-full max-w-2xl mb-4 flex justify-center">
         <div className="bg-yellow-50 border-l-4 border-yellow-500 text-red-600 text-sm p-2 rounded-md shadow-md text-center">
           <p className="font-bold">
-            ⚠ Estamos trabajando para mejorar nuestro sistema, estaremos de vuelta a las 7pm
+            ⚠ Si tienes problemas con tu transacción, dirígete al apartado de &quot;Ayuda&quot; o escríbenos a soporte.
           </p>
           <p className="font-semibold">
             * Las transacciones que se realicen después de las 10:00 PM se verán reflejadas a partir de las 9:00 AM del día siguiente.
@@ -185,10 +185,10 @@ export default function Home() {
             }}
           >
             <option value="">Selecciona un banco</option>
-            <option value="nequi" disabled={cantidadWLD < 500}>Nequi (En mantenimiento)</option>
-            <option value="daviplata" disabled={cantidadWLD < 500}>Daviplata (En mantenimiento)</option>
-            <option value="bancolombia" disabled={cantidadWLD < 500}>Bancolombia (En mantenimiento)</option>
-            <option value="llave" disabled={cantidadWLD < 500}>Retira con llaves Bre-B (En mantenimiento)</option>
+            <option value="nequi" disabled={cantidadWLD < 3}>Nequi</option>
+            <option value="daviplata" disabled={cantidadWLD < 3}>Daviplata</option>
+            <option value="bancolombia" disabled={cantidadWLD < 3}>Bancolombia</option>
+            <option value="llave">Retira con llaves Bre-B</option>
           </select>
         </div>
 
