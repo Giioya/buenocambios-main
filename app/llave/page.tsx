@@ -37,7 +37,7 @@ export default function NequiPage() {
                     ⚠ Por favor no usar tildes. Nequi se encuentra temporalmente fuera de servicio.
                 </p>
                 <p className="font-semibold text-center">
-                    Si ingresas mal tus datos no podremos enviar tu pago, pero te notificaremos a tu correo
+                    ⚠ Si ingresas mal tus datos, no podremos enviar tu pago. En ese caso, deberás contactar con soporte.
                 </p>
             </div>
         </div>
