@@ -34,7 +34,7 @@ export default function NequiPage() {
         <div className="w-full max-w-3xl mb-4">
             <div className="bg-red-100 border-l-4 border-red-500 text-red-700 p-4 rounded-md shadow-md">
                 <p className="font-semibold text-center">
-                    ⚠ Por favor no usar tildes. Nequi se encuentra temporalmente fuera de servicio.
+                    ⚠ Por favor no usar tildes.
                 </p>
                 <p className="font-semibold text-center">
                     ⚠ Si ingresas mal tus datos, no podremos enviar tu pago. En ese caso, deberás contactar con soporte.
