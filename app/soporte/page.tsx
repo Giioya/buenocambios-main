@@ -39,18 +39,6 @@ const Soporte: React.FC = () => {
                     >
                         <FaEnvelope /> Enviar un Correo
                     </button>
-                    <button
-                        className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-blue-700 text-white rounded-lg hover:bg-blue-800 transition-all duration-300"
-                        onClick={() => window.open(facebookLink, "_blank")}
-                    >
-                        <FaFacebook /> Sigue nuestra página de Facebook
-                    </button>
-                    <button
-                        className="w-full flex items-center justify-center gap-2 px-4 py-2 bg-blue-400 text-white rounded-lg hover:bg-blue-500 transition-all duration-300"
-                        onClick={() => window.open(telegramLink, "_blank")}
-                    >
-                        <FaTelegram /> Contactar por Telegram
-                    </button>
                 </div>
             </div>
         </div>
