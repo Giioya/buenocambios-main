@@ -1,17 +1,14 @@
 "use client";
 
 import React from "react";
-import { FaTelegram, FaEnvelope, FaFacebook, FaWhatsapp } from "react-icons/fa";
+import { FaEnvelope, FaWhatsapp } from "react-icons/fa";
 
 const Soporte: React.FC = () => {
-    const telegramNumber = "+573204855274";
-    const telegramLink = `https://t.me/${telegramNumber}`;
     const whatsappNumber = "+573237571686";
     const whatsappLink = `https://wa.me/${whatsappNumber}`;
 
     const correo = "buenocambios@gmail.com";
     const correoLink = `mailto:${correo}`;
-    const facebookLink = "https://www.facebook.com/profile.php?id=61573392065683";
 
     return (
         <div className="container mx-auto py-10">
