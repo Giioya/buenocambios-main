@@ -73,7 +73,7 @@ export default function NequiPage() {
                 <input
                 type="text"
                 id="primer_nombre"
-                placeholder="Primer nobre del titular de nequi"
+                placeholder="Primer nombre del titular de nequi"
                 value={primerNombre}
                 onChange={(e) => setPrimerNombre(validarTexto(e.target.value))}
                 />
@@ -86,7 +86,7 @@ export default function NequiPage() {
                 <input
                 type="text"
                 id="segundo_nombre"
-                placeholder="Segundo nobre (opcional)"
+                placeholder="Segundo nombre (opcional)"
                 value={segundoNombre}
                 onChange={(e) => setSegundoNombre(validarTexto(e.target.value))}
                 />
