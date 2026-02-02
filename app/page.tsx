@@ -175,7 +175,7 @@ export default function Home() {
               const selected = e.target.value;
 
               // Solo permitir "llave" si WLD < 3 Si tienes problemas con tu transacción, dirígete al apartado de &quot;Ayuda&quot; o escríbenos a soporte.
-              if (cantidadWLD < 3 && selected !== "llave") {
+              if (cantidadWLD < 1 && selected !== "llave") {
                 setMetodoPago(""); // Limpia selección
                 return;
               }
