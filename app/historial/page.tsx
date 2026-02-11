@@ -150,8 +150,16 @@ const HistorialTransacciones = () => {
     );
 };
 
+const normalizeStatus = (status: string) => {
+    const s = status.trim().toLowerCase();
+    if (s === "mined") return "CONFIRMADO";
+    return status.trim();
+};
+
 const getStatusColor = (status: string) => {
-    switch (status.trim()) {
+    const normalized = normalizeStatus(status);
+
+    switch (normalized) {
         case "CONFIRMADO":
             return "text-green-600";
         case "pending":
@@ -168,7 +176,9 @@ const getStatusColor = (status: string) => {
 };
 
 const getStatusMessage = (status: string) => {
-    switch (status.trim()) {
+    const normalized = normalizeStatus(status);
+
+    switch (normalized) {
         case "CONFIRMADO":
             return "Tu transacción\nse ha completado\ncon éxito.";
         case "pending":
@@ -183,5 +193,6 @@ const getStatusMessage = (status: string) => {
             return "";
     }
 };
+
 
 export default HistorialTransacciones;
