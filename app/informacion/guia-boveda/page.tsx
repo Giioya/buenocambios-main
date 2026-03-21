@@ -10,12 +10,24 @@ import boveda3 from '@/public/images/boveda3.jpg';
 import boveda4 from '@/public/images/boveda4.jpeg';
 
 const GuiaBoveda: React.FC = () => {
+
+    const borrarLocalStorage = () => {
+        localStorage.clear();
+        alert("Datos locales eliminados correctamente");
+        window.location.reload();
+    };
+
     return (
         <div className="max-w-3xl mx-auto p-6 bg-white shadow-md rounded-md text-black pt-20 pb-20">
-            <h1 className="text-3xl font-bold mb-4 text-center underline">¿Cómo solucionar el error &quot;sin fondos&quot;?</h1>
+            <h1 className="text-3xl font-bold mb-4 text-center underline">
+                ¿Cómo solucionar el error "sin fondos"?
+            </h1>
+
             <ol className="space-y-10 text-lg">
                 <li>
-                    <p className="mb-16 font-semibold">Si al momento de retirar tus monedas ves que el sistema te muestra &quot;sin fondos&quot;, como ves en este ejemplo:</p>
+                    <p className="mb-16 font-semibold">
+                        Si al momento de retirar tus monedas ves que el sistema te muestra "sin fondos", como ves en este ejemplo:
+                    </p>
                     <div className="mt-2 flex justify-center">
                         <Image 
                             src={errorsinfondos} 
@@ -26,12 +38,13 @@ const GuiaBoveda: React.FC = () => {
                         />
                     </div>
                 </li>
+
                 <li>
                     <p className="mb-16 font-semibold">
                         Primero, debes asegurarte de que tus fondos están disponibles para retiro y no dentro de la bóveda.
                     </p>
                     <div className="mb-16 flex justify-center">
-                        <div className="flex gap-4"> {/* Contenedor flexible para alinear las imágenes en fila */}
+                        <div className="flex gap-4">
                             <Image 
                                 src={billetera} 
                                 alt="billetera" 
@@ -49,16 +62,18 @@ const GuiaBoveda: React.FC = () => {
                         </div>
                     </div>
                     <p className="font-semibold underline">
-                        Si tus fondos están en el apartado de gastos, pero aún te aparece como &quot;fondos insuficientes&quot;, prueba a retirar una menor cantidad.  
+                        Si tus fondos están en el apartado de gastos, pero aún te aparece como "fondos insuficientes", prueba a retirar una menor cantidad.  
                         Por ejemplo, si tienes 16 monedas, intenta colocar 15.99.
                     </p>
                 </li>
 
                 <li>
-                    <h2 className="mb-4 font-semibold text-2xl">¿Qué hacer si mis fondos están en la bóveda?</h2>
+                    <h2 className="mb-4 font-semibold text-2xl">
+                        ¿Qué hacer si mis fondos están en la bóveda?
+                    </h2>
                     <p>
                         Si tus fondos están dentro de la bóveda, no podrás cambiar tus monedas a pesos hasta que retiremos estos fondos de la bóveda.  
-                        Para ello, debes presionar sobre el cuadro que dice &quot;Bóveda&quot;.
+                        Para ello, debes presionar sobre el cuadro que dice "Bóveda".
                     </p>
                     <div className="mt-16 flex justify-center">
                         <Image 
@@ -70,8 +85,11 @@ const GuiaBoveda: React.FC = () => {
                         />
                     </div>
                 </li>
+
                 <li>
-                    <p className="font-semibold">Después de lo anterior, debes presionar en el botón que dice &quot;Retirar&quot;.</p>
+                    <p className="font-semibold">
+                        Después de lo anterior, debes presionar en el botón que dice "Retirar".
+                    </p>
                     <div className="mt-16 flex justify-center">
                         <Image 
                             src={boveda3} 
@@ -82,11 +100,12 @@ const GuiaBoveda: React.FC = () => {
                         />
                     </div>
                 </li>
+
                 <li>
                     <p className="font-semibold">
                         Por último, podrás ver el tiempo que tardarán las monedas en salir de la bóveda.  
                         En nuestro ejemplo, son 7 días, pero pueden ser 3 días, 1 día o tan solo 1 hora.  
-                        Finalmente, presiona en &quot;Confirmar retiro&quot;.
+                        Finalmente, presiona en "Confirmar retiro".
                     </p>
                     <div className="mt-16 flex justify-center">
                         <Image 
@@ -99,8 +118,18 @@ const GuiaBoveda: React.FC = () => {
                     </div>
                 </li>
             </ol>
+
+            {/* 🔘 BOTÓN PARA LIMPIAR LOCALSTORAGE */}
+            <div className="mt-16 flex justify-center">
+                <button
+                    onClick={borrarLocalStorage}
+                    className="bg-red-500 hover:bg-red-600 text-white font-semibold px-6 py-3 rounded-md shadow-md transition"
+                >
+                    Reiniciar aplicación (borrar datos)
+                </button>
+            </div>
         </div>
     );
-}
+};
 
 export default GuiaBoveda;
