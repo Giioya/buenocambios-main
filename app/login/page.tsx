@@ -4,7 +4,7 @@ import { useWalletAuth } from "@/components/wallet/";
 import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 import Image from "next/image";
-import logo from "@/public/images/carga_buenocambios.jpg"; // Asegúrate de tener esta imagen en tu proyecto
+import logo from "@/public/images/carga_buenocambios.jpg";
 
 export default function LoginPage() {
     const { signInWithWallet, isLoading, walletAddress } = useWalletAuth();
@@ -24,7 +24,6 @@ export default function LoginPage() {
         }
     }, [walletAddress, router]);
 
-    // Agregar clase al body para ocultar header y footer en esta página y evitar scroll
     useEffect(() => {
         document.body.classList.add("hide-header-footer", "no-scroll");
         return () => document.body.classList.remove("hide-header-footer", "no-scroll");
@@ -32,7 +31,16 @@ export default function LoginPage() {
 
     return (
         <div className="flex flex-col items-center justify-center w-screen h-screen bg-gray-100 fixed top-0 left-0 border-8 border-[#3b5110]">
-            {/* Título con animación de brillo */}
+
+            {/* 🔘 BOTÓN IR AL INICIO */}
+            <button
+                onClick={() => router.push("/")}
+                className="absolute top-4 left-4 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md shadow-md transition"
+            >
+                ← Inicio
+            </button>
+
+            {/* Título */}
             <h1 className="text-5xl font-extrabold text-center mb-12 relative shine-effect">
                 BuenoCambios
             </h1>
@@ -57,10 +65,12 @@ export default function LoginPage() {
                 <Image src={logo} alt="Logo BuenoCambios" width={160} height={160} className="rounded-full" />
             </div>
 
-            {/* Subtítulo pequeño */}
-            <p className="text-sm text-gray-600 mb-10">Cambia tus monedas facil, rapido y seguro</p>
+            {/* Subtítulo */}
+            <p className="text-sm text-gray-600 mb-10">
+                Cambia tus monedas fácil, rápido y seguro
+            </p>
 
-            {/* Botón de inicio de sesión (fijado en la parte inferior con padding) */}
+            {/* Botón login */}
             <button
                 onClick={signInWithWallet}
                 className="bg-[#3b5110] text-white text-lg w-full py-5 mb-10 absolute bottom-0 left-0 rounded-none shadow-md hover:bg-[#589013] transition disabled:opacity-50"
@@ -68,9 +78,6 @@ export default function LoginPage() {
             >
                 {isLoading ? "Conectando..." : "Inicia sesión"}
             </button>
-
-
-
         </div>
     );
 }
