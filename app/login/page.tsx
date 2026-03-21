@@ -15,15 +15,22 @@ export default function LoginPage() {
         setIsClient(true);
     }, []);
 
+    // 🔥 REDIRECCIÓN MEJORADA
     useEffect(() => {
-        const storedWallet = typeof window !== "undefined" ? localStorage.getItem("walletAddress") : null;
-        
-        if (walletAddress || storedWallet) {
-            console.log("✅ Wallet detectada, redirigiendo a la página principal...");
-            router.push("/");
-        }
-    }, [walletAddress, router]);
+        if (!isClient) return;
 
+        const storedWallet = localStorage.getItem("walletAddress");
+
+        console.log("walletAddress:", walletAddress);
+        console.log("localStorage:", storedWallet);
+
+        if (walletAddress || storedWallet) {
+            console.log("✅ Wallet detectada, redirigiendo...");
+            router.replace("/");
+        }
+    }, [walletAddress, isClient, router]);
+
+    // Ocultar layout
     useEffect(() => {
         document.body.classList.add("hide-header-footer", "no-scroll");
         return () => document.body.classList.remove("hide-header-footer", "no-scroll");
@@ -32,13 +39,6 @@ export default function LoginPage() {
     return (
         <div className="flex flex-col items-center justify-center w-screen h-screen bg-gray-100 fixed top-0 left-0 border-8 border-[#3b5110]">
 
-            {/* 🔘 BOTÓN IR AL INICIO */}
-            <button
-                onClick={() => router.push("/")}
-                className="absolute top-4 left-4 bg-gray-500 hover:bg-gray-600 text-white px-4 py-2 rounded-md shadow-md transition"
-            >
-                ← Inicio
-            </button>
 
             {/* Título */}
             <h1 className="text-5xl font-extrabold text-center mb-12 relative shine-effect">
@@ -70,9 +70,12 @@ export default function LoginPage() {
                 Cambia tus monedas fácil, rápido y seguro
             </p>
 
-            {/* Botón login */}
+            {/* 🔥 BOTÓN LOGIN CORREGIDO */}
             <button
-                onClick={signInWithWallet}
+                onClick={async () => {
+                    await signInWithWallet();
+                    router.replace("/");
+                }}
                 className="bg-[#3b5110] text-white text-lg w-full py-5 mb-10 absolute bottom-0 left-0 rounded-none shadow-md hover:bg-[#589013] transition disabled:opacity-50"
                 disabled={isLoading}
             >
