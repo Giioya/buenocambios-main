@@ -118,7 +118,7 @@ export default function Home() {
           </span>
         </p>
         <p className="text-gray-500 text-lg font-semibold text-center">
-            Si no ves tus fondos, verifica que no los tengas en bóveda.
+            Si no ves tus fondos, presiona el boton de inicio.
         </p>
         
       </div>
