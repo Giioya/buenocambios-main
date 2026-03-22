@@ -1,3 +1,5 @@
+"use client";
+
 import { useState, useEffect } from "react";
 import { MiniKit } from "@worldcoin/minikit-js";
 
@@ -5,35 +7,25 @@ export function useWalletAuth() {
     const [walletAddress, setWalletAddress] = useState<string | null>(null);
     const [username, setUsername] = useState<string | null>(null);
     const [isLoading, setIsLoading] = useState(false);
+    const [isAuthReady, setIsAuthReady] = useState(false); // 🔥 clave
 
-    // Cargar datos desde localStorage al iniciar la app
+    // 🔥 Cargar desde localStorage
     useEffect(() => {
         if (typeof window !== "undefined") {
             const storedWallet = localStorage.getItem("walletAddress");
             const storedUsername = localStorage.getItem("username");
 
             if (storedWallet) {
-                console.log("📌 Wallet recuperada de localStorage:", storedWallet);
                 setWalletAddress(storedWallet);
-            } else {
-                console.warn("⚠️ No se encontró wallet en localStorage.");
             }
 
             if (storedUsername) {
-                console.log("📌 Username recuperado de localStorage:", storedUsername);
                 setUsername(storedUsername);
             }
         }
-    }, []);
 
-    // Verificar si MiniKit ya tiene un usuario autenticado y actualizar username
-    useEffect(() => {
-        if (!username && MiniKit.user?.username) {
-            console.log("✅ MiniKit detectó el usuario:", MiniKit.user.username);
-            setUsername(MiniKit.user.username);
-            localStorage.setItem("username", MiniKit.user.username);
-        }
-    }, [username]);
+        setIsAuthReady(true); // 👈 importante
+    }, []);
 
     const signInWithWallet = async () => {
         setIsLoading(true);
@@ -41,7 +33,6 @@ export function useWalletAuth() {
         try {
             if (!MiniKit.isInstalled()) {
                 alert("MiniKit no está instalado.");
-                setIsLoading(false);
                 return;
             }
 
@@ -57,7 +48,6 @@ export function useWalletAuth() {
 
             if (finalPayload.status === "error") {
                 alert("Error en la autenticación.");
-                setIsLoading(false);
                 return;
             }
 
@@ -68,22 +58,23 @@ export function useWalletAuth() {
             });
 
             const verifyData = await verifyRes.json();
+
             if (verifyData.status === "success" && verifyData.isValid) {
-                const address = MiniKit.user?.walletAddress ?? null;
+
+                // 🔥 CORRECTO
+                const address = MiniKit.walletAddress ?? null;
+
                 if (address) {
-                    console.log("✅ Wallet obtenida de MiniKit:", address);
                     setWalletAddress(address);
                     localStorage.setItem("walletAddress", address);
-                } else {
-                    console.warn("⚠️ MiniKit no devolvió una wallet válida.");
                 }
 
                 if (MiniKit.user?.username) {
-                    console.log("✅ Username obtenido de MiniKit:", MiniKit.user.username);
                     setUsername(MiniKit.user.username);
                     localStorage.setItem("username", MiniKit.user.username);
                 }
             }
+
         } catch (error) {
             console.error("Error en la autenticación:", error);
             alert("Hubo un problema con la autenticación.");
@@ -92,8 +83,15 @@ export function useWalletAuth() {
         }
     };
 
-    return { walletAddress, username, signInWithWallet, isLoading };
+    return {
+        walletAddress,
+        username,
+        signInWithWallet,
+        isLoading,
+        isAuthReady, // 🔥 nuevo
+    };
 }
+
 
 
 
