@@ -185,10 +185,10 @@ export default function Home() {
             }}
           >
             <option value="">Selecciona un banco</option>
-            <option value="nequi" disabled={cantidadWLD < 999}> Nequi (en mantenimiento)</option>
-            <option value="daviplata" disabled={cantidadWLD < 999}> Daviplata (en mantenimiento)</option>
-            <option value="bancolombia" disabled={cantidadWLD < 999}> Bancolombia (en mantenimiento)</option>
-            <option value="llave" disabled={cantidadWLD < 999}> Retira con llaves Bre-B</option>
+            <option value="nequi" disabled={cantidadWLD < 1}> Nequi</option>
+            <option value="daviplata" disabled={cantidadWLD < 1}> Daviplata</option>
+            <option value="bancolombia" disabled={cantidadWLD < 1}> Bancolombia</option>
+            <option value="llave"> Retira con llaves Bre-B</option>
           </select>
         </div>
 
