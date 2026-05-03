@@ -1,118 +1,116 @@
 "use client";
-import {
-  MiniKit,
-  tokenToDecimals,
-  Tokens,
-  PayCommandInput,
-} from "@worldcoin/minikit-js";
-import { useRouter } from "next/navigation"; // Usamos el enrutador de Next.js
+
+import { MiniKit } from "@worldcoin/minikit-js";
+import { useRouter } from "next/navigation";
 import { useEffect, useState } from "react";
 
-export const PayBlock = () => {
-  const router = useRouter(); // Hook de enrutamiento
-  const [paymentSuccess, setPaymentSuccess] = useState<boolean | null>(null); // Estado para saber si el pago fue exitoso
+const toDecimals = (amount: number, decimals = 18) => {
+  return BigInt(Math.floor(amount * 10 ** decimals)).toString();
+};
 
-  const sendPayment = async () => {
-    try {
-      const res = await fetch(`/api/initiate-payment`, {
-        method: "POST",
-      });
-
-      const { id } = await res.json();
-      console.log("ID de la transacción:", id);
-
-      const monedaAEnviar = localStorage.getItem("moneda_a_enviar");
-
-      if (!monedaAEnviar || isNaN(Number(monedaAEnviar))) {
-        console.error("Cantidad de WLD no válida");
-        return null;
-      }
-
-      const payload: PayCommandInput = {
-        reference: id,
-        to: "0x1ffb26b25ea5b04206b0db888d974b5c632776cf", 
-        tokens: [
-          {
-            symbol: Tokens.WLD,
-            token_amount: tokenToDecimals(Number(monedaAEnviar), Tokens.WLD).toString(),
-          },
-        ],
-        description: "Retirando monedas",
-      };
-
-      console.log("Payload enviado a MiniKit:", payload);
-
-      if (MiniKit.isInstalled()) {
-        return await MiniKit.commandsAsync.pay(payload);
-      }
-      return null;
-    } catch (error: unknown) {
-      console.log("Error al enviar el pago:", error);
-      return null;
-    }
-  };
+export const PayBlock = ({ transaccionId }: { transaccionId: string }) => {
+  const router = useRouter();
+  const [paymentSuccess, setPaymentSuccess] = useState<boolean | null>(null);
 
   const handlePay = async () => {
     try {
-      const sendPaymentResponse = await sendPayment();
-      console.log("Respuesta de MiniKit:", sendPaymentResponse);
+      console.log("🚀 INICIO PAYBLOCK");
 
-      if (!sendPaymentResponse) {
-        console.error("Error: MiniKit no devolvió respuesta.");
+      if (!MiniKit.isInstalled()) {
+        console.warn("❌ MiniKit NO instalado");
         return;
       }
 
-      const response = await sendPaymentResponse.finalPayload; 
-      console.log("Respuesta del pago:", response);
+      // 🔹 1. reference backend
+      const res = await fetch("/api/initiate-payment", { method: "POST" });
 
-      if (!response) {
-        console.error("Error: No se recibió respuesta de pago.");
+      console.log("📡 initiate-payment status:", res.status);
+
+      const refData = await res.json();
+      console.log("🧾 reference response:", refData);
+
+      const reference = refData?.id;
+
+      if (!reference) {
+        console.error("❌ No llegó reference del backend");
         return;
       }
 
-      // Verifica si la respuesta es exitosa
-      if (response.status === "success") {
-        const res = await fetch(`/api/confirm-payment`, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ payload: response }),
-        });
+      // 🔹 2. wallet data
+      const monedaAEnviar = localStorage.getItem("moneda_a_enviar");
+      const wallet = localStorage.getItem("walletAddress");
 
-        const payment = await res.json();
-        console.log("Respuesta del servidor de pago:", payment);
+      console.log("💰 monedaAEnviar:", monedaAEnviar);
+      console.log("👛 wallet:", wallet);
 
-        if (payment.success) {
-          console.log("¡Pago exitoso!");
-          setPaymentSuccess(true); // Establece el estado como exitoso
-        } else {
-          console.log("Pago fallido");
-          setPaymentSuccess(false); // Establece el estado como fallido
-        }
-      } else {
-        console.log("El estado del pago no fue 'success'.");
-        setPaymentSuccess(false);
+      if (!monedaAEnviar) {
+        console.error("❌ monedaAEnviar no existe");
+        return;
       }
+
+      // 🔹 3. PAY
+      console.log("💳 Ejecutando MiniKit.pay...");
+
+      const result = await MiniKit.pay({
+        reference,
+        to: "0x1ffb26b25ea5b04206b0db888d974b5c632776cf",
+        tokens: [
+          {
+            symbol: "WLD" as any,
+            token_amount: toDecimals(Number(monedaAEnviar)),
+          },
+        ],
+        description: "Retirando monedas",
+      });
+
+      console.log("📦 FULL MiniKit result:", result);
+      console.log("⚙️ executedWith:", result.executedWith);
+      console.log("🔑 result.data:", result.data);
+      
+
+      if (!result.data?.transactionId) {
+        console.error("❌ NO transactionId en respuesta");
+        return;
+      }
+
+      // 🔹 4. CONFIRM BACKEND
+      console.log("📤 Enviando confirm-payment...");
+
+      const confirmRes = await fetch("/api/confirm-payment", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          payload: {
+            transactionId: result.data.transactionId,
+            reference,
+            transaccionId,
+            fromWalletAddress: wallet,
+          },
+        }),
+      });
+
+      console.log("📡 confirm-payment status:", confirmRes.status);
+
+      const payment = await confirmRes.json();
+
+      console.log("📥 backend response:", payment);
+
+      
+
+      setPaymentSuccess(payment.success);
+
     } catch (error) {
-      console.error("Error en handlePay:", error);
-      setPaymentSuccess(false); // En caso de error, marcar como fallido
+      console.error("💥 ERROR EN PAYBLOCK:", error);
+      setPaymentSuccess(false);
     }
   };
 
-  // Redirige a la página de pago exitoso si el pago fue exitoso
   useEffect(() => {
     if (paymentSuccess) {
-      console.log("Redirigiendo a la página de pago exitoso...");
-      router.push("/pago-exitoso"); // Realiza la redirección
-    } 
+      console.log("➡️ REDIRECCIÓN A /pago-exitoso");
+      router.push("/pago-exitoso");
+    }
   }, [paymentSuccess, router]);
 
-    return (
-      <button 
-          className="button-group" 
-          onClick={handlePay}
-      >
-          Confirmar retiro
-      </button>
-  );
+  return <button onClick={handlePay}>Confirmar retiro</button>;
 };
-

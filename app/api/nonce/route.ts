@@ -1,13 +1,18 @@
 import { NextResponse } from "next/server";
 
 export async function GET() {
-  // Generar un nonce aleatorio (mínimo 8 caracteres alfanuméricos)
-    const nonce = crypto.randomUUID().replace(/-/g, "");
+  // 🔹 nonce alfanumérico (válido)
+  const nonce = crypto.randomUUID().replace(/-/g, "");
 
-    // Crear la respuesta y setear la cookie
-    const response = NextResponse.json({ nonce });
-    response.cookies.set("siwe", nonce, { secure: true });
+  const response = NextResponse.json({ nonce });
 
-    return response;
+  response.cookies.set("siwe", nonce, {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === "production", // 👈 clave
+    sameSite: "lax",
+    path: "/",
+    maxAge: 60 * 10, // 10 minutos
+  });
+
+  return response;
 }
-

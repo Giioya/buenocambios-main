@@ -7,7 +7,7 @@ import Image from "next/image";
 import logo from "@/public/images/carga_buenocambios.jpg";
 
 export default function LoginPage() {
-    const { signInWithWallet, isLoading, walletAddress } = useWalletAuth();
+    const { signInWithWallet, isLoading, walletAddress, username } = useWalletAuth();
     const router = useRouter();
     const [isClient, setIsClient] = useState(false);
 
@@ -20,9 +20,12 @@ export default function LoginPage() {
         if (!isClient) return;
 
         const storedWallet = localStorage.getItem("walletAddress");
+        const storedUsername = localStorage.getItem("username");
 
         console.log("walletAddress:", walletAddress);
         console.log("localStorage:", storedWallet);
+        console.log("username:", username);
+        console.log("localStorage:", storedUsername);
 
         if (walletAddress || storedWallet) {
             console.log("✅ Wallet detectada, redirigiendo...");
