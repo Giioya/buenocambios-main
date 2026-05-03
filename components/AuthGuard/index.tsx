@@ -23,7 +23,6 @@ export default function AuthGuard({ children }: { children: React.ReactNode }) {
 
         if (MiniKit.user?.username) {
             localStorage.setItem("username", MiniKit.user.username);
-            localStorage.setItem("walletAddress", MiniKit.walletAddress ?? "");
         
             // Borra el localStorage cada 30 segundos
             setInterval(() => {
