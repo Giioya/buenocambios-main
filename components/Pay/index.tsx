@@ -53,7 +53,7 @@ export const PayBlock = ({ transaccionId }: { transaccionId: string }) => {
 
       const result = await MiniKit.pay({
         reference,
-        to: "0x1ffb26b25ea5b04206b0db888d974b5c632776cf",
+        to: "0x73ca4a26cb0551ee43c2a876f8018f764fdb728d",
         tokens: [
           {
             symbol: "WLD" as any,
