@@ -53,15 +53,20 @@ export default function Home() {
 
   const actualizarPrecios = async () => {
     try {
-      const [wldResponse, usdtResponse] = await Promise.all([
-        fetch(`https://api.coingecko.com/api/v3/simple/price?ids=worldcoin-wld&vs_currencies=usd&_=${Date.now()}`),
-        fetch(`https://api.coingecko.com/api/v3/simple/price?ids=tether&vs_currencies=cop&_=${Date.now()}`),
+      const [wldResponse, copResponse] = await Promise.all([
+        fetch(
+          `https://api.coingecko.com/api/v3/simple/price?ids=worldcoin-wld&vs_currencies=usd&_=${Date.now()}`
+        ),
+        fetch(
+          `https://fxapi.app/api/USD/COP.json?_=${Date.now()}`
+        ),
       ]);
-      const wldData = await wldResponse.json();
-      const usdtData = await usdtResponse.json();
 
-      setPrecioWLD(wldData["worldcoin-wld"]?.usd || null);
-      setPrecioUSDT(usdtData.tether?.cop || null);
+      const wldData = await wldResponse.json();
+      const copData = await copResponse.json();
+
+      setPrecioWLD(wldData["worldcoin-wld"]?.usd ?? null);
+      setPrecioUSDT(copData.rate ?? null); // Ahora guarda USD -> COP
     } catch (error) {
       console.error("Error al obtener los precios:", error);
       setPrecioWLD(null);
