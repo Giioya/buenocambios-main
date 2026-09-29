@@ -1,3 +1,4 @@
+
 "use client";
 
 import { useState, useEffect } from "react";
@@ -141,23 +142,29 @@ export default function Home() {
     cantidadWLD > saldoDisponible;
 
   return (
-    <div className="min-h-screen bg-gray-50 px-4 py-6">
+    <div className="min-h-screen bg-[#F7F9F5] px-4 py-6">
 
       {/* AVISO */}
       <div className="mx-auto w-full max-w-xl mb-5">
-        <div className="rounded-2xl border border-yellow-200 bg-yellow-50 p-4 shadow-sm">
-          <div className="flex gap-3">
-            <div className="text-xl">⚠️</div>
 
-            <div className="text-sm text-yellow-900">
+        <div className="rounded-2xl border border-[#D7E8C5] bg-[#F1F7EA] p-4 shadow-sm">
+
+          <div className="flex gap-3">
+
+            <div className="text-xl">
+              ⚠️
+            </div>
+
+            <div className="text-sm text-[#3F5F1F]">
+
               <p className="font-bold mb-1">
                 Información importante
               </p>
 
               <p className="leading-relaxed">
                 Si tienes problemas con tu transacción,
-                dirígete al apartado de <strong>Ayuda</strong>{" "}
-                o escríbenos a soporte.
+                dirígete al apartado de{" "}
+                <strong>Ayuda</strong> o escríbenos a soporte.
               </p>
 
               <p className="mt-2 leading-relaxed">
@@ -166,15 +173,21 @@ export default function Home() {
                 a partir de las <strong>9:00 AM</strong> del
                 día siguiente.
               </p>
+
             </div>
+
           </div>
+
         </div>
+
       </div>
+
 
       {/* TARJETA PRINCIPAL */}
       <div className="mx-auto w-full max-w-xl">
 
-        <div className="rounded-3xl bg-white shadow-xl border border-gray-100 overflow-hidden">
+        <div className="rounded-3xl bg-white shadow-xl border border-[#E3EBDD] overflow-hidden">
+
 
           {/* ENCABEZADO */}
           <div className="px-6 pt-6 pb-5">
@@ -182,6 +195,7 @@ export default function Home() {
             <div className="flex items-center justify-between">
 
               <div>
+
                 <p className="text-sm text-gray-500">
                   {username
                     ? `Bienvenido, ${username}`
@@ -193,32 +207,40 @@ export default function Home() {
                 <h1 className="text-2xl font-bold text-gray-900 mt-1">
                   Retirar WLD
                 </h1>
+
               </div>
 
-              <div className="h-12 w-12 rounded-full bg-gray-100 flex items-center justify-center">
+
+              {/* ICONO WLD */}
+              <div className="h-12 w-12 rounded-full bg-[#F1F7EA] border border-[#D7E8C5] flex items-center justify-center">
+
                 <Image
                   src={monedaEnviarImg.src}
                   alt="WLD"
                   width={30}
                   height={30}
                 />
+
               </div>
 
             </div>
 
           </div>
 
+
           {/* SALDO */}
-          <div className="mx-6 mb-6 rounded-2xl bg-gray-900 px-5 py-4 text-white">
+          <div className="mx-6 mb-6 rounded-2xl bg-[#3F6B0D] px-5 py-4 text-white">
 
             <div className="flex items-center justify-between">
 
               <div>
-                <p className="text-sm text-gray-400">
+
+                <p className="text-sm text-[#D7E8C5]">
                   Saldo disponible
                 </p>
 
                 <p className="text-3xl font-bold mt-1">
+
                   {saldoDisponible.toLocaleString(
                     "es-CO",
                     {
@@ -226,34 +248,45 @@ export default function Home() {
                       maximumFractionDigits: 2,
                     }
                   )}
-                  <span className="text-lg text-gray-400 ml-2">
+
+                  <span className="text-lg text-[#D7E8C5] ml-2">
                     WLD
                   </span>
+
                 </p>
+
               </div>
 
-              <Image
-                src={monedaEnviarImg.src}
-                alt="WLD"
-                width={42}
-                height={42}
-              />
+
+              <div className="h-12 w-12 rounded-full bg-white/10 flex items-center justify-center">
+
+                <Image
+                  src={monedaEnviarImg.src}
+                  alt="WLD"
+                  width={42}
+                  height={42}
+                />
+
+              </div>
 
             </div>
 
-            <p className="text-xs text-gray-400 mt-3">
+            <p className="text-xs text-[#D7E8C5] mt-3">
               Si no ves tus fondos, presiona el botón de inicio.
             </p>
 
           </div>
 
+
           {/* FORMULARIO */}
           <div className="px-6 pb-6">
+
 
             {/* WLD */}
             <div className="mb-5">
 
               <div className="flex justify-between items-center mb-2">
+
                 <label
                   htmlFor="moneda_a_enviar"
                   className="text-sm font-semibold text-gray-700"
@@ -261,22 +294,25 @@ export default function Home() {
                   Quiero retirar
                 </label>
 
+
                 <button
                   type="button"
                   onClick={() =>
                     setCantidadWLD(saldoDisponible)
                   }
-                  className="text-sm font-semibold text-blue-500 hover:text-blue-700 transition"
+                  className="text-sm font-semibold text-[#589013] hover:text-[#3F6B0D] transition"
                 >
                   Retiro máximo
                 </button>
+
               </div>
+
 
               <div
                 className={`flex items-center rounded-2xl border px-4 py-3 transition ${
                   fondosInsuficientes
                     ? "border-red-400 bg-red-50"
-                    : "border-gray-200 bg-gray-50 focus-within:border-blue-500 focus-within:bg-white"
+                    : "border-gray-200 bg-gray-50 focus-within:border-[#589013] focus-within:bg-white"
                 }`}
               >
 
@@ -287,6 +323,7 @@ export default function Home() {
                   height={32}
                   className="mr-3"
                 />
+
 
                 <input
                   type="number"
@@ -304,11 +341,13 @@ export default function Home() {
                   className="w-full bg-transparent outline-none text-2xl font-bold text-gray-900"
                 />
 
+
                 <span className="font-bold text-gray-500">
                   WLD
                 </span>
 
               </div>
+
 
               {fondosInsuficientes && (
                 <p className="text-red-500 text-sm mt-2">
@@ -318,12 +357,16 @@ export default function Home() {
 
             </div>
 
+
             {/* FLECHA */}
             <div className="flex justify-center -my-1 mb-4">
-              <div className="h-9 w-9 rounded-full bg-gray-100 border-4 border-white flex items-center justify-center text-gray-500">
+
+              <div className="h-9 w-9 rounded-full bg-[#F1F7EA] border-4 border-white flex items-center justify-center text-[#589013] font-bold">
                 ↓
               </div>
+
             </div>
+
 
             {/* COP */}
             <div className="mb-5">
@@ -335,7 +378,8 @@ export default function Home() {
                 Recibirás aproximadamente
               </label>
 
-              <div className="flex items-center rounded-2xl border border-green-200 bg-green-50 px-4 py-4">
+
+              <div className="flex items-center rounded-2xl border border-[#D7E8C5] bg-[#F1F7EA] px-4 py-4">
 
                 <Image
                   src={dineroRecibirImg.src}
@@ -344,6 +388,7 @@ export default function Home() {
                   height={32}
                   className="mr-3"
                 />
+
 
                 <input
                   type="text"
@@ -354,13 +399,15 @@ export default function Home() {
                   className="w-full bg-transparent outline-none text-2xl font-bold text-gray-900"
                 />
 
-                <span className="font-bold text-green-700">
+
+                <span className="font-bold text-[#589013]">
                   COP
                 </span>
 
               </div>
 
             </div>
+
 
             {/* MÉTODO DE PAGO */}
             <div className="mb-5">
@@ -372,10 +419,12 @@ export default function Home() {
                 Método de pago
               </label>
 
+
               <select
                 id="metodo-pago"
                 value={metodoPago}
                 onChange={(e) => {
+
                   const selected = e.target.value;
 
                   if (
@@ -388,8 +437,9 @@ export default function Home() {
 
                   setErrorMessage(null);
                   setMetodoPago(selected);
+
                 }}
-                className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-4 text-gray-900 font-semibold outline-none focus:border-blue-500 focus:bg-white transition"
+                className="w-full rounded-2xl border border-gray-200 bg-gray-50 px-4 py-4 text-gray-900 font-semibold outline-none focus:border-[#589013] focus:bg-white transition"
               >
 
                 <option value="">
@@ -423,6 +473,7 @@ export default function Home() {
 
               </select>
 
+
               {cantidadWLD < 1 && (
                 <p className="text-xs text-gray-500 mt-2">
                   Para retirar a bancos necesitas ingresar
@@ -432,12 +483,14 @@ export default function Home() {
 
             </div>
 
+
             {/* ERROR */}
             {errorMessage && (
               <div className="mb-5 rounded-xl bg-red-50 border border-red-200 px-4 py-3 text-sm font-semibold text-red-600">
                 ⚠️ {errorMessage}
               </div>
             )}
+
 
             {/* BOTÓN */}
             <button
@@ -456,11 +509,12 @@ export default function Home() {
               className={`w-full rounded-2xl py-4 text-lg font-bold transition-all ${
                 fondosInsuficientes
                   ? "bg-gray-200 text-gray-400 cursor-not-allowed"
-                  : "bg-gray-900 text-white hover:bg-gray-800 active:scale-[0.99] shadow-lg"
+                  : "bg-[#589013] text-white hover:bg-[#3F6B0D] active:scale-[0.99] shadow-lg shadow-[#589013]/20"
               }`}
             >
               Continuar
             </button>
+
 
             <p className="text-center text-xs text-gray-400 mt-4">
               Revisa los datos antes de continuar
