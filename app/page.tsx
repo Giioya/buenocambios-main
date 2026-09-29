@@ -55,7 +55,7 @@ export default function Home() {
     try {
       const [wldResponse, copResponse] = await Promise.all([
         fetch(
-          `https://api.coingecko.com/api/v3/simple/price?ids=worldcoin-wld&vs_currencies=usd&_=${Date.now()}`
+          "https://api.coinpaprika.com/v1/tickers/wld-worldcoin"
         ),
         fetch(
           `https://fxapi.app/api/USD/COP.json?_=${Date.now()}`
