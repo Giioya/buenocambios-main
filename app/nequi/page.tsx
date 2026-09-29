@@ -130,11 +130,6 @@ export default function NequiPage() {
                 <div className="flex items-center justify-between">
 
                 <div>
-
-                    <p className="text-sm text-gray-500">
-                    Método de pago
-                    </p>
-
                     <h1 className="text-2xl font-bold text-gray-900 mt-1">
                     Datos de Nequi
                     </h1>
@@ -163,10 +158,6 @@ export default function NequiPage() {
 
                 {/* NOMBRES */}
                 <div className="mb-5">
-
-                <p className="text-sm font-bold text-gray-800 mb-3">
-                    Nombre del titular
-                </p>
 
                 <div className="space-y-3">
 
@@ -226,10 +217,6 @@ export default function NequiPage() {
                 {/* APELLIDOS */}
                 <div className="mb-5">
 
-                <p className="text-sm font-bold text-gray-800 mb-3">
-                    Apellidos del titular
-                </p>
-
                 <div className="space-y-3">
 
                     {/* PRIMER APELLIDO */}
@@ -288,10 +275,6 @@ export default function NequiPage() {
 
                 {/* DOCUMENTO */}
                 <div className="mb-5">
-
-                <p className="text-sm font-bold text-gray-800 mb-3">
-                    Documento de identidad
-                </p>
 
                 {/* TIPO */}
                 <div className="mb-3">
@@ -382,10 +365,6 @@ export default function NequiPage() {
 
                 {/* NEQUI */}
                 <div className="mb-5">
-
-                <p className="text-sm font-bold text-gray-800 mb-3">
-                    Cuenta Nequi
-                </p>
 
                 <label
                     htmlFor="telefono_nequi"

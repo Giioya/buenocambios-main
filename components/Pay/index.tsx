@@ -1,3 +1,4 @@
+
 "use client";
 
 import { MiniKit } from "@worldcoin/minikit-js";
@@ -11,18 +12,26 @@ const toDecimals = (amount: number, decimals = 18) => {
 export const PayBlock = ({ transaccionId }: { transaccionId: string }) => {
   const router = useRouter();
   const [paymentSuccess, setPaymentSuccess] = useState<boolean | null>(null);
+  const [isPaying, setIsPaying] = useState(false);
 
   const handlePay = async () => {
+    if (isPaying) return;
+
+    setIsPaying(true);
+
     try {
       console.log("🚀 INICIO PAYBLOCK");
 
       if (!MiniKit.isInstalled()) {
         console.warn("❌ MiniKit NO instalado");
+        setIsPaying(false);
         return;
       }
 
-      // 🔹 1. reference backend
-      const res = await fetch("/api/initiate-payment", { method: "POST" });
+      // 🔹 1. Obtener reference del backend
+      const res = await fetch("/api/initiate-payment", {
+        method: "POST",
+      });
 
       console.log("📡 initiate-payment status:", res.status);
 
@@ -33,10 +42,11 @@ export const PayBlock = ({ transaccionId }: { transaccionId: string }) => {
 
       if (!reference) {
         console.error("❌ No llegó reference del backend");
+        setIsPaying(false);
         return;
       }
 
-      // 🔹 2. wallet data
+      // 🔹 2. Obtener datos de wallet
       const monedaAEnviar = localStorage.getItem("moneda_a_enviar");
       const wallet = localStorage.getItem("walletAddress");
 
@@ -45,6 +55,7 @@ export const PayBlock = ({ transaccionId }: { transaccionId: string }) => {
 
       if (!monedaAEnviar) {
         console.error("❌ monedaAEnviar no existe");
+        setIsPaying(false);
         return;
       }
 
@@ -66,19 +77,21 @@ export const PayBlock = ({ transaccionId }: { transaccionId: string }) => {
       console.log("📦 FULL MiniKit result:", result);
       console.log("⚙️ executedWith:", result.executedWith);
       console.log("🔑 result.data:", result.data);
-      
 
       if (!result.data?.transactionId) {
         console.error("❌ NO transactionId en respuesta");
+        setIsPaying(false);
         return;
       }
 
-      // 🔹 4. CONFIRM BACKEND
+      // 🔹 4. Confirmar pago en backend
       console.log("📤 Enviando confirm-payment...");
 
       const confirmRes = await fetch("/api/confirm-payment", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           payload: {
             transactionId: result.data.transactionId,
@@ -95,13 +108,16 @@ export const PayBlock = ({ transaccionId }: { transaccionId: string }) => {
 
       console.log("📥 backend response:", payment);
 
-      
-
       setPaymentSuccess(payment.success);
+
+      if (!payment.success) {
+        setIsPaying(false);
+      }
 
     } catch (error) {
       console.error("💥 ERROR EN PAYBLOCK:", error);
       setPaymentSuccess(false);
+      setIsPaying(false);
     }
   };
 
@@ -112,5 +128,30 @@ export const PayBlock = ({ transaccionId }: { transaccionId: string }) => {
     }
   }, [paymentSuccess, router]);
 
-  return <button onClick={handlePay}>Confirmar retiro</button>;
+  return (
+    <button
+      type="button"
+      onClick={handlePay}
+      disabled={isPaying}
+      className={`
+        w-full
+        mt-4
+        rounded-2xl
+        px-5
+        py-4
+        text-base
+        font-semibold
+        transition-all
+        duration-200
+        shadow-md
+        ${
+          isPaying
+            ? "bg-gray-300 text-gray-500 cursor-not-allowed"
+            : "bg-gray-900 text-white hover:bg-gray-800 active:scale-[0.98]"
+        }
+      `}
+    >
+      {isPaying ? "Procesando pago..." : "Confirmar retiro"}
+    </button>
+  );
 };

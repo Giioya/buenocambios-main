@@ -266,7 +266,7 @@ export default function Home() {
                   onClick={() =>
                     setCantidadWLD(saldoDisponible)
                   }
-                  className="text-sm font-semibold text-gray-50 hover:text-blue-700 transition"
+                  className="text-sm font-semibold text-blue-500 hover:text-blue-700 transition"
                 >
                   Retiro máximo
                 </button>
