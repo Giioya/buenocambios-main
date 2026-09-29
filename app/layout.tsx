@@ -27,14 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body
-        className={`${inter.className} bg-gray-50 text-gray-900`}
-      >
+      <body className={`${inter.className} bg-gray-50 text-gray-900`}>
         <AuthGuard>
 
-          {/* =========================
-              CONTENEDOR PRINCIPAL
-          ========================== */}
           <div className="min-h-screen flex flex-col">
 
             {/* =========================
@@ -42,12 +37,12 @@ export default function RootLayout({
             ========================== */}
             <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
 
-              <div className="mx-auto max-w-xl px-5 h-[68px] flex items-center justify-between">
+              <div className="mx-auto max-w-xl px-5 h-[68px] flex items-center justify-center">
 
                 {/* LOGO / NOMBRE */}
                 <a
                   href="/"
-                  className="flex items-center gap-3"
+                  className="flex items-center justify-center gap-3"
                 >
                   <div className="h-10 w-10 rounded-full bg-gray-900 flex items-center justify-center overflow-hidden">
 
@@ -59,7 +54,7 @@ export default function RootLayout({
 
                   </div>
 
-                  <div>
+                  <div className="text-left">
                     <h1 className="text-lg font-bold text-gray-900 leading-none">
                       BuenoCambios
                     </h1>
@@ -79,13 +74,6 @@ export default function RootLayout({
                 CONTENIDO
             ========================== */}
             <main className="flex-1 pt-[68px] pb-[88px]">
-              {/*
-                El padding superior evita que el header
-                tape el contenido.
-
-                El padding inferior evita que el footer
-                tape botones o formularios.
-              */}
 
               <div className="mx-auto w-full">
                 <ErudaProviderClient>
