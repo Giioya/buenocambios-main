@@ -47,7 +47,6 @@ export default function NequiPage() {
 
             {/* AVISO */}
             <div className="mx-auto w-full max-w-xl mb-5">
-
                 <div className="rounded-2xl border border-red-200 bg-red-50 p-4 shadow-sm">
 
                     <div className="flex gap-3">
@@ -63,14 +62,8 @@ export default function NequiPage() {
                             </p>
 
                             <p className="leading-relaxed">
-                                Por favor, ingresa tus datos
-                                <strong> sin tildes</strong>.
-                            </p>
-
-                            <p className="mt-2 leading-relaxed">
-                                Si ingresas mal tus datos, no podremos
-                                enviar tu pago. En ese caso, deberás
-                                contactar con soporte.
+                                Por favor, ingresa tus nombres y
+                                apellidos <strong>sin tildes</strong>.
                             </p>
 
                         </div>
@@ -78,7 +71,6 @@ export default function NequiPage() {
                     </div>
 
                 </div>
-
             </div>
 
 

@@ -119,7 +119,7 @@ const GuiaBoveda: React.FC = () => {
                 </li>
             </ol>
 
-            {/* 🔘 BOTÓN PARA LIMPIAR LOCALSTORAGE */}
+            {/* 🔘 BOTÓN PARA LIMPIAR LOCALSTORAGE 
             <div className="mt-16 flex justify-center">
                 <button
                     onClick={borrarLocalStorage}
@@ -127,7 +127,7 @@ const GuiaBoveda: React.FC = () => {
                 >
                     Reiniciar aplicación (borrar datos)
                 </button>
-            </div>
+            </div>*/}
         </div>
     );
 };
