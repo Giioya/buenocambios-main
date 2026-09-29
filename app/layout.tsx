@@ -27,7 +27,9 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="es">
-      <body className={`${inter.className} bg-gray-50 text-gray-900`}>
+      <body
+        className={`${inter.className} bg-[#F7F9F5] text-gray-900`}
+      >
         <AuthGuard>
 
           <div className="min-h-screen flex flex-col">
@@ -35,7 +37,7 @@ export default function RootLayout({
             {/* =========================
                 HEADER
             ========================== */}
-            <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-gray-100 shadow-sm">
+            <header className="fixed top-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-b border-[#D7E8C5] shadow-sm">
 
               <div className="mx-auto max-w-xl px-5 h-[68px] flex items-center justify-center">
 
@@ -44,7 +46,7 @@ export default function RootLayout({
                   href="/"
                   className="flex items-center justify-center gap-3"
                 >
-                  <div className="h-10 w-10 rounded-full bg-gray-900 flex items-center justify-center overflow-hidden">
+                  <div className="h-10 w-10 rounded-full bg-[#589013] flex items-center justify-center overflow-hidden shadow-sm">
 
                     <img
                       src="/images/carga_buenocambios.jpg"
@@ -59,7 +61,7 @@ export default function RootLayout({
                       BuenoCambios
                     </h1>
 
-                    <p className="text-[11px] text-gray-400 mt-1">
+                    <p className="text-[11px] text-[#589013] font-medium mt-1">
                       WLD → COP
                     </p>
                   </div>
@@ -89,14 +91,14 @@ export default function RootLayout({
             {/* =========================
                 FOOTER / NAVEGACIÓN
             ========================== */}
-            <footer className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-gray-100 shadow-[0_-4px_15px_rgba(0,0,0,0.04)]">
+            <footer className="fixed bottom-0 left-0 right-0 z-50 bg-white/95 backdrop-blur-md border-t border-[#D7E8C5] shadow-[0_-4px_15px_rgba(88,144,19,0.08)]">
 
               <nav className="mx-auto max-w-xl h-[76px] px-3 flex items-center justify-around">
 
                 {/* HISTORIAL */}
                 <a
                   href="/historial"
-                  className="group flex flex-col items-center justify-center gap-1 min-w-[64px] py-2 text-gray-400 hover:text-gray-900 transition-colors"
+                  className="group flex flex-col items-center justify-center gap-1 min-w-[64px] py-2 text-gray-400 hover:text-[#589013] transition-colors"
                 >
                   <FaHistory className="text-[20px] group-hover:scale-110 transition-transform" />
 
@@ -109,10 +111,12 @@ export default function RootLayout({
                 {/* INICIO */}
                 <a
                   href="/"
-                  className="group flex flex-col items-center justify-center gap-1 min-w-[64px] py-2 text-gray-900 transition-colors"
+                  className="group flex flex-col items-center justify-center gap-1 min-w-[64px] py-2 text-[#589013] transition-colors"
                 >
-                  <div className="h-9 w-9 rounded-full bg-gray-900 text-white flex items-center justify-center shadow-md group-hover:scale-105 transition-transform">
+                  <div className="h-9 w-9 rounded-full bg-[#589013] text-white flex items-center justify-center shadow-md group-hover:bg-[#3F6B0D] group-hover:scale-105 transition-all">
+
                     <FaHome className="text-[17px]" />
+
                   </div>
 
                   <span className="text-[11px] font-bold">
@@ -124,7 +128,7 @@ export default function RootLayout({
                 {/* SOPORTE */}
                 <a
                   href="/soporte"
-                  className="group flex flex-col items-center justify-center gap-1 min-w-[64px] py-2 text-gray-400 hover:text-gray-900 transition-colors"
+                  className="group flex flex-col items-center justify-center gap-1 min-w-[64px] py-2 text-gray-400 hover:text-[#589013] transition-colors"
                 >
                   <FaHeadset className="text-[20px] group-hover:scale-110 transition-transform" />
 
@@ -137,7 +141,7 @@ export default function RootLayout({
                 {/* AYUDA */}
                 <a
                   href="/informacion"
-                  className="group flex flex-col items-center justify-center gap-1 min-w-[64px] py-2 text-gray-400 hover:text-gray-900 transition-colors"
+                  className="group flex flex-col items-center justify-center gap-1 min-w-[64px] py-2 text-gray-400 hover:text-[#589013] transition-colors"
                 >
                   <FaInfoCircle className="text-[20px] group-hover:scale-110 transition-transform" />
 

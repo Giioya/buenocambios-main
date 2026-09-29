@@ -5,6 +5,7 @@ import { createClient } from "@supabase/supabase-js";
 
 const supabaseUrl = process.env.SUPABASE_URL!;
 const supabaseKey = process.env.SUPABASE_KEY!;
+
 const supabase = createClient(
     supabaseUrl,
     supabaseKey
@@ -18,6 +19,7 @@ const supabase = createClient(
     fecha: string;
     }
 
+
     /* =========================
     HELPERS
     ========================= */
@@ -25,14 +27,17 @@ const supabase = createClient(
     const normalizeStatus = (status: string) =>
     (status || "").trim().toUpperCase();
 
+
     const ajustarHoraBogota = (fechaUTC: string) => {
     const fecha = new Date(fechaUTC);
     fecha.setHours(fecha.getHours() - 5);
     return fecha;
     };
 
+
     function getStatusLabel(status: string) {
     switch (normalizeStatus(status)) {
+
         case "MINED":
         return "Pendiente";
 
@@ -59,32 +64,52 @@ const supabase = createClient(
     }
     }
 
-    const getStatusColor = (status: string) => {
-    switch (normalizeStatus(status)) {
-        case "CONFIRMADO":
-        return "text-green-700 bg-green-50 border-green-200";
 
+    /* =========================
+    COLORES DE ESTADO
+    ========================= */
+
+    const getStatusColor = (status: string) => {
+
+    switch (normalizeStatus(status)) {
+
+        /* VERDE — CONFIRMADO */
+        case "CONFIRMADO":
+        return "text-[#3F6B0D] bg-[#F1F7EA] border-[#D7E8C5]";
+
+
+        /* AMARILLO — PENDIENTE */
         case "PENDING":
         case "MINED":
         return "text-yellow-700 bg-yellow-50 border-yellow-200";
 
+
+        /* ROJO — FALLIDO */
         case "FAILED":
         case "DEVUELTO":
         return "text-red-700 bg-red-50 border-red-200";
 
+
+        /* GRIS — NO COINCIDE */
         case "NO COINCIDE":
         return "text-gray-700 bg-gray-100 border-gray-200";
 
+
+        /* NARANJA — EN REVISIÓN */
         case "EN REVISIÓN":
         return "text-orange-700 bg-orange-50 border-orange-200";
+
 
         default:
         return "text-gray-600 bg-gray-50 border-gray-200";
     }
     };
 
+
     const getStatusMessage = (status: string) => {
+
     switch (normalizeStatus(status)) {
+
         case "CONFIRMADO":
         return "Tu transacción se ha completado con éxito.";
 
@@ -107,7 +132,9 @@ const supabase = createClient(
     }
     };
 
+
     const formatFecha = (fecha: string) => {
+
     return ajustarHoraBogota(fecha).toLocaleString(
         "es-CO",
         {
@@ -122,11 +149,13 @@ const supabase = createClient(
     );
     };
 
+
     /* =========================
     COMPONENTE
     ========================= */
 
     const HistorialTransacciones = () => {
+
     const [transacciones, setTransacciones] =
         useState<Transaccion[]>([]);
 
@@ -136,8 +165,11 @@ const supabase = createClient(
     const [selectedId, setSelectedId] =
         useState<number | null>(null);
 
+
     useEffect(() => {
+
         const fetchTransacciones = async () => {
+
         const walletAddress =
             localStorage.getItem("walletAddress");
 
@@ -145,6 +177,7 @@ const supabase = createClient(
             setLoading(false);
             return;
         }
+
 
         const { data, error } = await supabase
             .from("transacciones")
@@ -162,11 +195,13 @@ const supabase = createClient(
             ascending: false,
             });
 
+
         if (!error && data) {
             setTransacciones(
             data as Transaccion[]
             );
         }
+
 
         if (error) {
             console.error(
@@ -175,25 +210,30 @@ const supabase = createClient(
             );
         }
 
+
         setLoading(false);
         };
 
+
         fetchTransacciones();
+
     }, []);
+
 
     /* =========================
         LOADING
     ========================== */
 
     if (loading) {
+
         return (
-        <div className="min-h-screen bg-gray-50 px-4 pt-24">
+        <div className="min-h-screen bg-[#F7F9F5] px-4 pt-24">
 
             <div className="mx-auto max-w-xl">
 
-            <div className="rounded-3xl bg-white border border-gray-100 shadow-xl p-8 text-center">
+            <div className="rounded-3xl bg-white border border-[#E3EBDD] shadow-xl p-8 text-center">
 
-                <div className="mx-auto mb-4 h-10 w-10 rounded-full border-4 border-gray-200 border-t-gray-900 animate-spin" />
+                <div className="mx-auto mb-4 h-10 w-10 rounded-full border-4 border-[#D7E8C5] border-t-[#589013] animate-spin" />
 
                 <p className="text-sm font-medium text-gray-500">
                 Cargando historial...
@@ -207,10 +247,12 @@ const supabase = createClient(
         );
     }
 
+
     return (
-        <div className="min-h-screen bg-gray-50 px-4 py-6">
+        <div className="min-h-screen bg-[#F7F9F5] px-4 py-6">
 
         <div className="mx-auto w-full max-w-xl">
+
 
             {/* =========================
                 ENCABEZADO
@@ -218,7 +260,7 @@ const supabase = createClient(
 
             <div className="mb-6">
 
-            <p className="text-sm text-gray-500">
+            <p className="text-sm text-[#589013] font-semibold">
                 Tus operaciones
             </p>
 
@@ -240,9 +282,9 @@ const supabase = createClient(
 
             {transacciones.length === 0 ? (
 
-            <div className="rounded-3xl bg-white border border-gray-100 shadow-xl p-8 text-center">
+            <div className="rounded-3xl bg-white border border-[#E3EBDD] shadow-xl p-8 text-center">
 
-                <div className="mx-auto h-16 w-16 rounded-full bg-gray-100 flex items-center justify-center text-2xl">
+                <div className="mx-auto h-16 w-16 rounded-full bg-[#F1F7EA] border border-[#D7E8C5] flex items-center justify-center text-2xl">
                 📋
                 </div>
 
@@ -260,13 +302,15 @@ const supabase = createClient(
             ) : (
 
             <>
+
+
                 {/* =========================
                     CONTADOR
                 ========================== */}
 
                 <div className="mb-4 flex items-center justify-between">
 
-                <div className="rounded-full bg-gray-900 px-4 py-2 text-xs font-bold text-white">
+                <div className="rounded-full bg-[#589013] px-4 py-2 text-xs font-bold text-white shadow-sm">
                     {transacciones.length}{" "}
                     {transacciones.length === 1
                     ? "transacción"
@@ -297,14 +341,18 @@ const supabase = createClient(
                     const isSelected =
                     selectedId === trx.id;
 
+
                     return (
+
                     <div
                         key={trx.id}
-                        className="rounded-3xl bg-white border border-gray-100 shadow-lg overflow-hidden"
+                        className="rounded-3xl bg-white border border-[#E3EBDD] shadow-lg overflow-hidden"
                     >
 
+
                         {/* CABECERA */}
-                        <div className="px-5 py-4 border-b border-gray-100 flex items-center justify-between">
+
+                        <div className="px-5 py-4 border-b border-[#E8EDE3] flex items-center justify-between">
 
                         <div>
 
@@ -317,6 +365,7 @@ const supabase = createClient(
                             </p>
 
                         </div>
+
 
                         <button
                             type="button"
@@ -336,9 +385,13 @@ const supabase = createClient(
 
 
                         {/* RESUMEN */}
+
                         <div className="p-5">
 
                         <div className="grid grid-cols-2 gap-4">
+
+
+                            {/* WLD */}
 
                             <div className="rounded-2xl bg-gray-50 p-4">
 
@@ -359,17 +412,19 @@ const supabase = createClient(
                             </div>
 
 
-                            <div className="rounded-2xl bg-green-50 p-4">
+                            {/* COP */}
 
-                            <p className="text-xs text-green-600">
+                            <div className="rounded-2xl bg-[#F1F7EA] border border-[#D7E8C5] p-4">
+
+                            <p className="text-xs text-[#589013] font-medium">
                                 Recibirás
                             </p>
 
-                            <p className="mt-1 text-xl font-bold text-green-700">
+                            <p className="mt-1 text-xl font-bold text-[#3F6B0D]">
                                 ${trx.dinero_a_recibir}
                             </p>
 
-                            <p className="text-xs text-green-600 mt-1">
+                            <p className="text-xs text-[#589013] mt-1">
                                 COP
                             </p>
 
@@ -379,6 +434,7 @@ const supabase = createClient(
 
 
                         {/* FECHA */}
+
                         <div className="mt-4 flex items-center justify-between">
 
                             <div>
@@ -395,7 +451,7 @@ const supabase = createClient(
 
                             </div>
 
-                            <span className="text-gray-300 text-xl">
+                            <span className="text-[#589013] text-xl font-semibold">
                             →
                             </span>
 
@@ -403,26 +459,31 @@ const supabase = createClient(
 
 
                         {/* MENSAJE DE ESTADO */}
+
                         {isSelected && (
-                            <div className="mt-4 rounded-2xl bg-gray-900 p-4 text-sm text-white">
+
+                            <div className="mt-4 rounded-2xl bg-[#3F6B0D] p-4 text-sm text-white">
 
                             <p className="font-semibold mb-1">
                                 Estado de la transacción
                             </p>
 
-                            <p className="text-gray-300 leading-relaxed">
+                            <p className="text-[#D7E8C5] leading-relaxed">
                                 {getStatusMessage(
                                 trx.transaction_status
                                 )}
                             </p>
 
                             </div>
+
                         )}
 
                         </div>
 
                     </div>
+
                     );
+
                 })}
 
                 </div>
@@ -434,13 +495,13 @@ const supabase = createClient(
 
                 <div className="hidden lg:block mt-6">
 
-                <div className="rounded-3xl bg-white border border-gray-100 shadow-xl overflow-hidden">
+                <div className="rounded-3xl bg-white border border-[#E3EBDD] shadow-xl overflow-hidden">
 
                     <div className="overflow-x-auto">
 
                     <table className="w-full text-sm">
 
-                        <thead className="bg-gray-900 text-white">
+                        <thead className="bg-[#3F6B0D] text-white">
 
                         <tr>
 
@@ -468,13 +529,15 @@ const supabase = createClient(
 
                         </thead>
 
+
                         <tbody>
 
                         {transacciones.map(
                             (trx) => (
+
                             <tr
                                 key={trx.id}
-                                className="border-b border-gray-100 last:border-0 hover:bg-gray-50"
+                                className="border-b border-[#E8EDE3] last:border-0 hover:bg-[#F7F9F5]"
                             >
 
                                 <td className="px-4 py-4 font-bold text-gray-900">
@@ -487,7 +550,7 @@ const supabase = createClient(
                                 ).toFixed(2)}
                                 </td>
 
-                                <td className="px-4 py-4 font-semibold text-green-700">
+                                <td className="px-4 py-4 font-semibold text-[#589013]">
                                 ${trx.dinero_a_recibir}
                                 </td>
 
@@ -521,6 +584,7 @@ const supabase = createClient(
                                 </td>
 
                             </tr>
+
                             )
                         )}
 
@@ -535,6 +599,7 @@ const supabase = createClient(
                 </div>
 
             </>
+
             )}
 
         </div>
@@ -543,4 +608,5 @@ const supabase = createClient(
     );
     };
 
-    export default HistorialTransacciones;
+
+export default HistorialTransacciones;
