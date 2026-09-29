@@ -2,32 +2,39 @@
 @tailwind components;
 @tailwind utilities;
 
+/* =========================
+   VARIABLES GLOBALES
+========================= */
+
 :root {
-  --foreground-rgb: 255, 255, 255;
-  --background-start-rgb: 255, 255, 255;
-  --background-end-rgb: 200, 200, 200;
+  --foreground-rgb: 17, 24, 39;
+  --background-rgb: 249, 250, 251;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --foreground-rgb: 255, 255, 255;
-    --background-start-rgb: 255, 255, 255;
-    --background-end-rgb: 200, 200, 200;
-  }
+/* =========================
+   RESET / BASE
+========================= */
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  margin: 0;
+  padding: 0;
+  min-height: 100%;
 }
 
 body {
-  background: linear-gradient(to bottom, transparent, rgb(var(--background-end-rgb)))
-    rgb(var(--background-start-rgb));
+  background: rgb(var(--background-rgb));
+  color: rgb(var(--foreground-rgb));
   font-family: Arial, sans-serif;
-  display: flex;
-  justify-content: center;
-  flex-direction: column;
-  align-items: center;
-  min-height: 100vh;
-  padding: 80px 20px 20px; /* Evita que el header fijo cubra el contenido */
-  margin: 0;
 }
+
+/* =========================
+   TAILWIND UTILITIES
+========================= */
 
 @layer utilities {
   .text-balance {
@@ -35,111 +42,24 @@ body {
   }
 }
 
-/* Reset básico */
-* {
-  margin: 0;
-  padding: 0;
-  box-sizing: border-box;
-}
+/* =========================
+   FORMULARIOS LEGACY
+   Se mantienen porque algunos
+   componentes antiguos todavía
+   pueden utilizarlos.
+========================= */
 
-/* Header fijo */
-header {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  padding: 20px;
-  background-color: #589013;
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100%;
-  z-index: 1000;
-}
-
-.title {
-  color: #ffffff;
-  font-style: oblique;
-  font-size: 1.9rem;
-  font-weight: bold;
-  animation: shine 1.5s infinite alternate;
-  text-align: center;
-  width: 100%;
-}
-
-@keyframes shine {
-  0% {
-    text-shadow: 0 0 5px #000000, 0 0 10px #000000, 0 0 20px #000000;
-  }
-  100% {
-    text-shadow: 0 0 20px #000000, 0 0 30px #000000, 0 0 40px #000000;
-  }
-}
-
-/* Menú */
-.menu ul {
-  list-style-type: none;
-  display: flex;
-}
-
-.menu ul li {
-  margin-left: 20px;
-}
-
-.menu a {
-  color: white;
-  text-decoration: none;
-  font-size: 0.8rem;
-}
-
-.menu a:hover {
-  color: #99CCCC;
-}
-
-/* Contenedor */
-.container {
-  width: 100%;
-  max-width: 400px;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px #589013;
-  padding: 20px;
-  margin: 40px auto 20px;
-  flex-direction: column;
-  align-items: center;
-  box-sizing: border-box;
-  margin-bottom: 80px;
-}
-
-.spana {
-  width: 100%;
-  max-width: 400px;
-  color: #000;
-  background-color: #ffffff;
-  border-radius: 10px;
-  box-shadow: 0 4px 10px #589013;
-  padding: 20px;
-  margin: 20px auto 60px;
-}
-
-/* Estilos de formularios */
 .input-group {
   margin-bottom: 20px;
-}
-
-label {
-  display: block;
-  margin-bottom: 8px;
-  font-weight: bold;
-  color: #333;
 }
 
 .input-wrapper {
   display: flex;
   align-items: center;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  padding: 10px;
-  background-color: #fafafa;
+  border: 1px solid #d1d5db;
+  border-radius: 16px;
+  padding: 10px 14px;
+  background-color: #f9fafb;
   position: relative;
 }
 
@@ -147,13 +67,14 @@ label {
   border: none;
   outline: none;
   flex: 1;
-  font-size: 20px;
-  padding: 5px;
+  font-size: 16px;
+  padding: 6px;
   background-color: transparent;
+  color: #111827;
 }
 
 .input-wrapper input::placeholder {
-  color: #aaa;
+  color: #9ca3af;
 }
 
 .input-icon {
@@ -167,24 +88,22 @@ label {
   border: 3px solid #589013;
 }
 
-input {
-  padding-left: 30px;
-}
-
 select {
   width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc;
-  border-radius: 5px;
-  font-size: 20px;
-  background-color: #fafafa;
-  color: #333;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 16px;
+  font-size: 16px;
+  background-color: #f9fafb;
+  color: #111827;
 }
 
 select:focus {
   outline: none;
-  border-color: #99CCCC;
+  border-color: #6b7280;
 }
+
+/* Quitar flechas de inputs numéricos */
 
 input[type="number"]::-webkit-outer-spin-button,
 input[type="number"]::-webkit-inner-spin-button {
@@ -192,106 +111,108 @@ input[type="number"]::-webkit-inner-spin-button {
   margin: 0;
 }
 
-/* Botón Continuar */
+/* Firefox */
+
+input[type="number"] {
+  -moz-appearance: textfield;
+}
+
+/* =========================
+   CLASES LEGACY
+   Para páginas que todavía
+   dependan de ellas
+========================= */
+
+.container {
+  width: 100%;
+  max-width: 400px;
+  background-color: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  margin: 40px auto 80px;
+  box-sizing: border-box;
+}
+
+.spana {
+  width: 100%;
+  max-width: 400px;
+  color: #111827;
+  background-color: #ffffff;
+  border-radius: 24px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  padding: 20px;
+  margin: 20px auto 80px;
+}
+
+/* =========================
+   BOTONES LEGACY
+========================= */
+
 .btn-continuar {
   margin: 20px auto;
   display: flex;
   justify-content: center;
 }
 
-/* Grupo de botones */
 .button-group {
   display: flex;
   justify-content: space-between;
+  gap: 12px;
   margin-top: 20px;
 }
 
-button {
-  padding: 10px 20px;
-  background-color: #3b5110;
+.btn-ok {
+  background-color: #111827;
   color: white;
-  border: none;
-  border-radius: 5px;
-  font-size: 16px;
-  cursor: pointer;
+  border-radius: 16px;
+  padding: 12px 20px;
 }
 
-button:hover {
-  background-color: #589013;
+.btn-disabled {
+  background-color: #e5e7eb;
+  color: #9ca3af;
+  border-radius: 16px;
+  padding: 12px 20px;
+  cursor: not-allowed;
 }
 
 .botonfinalizar {
-  padding: 10px 20px;
-  background-color: #333;
+  padding: 12px 20px;
+  background-color: #111827;
   color: white;
   border: none;
-  border-radius: 5px;
+  border-radius: 16px;
   font-size: 16px;
   cursor: pointer;
   margin-left: auto;
   display: block;
 }
 
-/* Animación de carga */
-.carga_bc {
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%) rotate(0deg);
-  width: 100px;
-  height: 100px;
-  border-radius: 50%;
-  border: 3px solid #589013;
-  animation: rotateSlow 10s linear infinite;
-  z-index: -1;
+/* =========================
+   INPUTS ANTIGUOS
+========================= */
+
+#nombre-completo,
+#telefono-nequi,
+#moneda-a-enviar,
+#dinero-a-recibir,
+#metodo-depago,
+#telefono-daviplata,
+#cedula,
+#moneda_a_enviar,
+#dinero_a_recibir,
+#nombre_completo,
+#telefono_nequi,
+#celular {
+  color: #111827 !important;
 }
 
-@keyframes rotateSlow {
-  from {
-    transform: translate(-50%, -50%) rotate(0deg);
-  }
-  to {
-    transform: translate(-50%, -50%) rotate(360deg);
-  }
-}
-
-/* Footer */
-.footer {
-  position: fixed;
-  bottom: 0;
-  left: 0;
-  width: 100%;
-  background: #3b5110;
-  display: flex;
-  justify-content: space-around;
-  padding: 10px 0;
-  border-top: 1px solid #ddd;
-  box-shadow: 0 -2px 5px rgba(0, 0, 0, 0.1);
-  z-index: 9999;
-}
-
-.footer-item {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  text-decoration: none;
-  color: #eeeeee;
-  font-size: 14px;
-}
-
-.footer-item svg {
-  font-size: 24px;
-}
-
-/* Corrección de colores */
-#nombre-completo, #telefono-nequi, #moneda-a-enviar, 
-#dinero-a-recibir, #metodo-depago, #telefono-daviplata, 
-#cedula, #moneda_a_enviar, #dinero_a_recibir, 
-#nombre_completo, #telefono_nequi, #celular {
-  color: black !important;
-}
+/* =========================
+    PÁGINAS ESPECIALES
+========================= */
 
 .hide-header-footer header,
 .hide-header-footer footer {
-    display: none;
+  display: none;
 }
