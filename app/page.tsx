@@ -65,7 +65,7 @@ export default function Home() {
       const wldData = await wldResponse.json();
       const copData = await copResponse.json();
 
-      setPrecioWLD(wldData["worldcoin-wld"]?.usd ?? null);
+      setPrecioWLD(wldData?.quotes?.USD?.price ?? null);
       setPrecioUSDT(copData.rate ?? null); // Ahora guarda USD -> COP
     } catch (error) {
       console.error("Error al obtener los precios:", error);
